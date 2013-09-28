@@ -1,5 +1,6 @@
 <?php
 const MAX_SIZE = 2097152; // 2 MB
+const SAVAITE = 604800;
 if ($_GET["action"] == "delete") {
     if (file_exists("upload/" . $_COOKIE["nuotrauka"])) {
         unlink("upload/" . $_COOKIE["nuotrauka"]);
@@ -15,7 +16,7 @@ if (getimagesize($_FILES["file"]["tmp_name"]) && $_FILES["file"]["size"] < MAX_S
     if ($_FILES["file"]["error"] > 0) {
         echo "Return Code: " . $_FILES["file"]["error"] . "<br>";
     } else {
-        setcookie("nuotrauka", $_FILES["file"]["name"], time() + 60 * 60 * 168);
+        setcookie("nuotrauka", $_FILES["file"]["name"], time() + SAVAITE);
         if (file_exists("upload/" . $_COOKIE["nuotrauka"])) {
             unlink("upload/" . $_COOKIE["nuotrauka"]);
         }
