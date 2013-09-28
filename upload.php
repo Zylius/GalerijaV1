@@ -1,6 +1,9 @@
 <?php
 const MAX_SIZE = 2097152; // 2 MB
 const SAVAITE = 604800;
+if (!isset($_GET["action"])) {
+    die();
+}
 if ($_GET["action"] == "delete") {
     if (file_exists("upload/" . $_COOKIE["nuotrauka"])) {
         unlink("upload/" . $_COOKIE["nuotrauka"]); // nesaugu
@@ -14,7 +17,7 @@ if ($_GET["action"] != "upload" || !isset($_FILES["file"])) {
 }
 if (getimagesize($_FILES["file"]["tmp_name"]) && $_FILES["file"]["size"] < MAX_SIZE) {
     if ($_FILES["file"]["error"] > 0) {
-        echo "Return Code: " . $_FILES["file"]["error"] . "<br>";
+        header('Location: /?err=invalid_file');
     } else {
         setcookie("nuotrauka", $_FILES["file"]["name"], time() + SAVAITE);
         if (file_exists("upload/" . $_COOKIE["nuotrauka"])) {

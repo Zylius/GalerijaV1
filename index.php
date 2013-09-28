@@ -6,6 +6,11 @@
 </head>
 <body>
 <?php
+if (isset($_GET["err"])) {
+    echo "<script>";
+    echo "alert('Netinkamas failas!');";
+    echo "</script>";
+}
 if (isset($_COOKIE["nuotrauka"])) {
     echo '
 <img height="400px" src="upload/' . $_COOKIE["nuotrauka"] . ' "/>';
