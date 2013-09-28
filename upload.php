@@ -1,34 +1,30 @@
 <?php
-const MAX_SIZE = 10000000000000;
-$allowedExts = array("gif", "jpeg", "jpg", "png");
-$temp = explode(".", $_FILES["file"]["name"]);
-$extension = end($temp);
-if ((($_FILES["file"]["type"] == "image/gif")
-        || ($_FILES["file"]["type"] == "image/jpeg")
-        || ($_FILES["file"]["type"] == "image/jpg")
-        || ($_FILES["file"]["type"] == "image/pjpeg")
-        || ($_FILES["file"]["type"] == "image/x-png")
-        || ($_FILES["file"]["type"] == "image/png"))
-    && ($_FILES["file"]["size"] < MAX_SIZE)
-    && in_array($extension, $allowedExts)
-) {
+const MAX_SIZE = 2097152; // 2 MB
+if ($_GET["action"] == "delete") {
+    if (file_exists("upload/" . $_COOKIE["nuotrauka"])) {
+        unlink("upload/" . $_COOKIE["nuotrauka"]);
+        setcookie("nuotrauka", '', time() - 10); // nesaugu
+        header('Location: /');
+    }
+    die();
+}
+if ($_GET["action"] != "upload" || !isset($_FILES["file"])) {
+    die();
+}
+if (getimagesize($_FILES["file"]["tmp_name"]) && $_FILES["file"]["size"] < MAX_SIZE) {
     if ($_FILES["file"]["error"] > 0) {
         echo "Return Code: " . $_FILES["file"]["error"] . "<br>";
     } else {
-        setcookie('nuotrauka', $_FILES["file"]["name"], time() + 60 * 60);
-        echo "Upload: " . $_FILES["file"]["name"] . "<br>";
-        echo "Type: " . $_FILES["file"]["type"] . "<br>";
-        echo "Size: " . ($_FILES["file"]["size"] / 1024) . " kB<br>";
-        echo "Temp file: " . $_FILES["file"]["tmp_name"] . "<br>";
-
-        if (file_exists("upload/" . $_FILES["file"]["name"])) {
-            echo $_FILES["file"]["name"] . " already exists. ";
-        } else {
-            move_uploaded_file($_FILES["file"]["tmp_name"], "upload/" . $_FILES["file"]["name"]);
-            echo "Stored in: " . "upload/" . $_FILES["file"]["name"];
+        setcookie("nuotrauka", $_FILES["file"]["name"], time() + 60 * 60 * 168);
+        if (file_exists("upload/" . $_COOKIE["nuotrauka"])) {
+            unlink("upload/" . $_COOKIE["nuotrauka"]);
         }
+        if (file_exists("upload/" . $_FILES["file"]["name"])) {
+            unlink("upload/" . $_FILES["file"]["name"]);
+        }
+        move_uploaded_file($_FILES["file"]["tmp_name"], "upload/" . $_FILES["file"]["name"]);
     }
+    header('Location: /');
 } else {
-    echo "Invalid file";
+    header('Location: /?err=invalid_file');
 }
-?> 
