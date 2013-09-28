@@ -3,8 +3,8 @@ const MAX_SIZE = 2097152; // 2 MB
 const SAVAITE = 604800;
 if ($_GET["action"] == "delete") {
     if (file_exists("upload/" . $_COOKIE["nuotrauka"])) {
-        unlink("upload/" . $_COOKIE["nuotrauka"]);
-        setcookie("nuotrauka", '', time() - 10); // nesaugu
+        unlink("upload/" . $_COOKIE["nuotrauka"]); // nesaugu
+        setcookie("nuotrauka", '', time() - 10);
         header('Location: /');
     }
     die();
