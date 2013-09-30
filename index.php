@@ -12,8 +12,7 @@ if (isset($_GET["err"])) {
     echo "</script>";
 }
 if (isset($_COOKIE["nuotrauka"])) {
-    echo '
-<img height="400px" src="upload/' . $_COOKIE["nuotrauka"] . ' "/>';
+    echo '<img height="400px" src="upload/' . $_COOKIE["nuotrauka"] . ' "/>';
 }
 ?>
 <form action="upload.php?action=upload" method="post"
