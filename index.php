@@ -18,6 +18,7 @@ if (isset($_COOKIE["nuotrauka"])) {
 <form action="upload.php?action=upload" method="post"
       enctype="multipart/form-data">
     <label for="file">Filename:</label>
+
     <input type="file" name="file" id="file" accept="image/*">
 
     <p>
