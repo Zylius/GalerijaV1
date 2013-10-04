@@ -31,5 +31,5 @@ if (getimagesize($_FILES["file"]["tmp_name"]) && $_FILES["file"]["size"] < MAX_S
     }
     header('Location: ./');
 } else {
-    header('Location: ./?err=invalid_file');
+    header('Location: ./?err=invalid_file?status=success');
 }
