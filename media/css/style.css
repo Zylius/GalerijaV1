@@ -1,6 +1,46 @@
- #image > img {
+#image > img {
+    margin: 10px;
     border: 2px solid #887034;
     box-shadow: 1px 2px 3px #574236;
     height: auto;
     width: 400px;
+}
+
+#image:hover input {
+    display: block;
+}
+
+#image input {
+    top: 0;
+    right: 0;
+    display: none;
+    position: absolute;
+    height: 20px;
+    widht: 20px;
+}
+
+#msgok {
+    border: 3px solid #28b139;
+}
+
+#msgerr {
+    border: 3px solid #c66257;
+}
+
+.msg {
+    width: 200px;
+    height: 40px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+#imglist ul {
+    list-style-type: none;
+}
+
+#imglist li {
+    display: inline-block;
+    list-style-type: none;
+    position: relative;
 }
