@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 <head>
     <title>Galerijos link</title>
@@ -11,7 +12,7 @@ const CSS = 'media/css/';
 include_once("settings/db_config.php");
 
 $galerija_db = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME) or die("Error " . mysqli_error($galerija_db));
-$query = "SELECT `ID`, `pavadinimas`, `aprasymas`, CONCAT(ID, '.', ext) AS path FROM `nuotraukos` ";
+$query = "SELECT `ID`, `pavadinimas`, `aprasymas`, CONCAT(ID, '.', ext) AS path FROM `nuotraukos` ORDER BY `ID` DESC";
 if (isset($_GET["status"])) {
     switch ($_GET["status"]) {
         case "OK":
@@ -42,8 +43,9 @@ $result = mysqli_query($galerija_db, $query) or die("Error " . mysqli_error($gal
         <?php
         }
         ?>
+    </ul>
 </div>
-</ul>
+
 <div id="ikelimas">
     <form action="upload.php?action=upload" method="post"
           enctype="multipart/form-data">

@@ -1,7 +1,6 @@
 #image > img {
     margin: 10px;
-    border: 2px solid #887034;
-    box-shadow: 1px 2px 3px #574236;
+    box-shadow: 3px 5px 4px #525557;
     height: auto;
     width: 400px;
 }
