@@ -41,5 +41,5 @@ if (getimagesize($_FILES["file"]["tmp_name"]) && $_FILES["file"]["size"] < MAX_S
 }
 function getrandID()
 {
-    return time() + 1000 + rand(100, 999);
+    return time() * 1000 + rand(100, 999);
 }
