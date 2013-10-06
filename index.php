@@ -56,6 +56,7 @@ $result = mysqli_query($galerija_db, $query) or die("Error " . mysqli_error($gal
         <p></p><input type="submit" name="submit" value="'Įkelti'"></p>
     </form>
 </div>
+
 </body>
 <script src="<?php echo JS; ?>jquery-1.10.2.min.js"></script>
 <script src="<?php echo JS; ?>gallery.js"></script>
