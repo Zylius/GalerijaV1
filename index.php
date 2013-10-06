@@ -54,7 +54,6 @@ $result = mysqli_query($galerija_db, $query) or die("Error " . mysqli_error($gal
           enctype="multipart/form-data">
         <label for="file">Filename:</label>
         <input type="file" name="file" id="file" accept="image/*">
-
         <p></p><input type="submit" name="submit" value="'Įkelti'"></p>
     </form>
 </div>
