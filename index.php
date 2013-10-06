@@ -25,6 +25,7 @@ if (isset($_GET["status"])) {
             echo '<div class="msg" id="msgerr">Klaida.</div>';
     }
 }
+
 $result = mysqli_query($galerija_db, $query) or die("Error " . mysqli_error($galerija_db));
 ?>
 <div>
