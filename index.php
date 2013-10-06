@@ -6,6 +6,14 @@
     <link rel="stylesheet" type="text/css" href="media/css/style.css">
 </head>
 <body>
+<div id="topmenu"><ul>
+        <li >
+            <a href="./">
+            Prisijunkti
+                </a>
+        </li>
+
+</ul></div>
 <?php
 const JS = 'media/js/';
 const CSS = 'media/css/';
@@ -34,7 +42,7 @@ $result = mysqli_query($galerija_db, $query) or die("Error " . mysqli_error($gal
         <?php
         while ($row = mysqli_fetch_array($result)) {
             ?>
-            <li id="imglist">
+            <li>
                 <div id="image">
                     <img alt="<?php echo $row["pavadinimas"] ?>" src="./upload/<?php echo $row["path"] ?>"/>
                     <form action="upload.php?action=delete" method="post" enctype="multipart/form-data">

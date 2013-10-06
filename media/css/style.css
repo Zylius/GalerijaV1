@@ -4,7 +4,17 @@
     height: auto;
     width: 400px;
 }
+a{
+    font-weight: bold;
+    text-decoration: none;
 
+}
+body{
+    padding:0;
+    margin:0;
+    background:ghostwhite;
+    font-family: Courier;
+}
 #image:hover input {
     display: block;
 }
@@ -42,4 +52,37 @@
     display: inline-block;
     list-style-type: none;
     position: relative;
+}
+#topmenu {
+    background: black;
+    overflow: auto;
+}
+#topmenu ul {
+    list-style-type: none;
+    position: relative;
+    height: 40px;
+    margin:0;
+}
+#topmenu li {
+    height: 40px;
+    padding-right:20px;
+    padding-left:10px;
+    border-left: 2px solid;
+    border-color: ghostwhite;
+    font-family: Courier;
+    font-weight: bold;
+    color:ghostwhite;
+    right:0;
+    bottom:0;
+    display: inline-block;
+    list-style-type: none;
+    position:absolute;
+    line-height:40px;
+}
+#topmenu li > a{
+    display: block;
+    color: ghostwhite;
+}
+#topmenu li:hover {
+    background: darkgrey;
 }
