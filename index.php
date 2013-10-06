@@ -29,6 +29,7 @@ if (isset($_GET["status"])) {
 $result = mysqli_query($galerija_db, $query) or die("Error " . mysqli_error($galerija_db));
 ?>
 <div>
+
     <ul id="imglist">
         <?php
         while ($row = mysqli_fetch_array($result)) {
@@ -43,6 +44,7 @@ $result = mysqli_query($galerija_db, $query) or die("Error " . mysqli_error($gal
             </li>
         <?php
         }
+
         ?>
     </ul>
 </div>
