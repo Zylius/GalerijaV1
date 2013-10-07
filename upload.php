@@ -13,8 +13,8 @@ if ($_GET["action"] == "delete" && isset($_POST["ID"])) {
         $query = "DELETE FROM `nuotraukos` where `ID` = {$_POST["ID"]}";
         mysqli_query($galerija_db, $query) or die ("Error " . mysqli_error($galerija_db));
         header('Location: ./?status=OK');
-        die();
     }
+    die();
 }
 if ($_GET["action"] != "upload" || !isset($_FILES["file"])) {
     header('Location: ./?status=wrong_link');

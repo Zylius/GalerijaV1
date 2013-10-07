@@ -6,6 +6,26 @@
     <link rel="stylesheet" type="text/css" href="media/css/style.css">
 </head>
 <body>
+<div id="overlay_wrapper">
+<div id="overlay" onclick="javascript:showDiv();">
+</div>
+    <div class="prisijungimas_wrapper">
+        <div class="prisijungimas">
+        <form action="index.php?action=delete" method="post">
+            <input type="image" name="ID" src="./media/images/delete.png" value="<?php echo $row["ID"] ?>"/>
+            <ul>
+                <li>
+                    <input id="username" type="text" name="username" placeholder="Username or E-mail" size="30">
+                </li>
+                <li>
+                    <input id="password" type="password" name="password" placeholder="Password" size="30">
+                </li>
+            </ul>
+            <p><input type="submit" value="Prisijungti"></p>
+        </form>
+        </div>
+    </div>
+</div>
 <div id="topmenu"><ul>
         <li onclick="javascript:showDiv();">
             <a>
@@ -14,7 +34,7 @@
         </li>
 
 </ul></div>
-<div id="overlay" style="display:block"> <div>tekstas</div></div>
+
 <?php
 const JS = 'media/js/';
 const CSS = 'media/css/';
