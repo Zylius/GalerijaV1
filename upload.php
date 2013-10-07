@@ -25,10 +25,11 @@ if (getimagesize($_FILES["file"]["tmp_name"]) && $_FILES["file"]["size"] < MAX_S
         header('Location: /?status=err');
     } else {
         $pavadinimas = getrandID();
-        if (file_exists("upload/" . $pavadinimas . "." . $ext)) {
-            unlink("upload/" . $pavadinimas . "." . $ext);
+        $path = glob('upload/' . $pavadinimas . '.*');
+        while (!empty($path)) {
+            $pavadinimas = getrandID();
+            $path = glob('upload/' . $pavadinimas . '.*');
         }
-
         $ext = pathinfo($_FILES["file"]["name"], PATHINFO_EXTENSION);
         $query = "INSERT INTO `nuotraukos` (`ID`, `pavadinimas`, `aprasymas`, `ext`) VALUES ('$pavadinimas', '{$_FILES["file"]["name"]}', 'bla', '$ext')";
         move_uploaded_file($_FILES["file"]["tmp_name"], "upload/" . $pavadinimas . "." . $ext);
@@ -40,5 +41,5 @@ if (getimagesize($_FILES["file"]["tmp_name"]) && $_FILES["file"]["size"] < MAX_S
 }
 function getrandID()
 {
-    return time() + rand(100, 999);
+    return time() * 1000 + rand(100, 999);
 }

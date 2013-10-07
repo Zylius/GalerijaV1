@@ -1,11 +1,20 @@
 #image > img {
     margin: 10px;
-    border: 2px solid #887034;
-    box-shadow: 1px 2px 3px #574236;
+    box-shadow: 3px 5px 4px #525557;
     height: auto;
     width: 400px;
 }
+a{
+    font-weight: bold;
+    text-decoration: none;
 
+}
+body{
+    padding:0;
+    margin:0;
+    background:ghostwhite;
+    font-family: Courier;
+}
 #image:hover input {
     display: block;
 }
@@ -16,7 +25,7 @@
     display: none;
     position: absolute;
     height: 20px;
-    widht: 20px;
+    width: 20px;
 }
 
 #msgok {
@@ -43,4 +52,37 @@
     display: inline-block;
     list-style-type: none;
     position: relative;
+}
+#topmenu {
+    background: black;
+    overflow: auto;
+}
+#topmenu ul {
+    list-style-type: none;
+    position: relative;
+    height: 40px;
+    margin:0;
+}
+#topmenu li {
+    height: 40px;
+    padding-right:20px;
+    padding-left:10px;
+    border-left: 2px solid;
+    border-color: ghostwhite;
+    font-family: Courier;
+    font-weight: bold;
+    color:ghostwhite;
+    right:0;
+    bottom:0;
+    display: inline-block;
+    list-style-type: none;
+    position:absolute;
+    line-height:40px;
+}
+#topmenu li > a{
+    display: block;
+    color: ghostwhite;
+}
+#topmenu li:hover {
+    background: darkgrey;
 }
