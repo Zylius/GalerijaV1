@@ -7,13 +7,14 @@
 </head>
 <body>
 <div id="topmenu"><ul>
-        <li >
-            <a href="./">
-            Prisijunkti
-                </a>
+        <li onclick="javascript:showDiv();">
+            <a>
+            Prisijungti
+            </a>
         </li>
 
 </ul></div>
+<div id="overlay" style="display:block"> <div>tekstas</div></div>
 <?php
 const JS = 'media/js/';
 const CSS = 'media/css/';
