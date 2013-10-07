@@ -12,7 +12,6 @@
     <div class="prisijungimas_wrapper">
         <div class="prisijungimas">
         <form action="index.php?action=delete" method="post">
-            <input type="image" name="ID" src="./media/images/delete.png" value="<?php echo $row["ID"] ?>"/>
             <ul>
                 <li>
                     <input id="username" type="text" name="username" placeholder="Username or E-mail" size="30">
