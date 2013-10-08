@@ -4,6 +4,7 @@
     <title>Galerijos link</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <link rel="stylesheet" type="text/css" href="media/css/style.css">
+    <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.13.0/build/cssnormalize/cssnormalize-min.css">
 </head>
 <body>
 <div id="overlay_wrapper">
@@ -14,15 +15,15 @@
         <div class="prisijungimas" id="title">
             Prisijungimas
         </div>
-        <form action="index.php?action=delete" method="post">
+        <form action="/" method="post">
             <ul>
                 <p>
                 <li>
-                    <input id="username" type="text" name="username" placeholder="Username or E-mail" size="40">
+                    <input id="nickname" type="text" name="nickname" placeholder="Username or E-mail" size="30">
                 </li></p>
                 <p>
                 <li>
-                    <input id="password" type="password" name="password" placeholder="Password" size="40">
+                    <input id="password" type="password" name="password" placeholder="Password" size="30">
                 </li>
                 </p>
             </ul>
