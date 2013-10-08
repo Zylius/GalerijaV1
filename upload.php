@@ -20,7 +20,7 @@ if ($_GET["action"] != "upload" || !isset($_FILES["file"])) {
     header('Location: ./?status=wrong_link');
     die();
 }
-if (getimagesize($_FILES["file"]["tmp_name"]) && $_FILES["file"]["size"] < MAX_SIZE) {
+if (getimagesize($_FILES["file"]["tmp_name"])&& $_FILES["file"]["size"] < MAX_SIZE) {
     if ($_FILES["file"]["error"] > 0) {
         header('Location: /?status=err');
     } else {

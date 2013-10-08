@@ -11,14 +11,20 @@
 </div>
     <div class="prisijungimas_wrapper">
         <div class="prisijungimas">
+        <div class="prisijungimas" id="title">
+            Prisijungimas
+        </div>
         <form action="index.php?action=delete" method="post">
             <ul>
+                <p>
                 <li>
-                    <input id="username" type="text" name="username" placeholder="Username or E-mail" size="30">
-                </li>
+                    <input id="username" type="text" name="username" placeholder="Username or E-mail" size="40">
+                </li></p>
+                <p>
                 <li>
-                    <input id="password" type="password" name="password" placeholder="Password" size="30">
+                    <input id="password" type="password" name="password" placeholder="Password" size="40">
                 </li>
+                </p>
             </ul>
             <p><input type="submit" value="Prisijungti"></p>
         </form>
