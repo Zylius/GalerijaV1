@@ -1,0 +1,4 @@
+galerija_images:
+    resource: "@GalerijaImagesBundle/Resources/config/routing.yml"
+    prefix:   /
+
