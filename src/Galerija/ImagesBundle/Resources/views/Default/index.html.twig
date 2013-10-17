@@ -1,1 +1,17 @@
-Hello {{ name }}!
+{% extends '::base.html.twig' %}
+
+{% block images %}
+    <ul id="imglist">
+        {% for single in image_array %}
+        <li>
+            <div id="image">
+                <img alt="./uploads/" src="{{ asset(single.getWebPath()) }}"/>
+                <form action="/nfq/web/app_dev.php/delete" method="post" enctype="multipart/form-data">
+                    <input type="image" name="ID" src="{{ asset('bundles/GalerijaImages/images/delete.png') }}" value="{{ single.ID }}"/>
+                </form>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+    {{ form(form) }}
+{% endblock %}
