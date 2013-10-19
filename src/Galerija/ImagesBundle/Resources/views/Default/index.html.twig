@@ -1,12 +1,24 @@
 {% extends '::base.html.twig' %}
 
+{% block username %}
+{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+     {{ user.username }}
+{% else %}
+    Prisijungimas
+{% endif %}
+{% endblock %}
+
+{% block prisijungimas %}
+    {% include "GalerijaImagesBundle:User:profile_control.html.twig" %}
+{% endblock %}
+
 {% block images %}
     <ul id="imglist">
         {% for single in image_array %}
         <li>
             <div id="image">
                 <img alt="./uploads/" src="{{ asset(single.getWebPath()) }}"/>
-                <form action="/nfq/web/app_dev.php/delete" method="post" enctype="multipart/form-data">
+                <form action="{{ path('galerija_images_delete') }}" method="post" enctype="multipart/form-data">
                     <input type="image" name="ID" src="{{ asset('bundles/GalerijaImages/images/delete.png') }}" value="{{ single.ID }}"/>
                 </form>
             </div>
@@ -15,3 +27,4 @@
     </ul>
     {{ form(form) }}
 {% endblock %}
+

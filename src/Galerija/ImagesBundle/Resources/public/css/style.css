@@ -98,11 +98,15 @@ body{
 }
 .prisijungimas
 {
-    padding: 20px 20px 20px;
+    padding: 15px 15px 15px;
 }
 .prisijungimas p
 {
     text-align: right;
+}
+.prisijungimas li
+{
+    margin-top:10px;
 }
 #title.prisijungimas
 {
@@ -125,6 +129,28 @@ body{
 .prisijungimas_wrapper ul
 {
     list-style-type: none;
+}
+.vart_wrapper
+{
+    position: absolute;
+    height:200px;
+    width:400px;
+    top:50%;
+    left:50%;
+    margin:-100px 0 0 -200px;
+    line-height: 0;
+    background: white;
+    z-index: 2;
+}
+.vart_informacija
+{
+    padding: 15px 15px 15px;
+}
+#title.vart_informacija
+{
+    padding:15px;
+    border-bottom: 3px solid #dce1c6;
+    font-weight: bold;
 }
 #overlay
 {

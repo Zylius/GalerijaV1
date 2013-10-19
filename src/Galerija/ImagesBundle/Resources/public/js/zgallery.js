@@ -1,6 +1,10 @@
-(function ($) {
-    //alert($('#msg').data('error'));
-})(jQuery);
+
+$(document).ready(function(){
+    $("#profile_button,#overlay").click(function(){
+    showDiv();
+    })
+});
+
 function showDiv() {
 
     div = document.getElementById('overlay_wrapper');
