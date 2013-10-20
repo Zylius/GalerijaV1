@@ -11,23 +11,49 @@ class UploadController extends Controller
 {
     public function indexAction(Request $request)
     {
+        //patikrinam ar vartotojas prisijungęs
+        $securityContext = $this->container->get('security.context');
+        if(!$securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED'))
+        {
+            $this->get('session')->getFlashBag()->add('error','Įkelti nuotraukas gali tik prisijungę vartotojai.');
+            return $this->redirect($this->generateUrl('galerija_images_homepage'));
+        }
+
+        //susikuriam formą pagal kurią tikrinsim ar ji teisinga
         $image = new Image();
-        $image->setAprasymas("Bandymas");
-        $form = $this->createForm(new ImageType(), $image, array(
-            'action' => $this->generateUrl('galerija_images_upload'),
-        ));
+        $form = $this->createForm(new ImageType(), $image);
         $form->handleRequest($request);
+        $image->setUser($this->container->get('security.context')->getToken()->getUser());
+
+        //jei teisinga
         if($form->isvalid())
         {
-            $new_image_file = $form['pavadinimas']->getData();
-            $image->setPavadinimas($new_image_file->getClientOriginalName());
-            $image->setExt($new_image_file->guessExtension());
+            //nustatom extension ir tinkamą pavadinimą
+            $image->uploadProcedures();
+
+            //įkeliam į db
             $em = $this->getDoctrine()->getManager();
             $em->persist($image);
             $em->flush();
-            $new_image_file->move($image->getUploadRootDir(), $image->getFileName());
+
+            //gavom teisingą ID, galima perkelti failą
+            $image->getFailas()->move($image->getUploadRootDir(), $image->getFileName());
+
+            //nustatom pranešimą ir parodom klientui
+            $this->get('session')->getFlashBag()->add('success', 'Failas įkeltas sėkmingai!');
             return $this->redirect($this->generateUrl('galerija_images_homepage'));
         }
+
+        //surandam klaidas
+        $errors = $this->get('validator')->validate($image);
+        $result = "";
+        foreach( $errors as $error )
+        {
+            $result .= $error->getMessage();
+        }
+
+        //nustatom pranešimą ir parodom klientui
+        $this->get('session')->getFlashBag()->add('error',$result);
         return $this->redirect($this->generateUrl('galerija_images_homepage'));
     }
 }

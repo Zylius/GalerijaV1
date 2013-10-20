@@ -3,10 +3,12 @@
 <head>
     <title>Galerijos link</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
     {% stylesheets '@GalerijaImagesBundle/Resources/public/css/*' %}
-    <link rel="stylesheet" href="{{ asset_url }}" />
+    <link rel="stylesheet" href="{{ asset_url }}"/>
     {% endstylesheets %}
-    <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.13.0/build/cssnormalize/cssnormalize-min.css">
 </head>
 <body>
 <div id="overlay_wrapper">
@@ -25,8 +27,10 @@
         </li>
     </ul>
 </div>
-{% block images %}
-{% endblock %}
+<div id="content">
+    {% block content %}
+    {% endblock %}
+</div>
 </body>
 
 {% javascripts '@GalerijaImagesBundle/Resources/public/js/*' %}

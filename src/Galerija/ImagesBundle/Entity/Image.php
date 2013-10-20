@@ -9,42 +9,159 @@
 
 namespace Galerija\ImagesBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Doctrine\Common\Collections\ArrayCollection;
 /**
  * @ORM\Entity
- * @ORM\Table(name="nuotraukos")
+ * @ORM\Table(name="images")
  */
 class Image
 {
     /**
-     * @ORM\Column(type="bigint")
+     * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    protected $ID;
+    protected $imageId;
 
     /**
-     * @ORM\Column(type="text")
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(type="datetime")
+     */
+    private $created;
+
+    /**
+     * @Gedmo\Timestampable(on="update")
+     * @ORM\Column(type="datetime")
+     */
+    private $updated;
+
+    /**
+     *  @ORM\Column(type="string")
      */
     protected $pavadinimas;
 
     /**
-     * @ORM\Column(type="text")
+     * @Assert\NotBlank()
+     * @ORM\Column(type="string")
      */
     protected $aprasymas;
 
     /**
-     * @ORM\Column(type="text")
+     * @ORM\Column(length=10)
      */
     protected $ext;
+
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    protected $shot_date;
+
+
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Album", inversedBy="images")
+     * @ORM\JoinTable(name="albums_images",
+     *      joinColumns={@ORM\JoinColumn(name="imageId", referencedColumnName="imageId")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="albumId", referencedColumnName="albumId")}
+     *      )
+     */
+    protected $albums;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Comment", mappedBy="imageId")
+     */
+    protected $comments;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="images")
+     * @ORM\JoinColumn(name="userId", referencedColumnName="id")
+     */
+    protected $user;
+
+    /**
+     * @param mixed $user
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param mixed $shot_date
+     */
+    public function setShotDate($shot_date)
+    {
+        $this->shot_date = $shot_date;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getShotDate()
+    {
+        return $this->shot_date;
+    }
+
+    /**
+     * @param mixed $albums
+     */
+    public function setAlbums($albums)
+    {
+        $this->albums = $albums;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAlbums()
+    {
+        return $this->albums;
+    }
+
+    /**
+     * @param mixed $comments
+     */
+    public function setComments($comments)
+    {
+        $this->comments = $comments;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getComments()
+    {
+        return $this->comments;
+    }
+
+    /**
+     * @Assert\File(
+     *     maxSizeMessage = "Paveikslėlis negali būti didesnis nei 5mB",
+     *     maxSize = "5000k",
+     *     mimeTypes = {"image/jpg", "image/jpeg", "image/gif", "image/png"},
+     *     mimeTypesMessage = "Netinkamas nuotraukos tipas, turi būti JPG, PNG arba GIF"
+     * )
+     */
+    protected $failas;
 
     /**
      * Get ID
      *
      * @return integer 
      */
-    public function getID()
+    public function getImageId()
     {
-        return $this->ID;
+        return $this->imageId;
     }
 
     /**
@@ -116,10 +233,67 @@ class Image
         return $this->ext;
     }
 
+    /**
+     * @param mixed $created
+     */
+    public function setCreated($created)
+    {
+        $this->created = $created;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCreated()
+    {
+        return $this->created;
+    }
+
+    /**
+     * @param mixed $updated
+     */
+    public function setUpdated($updated)
+    {
+        $this->updated = $updated;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUpdated()
+    {
+        return $this->updated;
+    }
+
+
+    public function getFailas()
+    {
+        return $this->failas;
+    }
+
+    public function setFailas($failas)
+    {
+        $this->failas = $failas;
+
+        return $this;
+    }
+
+    public function __construct()
+    {
+        $this->comments = new ArrayCollection();
+        $this->albums = new ArrayCollection();
+    }
+    public function uploadProcedures()
+    {
+        $this->setExt($this->failas->guessExtension());
+        if($this->pavadinimas == NULL)
+            $this->pavadinimas = $this->failas->getClientOriginalName();
+    }
     public function getFileName()
     {
-        return $this->ID . "." . $this->ext;
+        return $this->imageId . "." . $this->ext;
     }
+
     public function getAbsolutePath()
     {
         return null === $this->getFileName() ? null : $this->getUploadRootDir().'/'.$this->getFileName();

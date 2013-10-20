@@ -1,30 +1,44 @@
 {% extends '::base.html.twig' %}
 
+{# patikriniam ar prisijungęs ir pakeičiam topmenu užrašą #}
 {% block username %}
-{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-     {{ user.username }}
-{% else %}
-    Prisijungimas
-{% endif %}
+    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+        {{ user.username }}
+    {% else %}
+        Prisijungimas
+    {% endif %}
 {% endblock %}
 
 {% block prisijungimas %}
     {% include "GalerijaImagesBundle:User:profile_control.html.twig" %}
 {% endblock %}
 
-{% block images %}
+{% block content %}
+    {% for flashMessage in app.session.flashbag.get('success') %}
+        <div class="flash" id="success">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+    {% for flashMessage in app.session.flashbag.get('error') %}
+        <div class="flash" id="error">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
     <ul id="imglist">
         {% for single in image_array %}
-        <li>
-            <div id="image">
-                <img alt="./uploads/" src="{{ asset(single.getWebPath()) }}"/>
-                <form action="{{ path('galerija_images_delete') }}" method="post" enctype="multipart/form-data">
-                    <input type="image" name="ID" src="{{ asset('bundles/GalerijaImages/images/delete.png') }}" value="{{ single.ID }}"/>
-                </form>
-            </div>
-        </li>
+            <li>
+                <div id="image">
+                    <img alt="{{ single.getPavadinimas() }}" src="{{ asset(single.getWebPath()) }}"/>
+                    {# patikriniam ar prisijungęs ir leidžiam trinti nuotraukas #}
+                    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                    <form action="{{ path('galerija_images_delete') }}" method="post" enctype="multipart/form-data">
+                        <input type="image" alt="Delete" name="ID" src="{{ asset('bundles/GalerijaImages/images/delete.png') }}" value="{{ single.imageId }}"/>
+                    </form>
+                    {% endif %}
+                </div>
+            </li>
         {% endfor %}
     </ul>
-    {{ form(form) }}
+    {% include "GalerijaImagesBundle:Forms:image_upload.html.twig" %}
 {% endblock %}
 
