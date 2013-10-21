@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Galerijos link</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    {% stylesheets '@GalerijaImagesBundle/Resources/public/css/*' %}
+    <link rel="stylesheet" href="{{ asset_url }}"/>
+    {% endstylesheets %}
+</head>
+<body>
+<div id="overlay_wrapper">
+    <div id="overlay">
+    </div>
+    {% block prisijungimas %}
+    {% endblock %}
+</div>
+<div id="topmenu">
+    <ul>
+        <li id="profile_button">
+            <a>
+                {% block username %}
+                {% endblock %}
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="content">
+    {% block content %}
+    {% endblock %}
+</div>
+</body>
+
+{% javascripts '@GalerijaImagesBundle/Resources/public/js/*' %}
+<script type="text/javascript" src="{{ asset_url }}"></script>
+{% endjavascripts %}
+</html>

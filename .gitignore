@@ -1,4 +1,14 @@
 .idea
 .DS_Store
-./media/js/delete.psd
-.media/images/cancel_exit_cross_close.png
+/web/bundles/
+/app/bootstrap.php.cache
+/app/cache/*
+/app/config/parameters.yml
+/app/logs/*
+!app/cache/.gitkeep
+!app/logs/.gitkeep
+/build/
+/vendor/
+/bin/
+/composer.phar
+

@@ -1,0 +1,5 @@
+{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+    {% include "GalerijaImagesBundle:User:profile.html.twig" %}
+{% else %}
+    {% include "GalerijaImagesBundle:User:login.html.twig" %}
+{% endif %}

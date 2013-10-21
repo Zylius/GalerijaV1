@@ -1,0 +1,15 @@
+<div class="vart_wrapper">
+    <div class="vart_informacija">
+        <div class="vart_informacija" id="title" >
+            Vartotojo informacija
+        </div>
+
+        <p>Vardas: {{ user.username }}</p>
+
+        <p>E-Mail: {{ user.email }}</p>
+
+        <form action="{{ path('fos_user_security_logout') }}">
+            <input type="submit" value="Atsijungti">
+        </form>
+    </div>
+</div>

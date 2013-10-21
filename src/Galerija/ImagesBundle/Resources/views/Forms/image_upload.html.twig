@@ -1,0 +1,36 @@
+{{ form_start(form) }}
+<table id="upload">
+    <tr>
+        <td>{{ form_label(form.pavadinimas) }}</td>
+        <td>
+            {{ form_widget(form.pavadinimas) }}
+            {{ form_errors(form.pavadinimas) }}
+        </td>
+    </tr>
+    <tr>
+        <td>{{ form_label(form.aprasymas) }}</td>
+        <td>
+            {{ form_widget(form.aprasymas) }}
+            {{ form_errors(form.aprasymas) }}
+        </td>
+    </tr>
+    <tr>
+        <td>{{ form_label(form.failas) }}</td>
+        <td>
+            {{ form_widget(form.failas) }}
+            {{ form_errors(form.failas) }}
+        </td>
+    </tr>
+    <tr>
+        <td>{{ form_label(form.shot_date) }}</td>
+        <td>
+            {{ form_widget(form.shot_date) }}
+            {{ form_errors(form.shot_date) }}
+        </td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>{{ form_widget(form.Ikelti) }}</td>
+    </tr>
+</table>
+{{ form_end(form) }}
