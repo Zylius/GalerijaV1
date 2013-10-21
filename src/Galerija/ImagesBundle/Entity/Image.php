@@ -70,7 +70,7 @@ class Image
     protected $albums;
 
     /**
-     * @ORM\OneToMany(targetEntity="Comment", mappedBy="imageId")
+     * @ORM\OneToMany(targetEntity="Comment", mappedBy="image")
      */
     protected $comments;
 
