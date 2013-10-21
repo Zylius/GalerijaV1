@@ -18,17 +18,17 @@ class User extends BaseUser
     protected $id;
 
     /**
-     * @ORM\OneToMany(targetEntity="Comment", mappedBy="userId")
+     * @ORM\OneToMany(targetEntity="Comment", mappedBy="user")
      */
     protected $comments;
 
     /**
-     * @ORM\OneToMany(targetEntity="Image", mappedBy="userId")
+     * @ORM\OneToMany(targetEntity="Image", mappedBy="user")
      */
     protected $images;
 
     /**
-     * @ORM\OneToMany(targetEntity="Album", mappedBy="userId")
+     * @ORM\OneToMany(targetEntity="Album", mappedBy="user")
      */
     protected $albums;
 

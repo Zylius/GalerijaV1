@@ -23,7 +23,7 @@ class Comment
     protected $user;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Image", inversedBy="images")
+     * @ORM\ManyToOne(targetEntity="Image", inversedBy="comments")
      * @ORM\JoinColumn(name="imageId", referencedColumnName="imageId")
      */
     protected $image;
