@@ -21,7 +21,6 @@ class DefaultController extends Controller
 
         $token = $this->container->get('form.csrf_provider')->generateCsrfToken('authenticate');
         $user = $this->container->get('security.context')->getToken()->getUser();
-
         return $this->render('GalerijaImagesBundle:Default:index.html.twig', array(
             'image_array' => $things,
             'form' => $form->createView(),

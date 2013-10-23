@@ -134,4 +134,96 @@ class Album
     {
         $this->images = new ArrayCollection();
     }
+
+    /**
+     * Set short_comment
+     *
+     * @param string $shortComment
+     * @return Album
+     */
+    public function setShortComment($shortComment)
+    {
+        $this->short_comment = $shortComment;
+    
+        return $this;
+    }
+
+    /**
+     * Get short_comment
+     *
+     * @return string 
+     */
+    public function getShortComment()
+    {
+        return $this->short_comment;
+    }
+
+    /**
+     * Set long_comment
+     *
+     * @param string $longComment
+     * @return Album
+     */
+    public function setLongComment($longComment)
+    {
+        $this->long_comment = $longComment;
+    
+        return $this;
+    }
+
+    /**
+     * Get long_comment
+     *
+     * @return string 
+     */
+    public function getLongComment()
+    {
+        return $this->long_comment;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \Galerija\ImagesBundle\Entity\User $user
+     * @return Album
+     */
+    public function setUser(\Galerija\ImagesBundle\Entity\User $user = null)
+    {
+        $this->user = $user;
+    
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \Galerija\ImagesBundle\Entity\User 
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * Add images
+     *
+     * @param \Galerija\ImagesBundle\Entity\Image $images
+     * @return Album
+     */
+    public function addImage(\Galerija\ImagesBundle\Entity\Image $images)
+    {
+        $this->images[] = $images;
+    
+        return $this;
+    }
+
+    /**
+     * Remove images
+     *
+     * @param \Galerija\ImagesBundle\Entity\Image $images
+     */
+    public function removeImage(\Galerija\ImagesBundle\Entity\Image $images)
+    {
+        $this->images->removeElement($images);
+    }
 }
