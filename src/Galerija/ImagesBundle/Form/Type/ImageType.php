@@ -7,7 +7,6 @@ use Symfony\Component\Validator\Constraints\Image;
 
 class ImageType extends AbstractType
 {
-    const MAX_SIZE = 4194304; //4MB
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
 
@@ -39,6 +38,13 @@ class ImageType extends AbstractType
             'input'  => 'datetime',
             'widget' => 'choice',
         ));
+        $builder->add('albums','entity', array(
+                        'label' => 'Albumai',
+        'class' => 'Galerija\ImagesBundle\Entity\Album',
+                        'property' => 'short_comment',
+                        'multiple' => true,
+                        'expanded' => false,
+                        'required' => true));
         $builder->add('Ikelti', 'submit', array('label' => "Įkelti"));
 
     }

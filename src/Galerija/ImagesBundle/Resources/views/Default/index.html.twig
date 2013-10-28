@@ -24,21 +24,10 @@
             {{ flashMessage }}
         </div>
     {% endfor %}
-    <ul id="imglist">
-        {% for single in image_array %}
-            <li>
-                <div id="image">
-                    <img alt="{{ single.getPavadinimas() }}" src="{{ asset(single.getWebPath()) }}"/>
-                    {# patikriniam ar prisijungęs ir leidžiam trinti nuotraukas #}
-                    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-                    <form action="{{ path('galerija_images_delete') }}" method="post" enctype="multipart/form-data">
-                        <input type="image" alt="Delete" name="ID" src="{{ asset('bundles/GalerijaImages/images/delete.png') }}" value="{{ single.imageId }}"/>
-                    </form>
-                    {% endif %}
-                </div>
-            </li>
-        {% endfor %}
-    </ul>
-    {% include "GalerijaImagesBundle:Forms:image_upload.html.twig" %}
+    {% if image_array is defined %}
+        {% include "GalerijaImagesBundle:Default:images.html.twig" %}
+    {% else %}
+        {% include "GalerijaImagesBundle:Default:albums.html.twig" %}
+    {% endif %}
 {% endblock %}
 

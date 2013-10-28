@@ -1,9 +1,13 @@
 galerija_images_homepage:
     pattern:  /
     defaults: { _controller: GalerijaImagesBundle:Default:index }
+
 galerija_images_upload:
     path:  /upload
     defaults: { _controller: GalerijaImagesBundle:Upload:index }
 galerija_images_delete:
     path:  /delete
     defaults: { _controller: GalerijaImagesBundle:Delete:index }
+galerija_images_album:
+    pattern:  /{albumId}
+    defaults: { _controller: GalerijaImagesBundle:Default:image }
