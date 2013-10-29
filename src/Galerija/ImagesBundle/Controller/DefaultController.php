@@ -66,15 +66,16 @@ class DefaultController extends Controller
     {
         //sukuriam  formą įkėlimui
         $image = new Image();
-        $form = $this->createForm(new ImageType(), $image, array(
-            'action' => $this->generateUrl('galerija_images_upload'),
-        ));
 
 
         //surandam visas nuotraukas (vėliau bus pakeista į albumus)
         $album = $this->getDoctrine()->getRepository('GalerijaImagesBundle:Album')->find($albumId);
         $image_array = $album->getImages();
         $image->addAlbum($album);
+
+        $form = $this->createForm(new ImageType(), $image, array(
+                'action' => $this->generateUrl('galerija_images_upload'),
+            ));
 
 
         $token = $this->container->get('form.csrf_provider')->generateCsrfToken('authenticate');
