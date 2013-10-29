@@ -26,7 +26,7 @@ class UploadController extends Controller
         $image->setUser($this->container->get('security.context')->getToken()->getUser());
 
         //jei teisinga
-        if($form->isvalid())
+        if($form->isValid())
         {
             //nustatom extension ir tinkamą pavadinimą
             $image->uploadProcedures();
@@ -43,6 +43,7 @@ class UploadController extends Controller
             $this->get('session')->getFlashBag()->add('success', 'Failas įkeltas sėkmingai!');
             return $this->redirect($this->generateUrl('galerija_images_homepage'));
         }
+
 
         //surandam klaidas
         $errors = $this->get('validator')->validate($image);

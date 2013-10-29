@@ -1,5 +1,5 @@
 {{ form_start(form) }}
-<table id="upload">
+<table id="form">
     <tr>
         <td>{{ form_label(form.pavadinimas) }}</td>
         <td>
@@ -26,6 +26,13 @@
         <td>
             {{ form_widget(form.shot_date) }}
             {{ form_errors(form.shot_date) }}
+        </td>
+    </tr>
+    <tr>
+        <td>{{ form_label(form.albums) }}</td>
+        <td>
+            {{ form_widget(form.albums) }}
+            {{ form_errors(form.albums) }}
         </td>
     </tr>
     <tr>

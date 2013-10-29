@@ -161,4 +161,60 @@ class Comment
     {
         return $this->approved;
     }
+
+    /**
+     * Get commentId
+     *
+     * @return integer 
+     */
+    public function getCommentId()
+    {
+        return $this->commentId;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \Galerija\ImagesBundle\Entity\User $user
+     * @return Comment
+     */
+    public function setUser(\Galerija\ImagesBundle\Entity\User $user = null)
+    {
+        $this->user = $user;
+    
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \Galerija\ImagesBundle\Entity\User 
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * Set image
+     *
+     * @param \Galerija\ImagesBundle\Entity\Image $image
+     * @return Comment
+     */
+    public function setImage(\Galerija\ImagesBundle\Entity\Image $image = null)
+    {
+        $this->image = $image;
+    
+        return $this;
+    }
+
+    /**
+     * Get image
+     *
+     * @return \Galerija\ImagesBundle\Entity\Image 
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
 }

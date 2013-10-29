@@ -1,0 +1,22 @@
+{{ form_start(form) }}
+<table id="form">
+    <tr>
+        <td>{{ form_label(form.short_comment) }}</td>
+        <td>
+            {{ form_widget(form.short_comment) }}
+            {{ form_errors(form.short_comment) }}
+        </td>
+    </tr>
+    <tr>
+        <td>{{ form_label(form.long_comment) }}</td>
+        <td>
+            {{ form_widget(form.long_comment) }}
+            {{ form_errors(form.long_comment) }}
+        </td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>{{ form_widget(form.Ikelti) }}</td>
+    </tr>
+</table>
+{{ form_end(form) }}

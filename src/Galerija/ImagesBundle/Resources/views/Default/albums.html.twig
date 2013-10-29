@@ -1,0 +1,21 @@
+{% block albumlist %}
+    <ul id="imglist">
+        {% for single in album_array %}
+            <li>
+                <div class="album">
+                    <a href="{{ path('galerija_images_album', { 'albumId' : single.getAlbumId() })  }}">
+                        {% if(single.getImages().first()) %}
+                            <img alt=" {{ single.getImages().first().getPavadinimas() }}" src="{{ asset( single.getImages().first().getWebPath()) }}"/>
+                        {% else %}
+                            <img alt="Albumas neturi nuotraukų." src="{{ asset('bundles/GalerijaImages/images/no_image.png') }}"/>
+                        {% endif %}
+                    </a>
+                    <p>
+                        {{single.getShortComment()}}
+                    </p>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+    {% include "GalerijaImagesBundle:Forms:album.html.twig" %}
+{% endblock albumlist %}

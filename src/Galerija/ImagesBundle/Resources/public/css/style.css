@@ -180,9 +180,27 @@ body{
 {
     background: rgba(177, 35, 41, 0.82);
 }
-#upload
+#form
 {
     background: #bdbdbd;
     border: 1px solid #000000;
     margin: 0 auto;
+}
+.album
+{
+    background: #fff;
+    border: solid 1px #ccc;
+    padding: 4px;
+    float:left;
+}
+.album img
+{
+    height: auto;
+    width: auto;
+    max-height: 300px;
+    max-width: 300px;
+}
+.album p
+{
+    padding:5px;
 }

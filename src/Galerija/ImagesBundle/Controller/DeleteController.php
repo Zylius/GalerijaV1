@@ -18,7 +18,7 @@ class DeleteController extends Controller
         }
 
         //paimam trinamos nuotrakos ID ir patikrinam ar tokia yra db
-        $id = $request->request->get('ID');
+        $id = (int)$request->request->get('ID');
         if($image = $this->getDoctrine()->getRepository('GalerijaImagesBundle:Image')->find($id))
         {
             //patikrinam ar failas egzistuoja ir ištrinam

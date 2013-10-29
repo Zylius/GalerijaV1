@@ -58,8 +58,6 @@ class Image
      */
     protected $shot_date;
 
-
-
     /**
      * @ORM\ManyToMany(targetEntity="Album", inversedBy="images")
      * @ORM\JoinTable(name="albums_images",
@@ -278,41 +276,108 @@ class Image
         return $this;
     }
 
+    /**
+     * Add albums
+     *
+     * @param \Galerija\ImagesBundle\Entity\Album $albums
+     * @return Image
+     */
+    public function addAlbum(\Galerija\ImagesBundle\Entity\Album $albums)
+    {
+        $this->albums[] = $albums;
+
+        return $this;
+    }
+
+    /**
+     * Remove albums
+     *
+     * @param \Galerija\ImagesBundle\Entity\Album $albums
+     */
+    public function removeAlbum(\Galerija\ImagesBundle\Entity\Album $albums)
+    {
+        $this->albums->removeElement($albums);
+    }
+
+    /**
+     * Add comments
+     *
+     * @param \Galerija\ImagesBundle\Entity\Comment $comments
+     * @return Image
+     */
+    public function addComment(\Galerija\ImagesBundle\Entity\Comment $comments)
+    {
+        $this->comments[] = $comments;
+
+        return $this;
+    }
+
+    /**
+     * Remove comments
+     *
+     * @param \Galerija\ImagesBundle\Entity\Comment $comments
+     */
+    public function removeComment(\Galerija\ImagesBundle\Entity\Comment $comments)
+    {
+        $this->comments->removeElement($comments);
+    }
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
         $this->albums = new ArrayCollection();
     }
+
+    //vykdom įkėlimo procedūras
     public function uploadProcedures()
     {
+        //išsaugom failo tipą
         $this->setExt($this->failas->guessExtension());
+
+        //išsaugom originalų pavadinimą, jei jis nebuvo nurodytas
         if($this->pavadinimas == NULL)
             $this->pavadinimas = $this->failas->getClientOriginalName();
     }
-    public function getFileName()
-    {
-        return $this->imageId . "." . $this->ext;
-    }
 
+    /*
+    * gražina failo pavadinimą
+    */
+   public function getFileName()
+   {
+       return $this->imageId . "." . $this->ext;
+   }
+   /*
+    * gražina pilna direktoriją su failo pavadinimu
+    */
     public function getAbsolutePath()
     {
         return null === $this->getFileName() ? null : $this->getUploadRootDir().'/'.$this->getFileName();
     }
-
+    /*
+    * gražinam paveikslėlio direktoriją atvaizdavimui puslapy
+    */
     public function getWebPath()
     {
         return null === $this->getFileName() ? null : $this->getUploadDir().'/'.$this->getFileName();
     }
 
+
+    /*
+    * absoliuti direktorija kur nuotrauka turėtų būt išsaugota
+    *
+    */
     public function getUploadRootDir()
     {
-        // the absolute directory path where uploaded documents should be saved
+
         return __DIR__.'/../../../../web/'.$this->getUploadDir();
     }
 
+    /*
+    * atsikratom __DIR__, kad negadintu vaizdo
+    */
     protected function getUploadDir()
     {
-        // get rid of the __DIR__ so it doesn't screw when displaying uploaded doc/image in the view.
+
         return 'uploads';
     }
 
