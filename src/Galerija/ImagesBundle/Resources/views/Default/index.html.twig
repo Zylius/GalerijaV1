@@ -24,10 +24,7 @@
             {{ flashMessage }}
         </div>
     {% endfor %}
-    {% if image_array is defined %}
-        {% include "GalerijaImagesBundle:Default:images.html.twig" %}
-    {% else %}
-        {% include "GalerijaImagesBundle:Default:albums.html.twig" %}
-    {% endif %}
+    {% block list %}
+    {% endblock %}
 {% endblock %}
 

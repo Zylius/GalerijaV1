@@ -7,16 +7,32 @@ use Galerija\ImagesBundle\Entity\Image;
 use Symfony\Component\HttpFoundation\Request;
 use Galerija\ImagesBundle\Form\Type\ImageType;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\JsonResponse;
 class UploadController extends Controller
 {
-    public function indexAction(Request $request)
+    public function FindAlbum($id, $arr)
+    {
+        foreach($arr as $album)
+        {
+            if($album->getAlbumId() == $id)
+                return true;
+        }
+        return false;
+    }
+    public function indexAction(Request $request, $albumId)
     {
         //patikrinam ar vartotojas prisijungęs
         $securityContext = $this->container->get('security.context');
+
+        $response = new JsonResponse();
+
         if(!$securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED'))
         {
-            $this->get('session')->getFlashBag()->add('error','Įkelti nuotraukas gali tik prisijungę vartotojai.');
-            return $this->redirect($this->generateUrl('galerija_images_homepage'));
+            $response->setData(array(
+                "success" => false,
+                "message" => 'Įkelti nuotraukas gali tik prisijungę vartotojai.'
+            ));
+            return $response;
         }
 
         //susikuriam formą pagal kurią tikrinsim ar ji teisinga
@@ -39,9 +55,28 @@ class UploadController extends Controller
             //gavom teisingą ID, galima perkelti failą
             $image->getFailas()->move($image->getUploadRootDir(), $image->getFileName());
 
+
+            //patikrinam ar albumas iš kurio buvo įkelta buvo įtrauktas į šios nuotraukos albumų sąrašą
+            if($this->FindAlbum($albumId, $image->getAlbums()->toArray()))
+            {
+                $response->setData(array(
+                    "success" => true,
+                    "message" => 'Failas įkeltas sėkmingai!',
+                    "path" =>  $this->get('templating.helper.assets')->getUrl($image->getWebPath()),
+                    "delpath" =>  $this->get('templating.helper.assets')->getUrl("bundles/GalerijaImages/images/delete.png"),
+                    "name" =>  $image->getPavadinimas(),
+                    "ID" => $image->getImageId()
+                ));
+            }
+            else
+            {
+                $response->setData(array(
+                    "success" => true,
+                    "message" => 'Failas įkeltas sėkmingai!',
+                ));
+            }
             //nustatom pranešimą ir parodom klientui
-            $this->get('session')->getFlashBag()->add('success', 'Failas įkeltas sėkmingai!');
-            return $this->redirect($this->generateUrl('galerija_images_homepage'));
+            return $response;
         }
 
 
@@ -52,9 +87,14 @@ class UploadController extends Controller
         {
             $result .= $error->getMessage();
         }
-
+        if($result == "")
+            $result = "Failas per didelis";
         //nustatom pranešimą ir parodom klientui
-        $this->get('session')->getFlashBag()->add('error',$result);
-        return $this->redirect($this->generateUrl('galerija_images_homepage'));
+        $response->setData(array(
+            "success" => false,
+            "message" => $result
+        ));
+        return $response;
     }
+
 }

@@ -1,0 +1,77 @@
+.form
+{
+    clear:both;
+    background: #ffffff;
+    border: 1px solid #000000;
+    margin: 0 auto;
+    width: 30em;
+}
+.form legend
+{
+    background: inherit;
+    padding: 0.2em 0.5em;
+    border:1px solid;
+    font-size:90%;
+    text-align:right;
+}
+.form div
+{
+    margin-top:0.5em;
+}
+.form textarea
+{
+    width:15em;
+}
+.form input
+{
+    width:15em;
+}
+.form button
+{
+    float:right;
+    clear:both;
+}
+.form label
+{
+    float:left;
+    width:30%;
+    margin-right:0.5em;
+    padding-top:0.2em;
+    text-align:right;
+    font-weight:bold;
+}
+#prisijungimas.form
+{
+    border: 0px;
+    width: auto;
+}
+#remember
+{
+    float:right;
+}
+#remember label
+{
+    width:auto;
+}
+#remember input
+{
+    width:1em;
+}
+.meter {
+    height: 20px;
+    position: relative;
+    background: #555;
+    padding: 10px;
+    display: none;
+}
+.meter > span {
+    display: block;
+    height: 100%;
+    background-color: rgb(81, 139, 194);
+    position: relative;
+    overflow: hidden;
+}
+.spacer
+{
+    clear:both;
+}

@@ -3,11 +3,19 @@ galerija_images_homepage:
     defaults: { _controller: GalerijaImagesBundle:Default:index }
 
 galerija_images_upload:
-    path:  /upload
-    defaults: { _controller: GalerijaImagesBundle:Upload:index }
+    path:  /upload{albumId}
+    defaults: { _controller: GalerijaImagesBundle:Upload:index, albumId: 1 }
+    requirements:
+        albumId: \d+
+
 galerija_images_delete:
     path:  /delete
     defaults: { _controller: GalerijaImagesBundle:Delete:index }
+    options:
+        expose: true
+
 galerija_images_album:
     pattern:  /{albumId}
     defaults: { _controller: GalerijaImagesBundle:Default:image }
+    requirements:
+        albumId: \d+

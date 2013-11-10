@@ -12,7 +12,6 @@ class AlbumType extends AbstractType
             'attr' =>
             array
             (
-                'size' =>'40',
                 'placeholder' => 'Privalomas'
             )
         ));

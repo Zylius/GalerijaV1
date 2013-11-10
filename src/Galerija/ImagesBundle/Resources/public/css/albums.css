@@ -1,0 +1,19 @@
+.album
+{
+    background: #fff;
+    border: solid 0.1em #ccc;
+    padding: 0.3em;
+    float:left;
+    margin:0.5em;
+}
+.album img
+{
+    height: auto;
+    width: auto;
+    max-height: 20em;
+    max-width: 20em;
+}
+.album p
+{
+    padding:0.3em;
+}

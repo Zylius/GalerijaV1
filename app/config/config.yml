@@ -75,3 +75,7 @@ stof_doctrine_extensions:
     orm:
         default:
             timestampable: true
+#login check
+services:
+    authentication_handler:
+         class: Galerija\ImagesBundle\Handler\AuthenticationHandler

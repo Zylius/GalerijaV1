@@ -1,0 +1,35 @@
+.imglist div
+{
+    float: left;
+    position: relative;
+}
+
+.image:hover .disappear
+{
+    display: block;
+    cursor:pointer;
+}
+
+.disappear
+{
+    display: none;
+}
+
+.delete
+{
+    top: 0;
+    right: 0;
+    position: absolute;
+    height: 20px;
+    width: 20px;
+}
+
+.image img:first-child
+{
+    margin: 0.6em;
+    box-shadow: 0.2em 0.3em 0.25em #525557;
+    height: auto;
+    width: auto;
+    max-height: 20em;
+    max-width: 20em;
+}
