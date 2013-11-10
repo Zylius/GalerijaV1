@@ -63,11 +63,17 @@
         else
         {
             //sugrąžinam į pradinę būseną
-            this.element.attr("src", this.options.srcPath + "delete.png");
-            this.element.addClass("disappear");
+            this._failure();
+
         }
         showStatus(data.success,  data.message);
         this.options.inProgress = false;
+    };
+
+    Delete.prototype._failure = function()
+    {
+        this.element.attr("src", this.options.srcPath + "delete.png");
+        this.element.addClass("disappear");
     };
 
     Delete.prototype.start = function() {
@@ -83,6 +89,7 @@
             beforeSend: this._initiate(),
             error: function (xhr, ajaxOptions, thrownError) {
                 showStatus(0, 'Ištrinti paveiksliuko nepavyko');
+                this._failure();
             },
             success: function(data) {
                 this._result(data);
