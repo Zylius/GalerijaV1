@@ -160,7 +160,7 @@
             $(".imglist" ).append(fullimg);
 
             //pridedam delete widgetą prie naujo elemento
-            fullimg.find('img').Delete({});
+            fullimg.find('.delete').Delete({});
         }
 
         showStatus(data.success, data.message);
