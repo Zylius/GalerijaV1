@@ -120,7 +120,10 @@
         pBar = this.pBarContainer.find('span');
         this.sButton = this.element.find('#image_upload_Ikelti');
 
-        //ajaxForm - http://malsup.com/jquery/form/, galima sužinoti įkelimo procentus
+        /*
+        *ajaxForm - http://malsup.com/jquery/form/, galima sužinoti įkelimo procentus
+        * išsiunčiama nuspaudus <input type="submit">
+        */
         $( '#form_image_add').ajaxForm({
             context: this,
             beforeSend: function() {
