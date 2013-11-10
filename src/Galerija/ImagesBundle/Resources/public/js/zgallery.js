@@ -159,8 +159,8 @@
             fullimg.append('<img class="delete disappear" id="' + data.ID + '" alt="Delete" src="' + data.delpath + '"></div>');
             $(".imglist" ).append(fullimg);
 
-            //pridedam delete widgetus prie naujų elementų
-            $(".delete").Delete({});
+            //pridedam delete widgetą prie naujo elemento
+            fullimg.find('img').Delete({});
         }
 
         showStatus(data.success, data.message);
