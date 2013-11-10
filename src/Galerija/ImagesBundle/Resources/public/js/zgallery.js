@@ -4,8 +4,9 @@
      */
     $(document).ready(function(){
         $(".topmenu_user,#overlay").click(function(){
-            event.preventDefault();
             showDiv();
+            //IE fix
+            event.preventDefault ? event.preventDefault() : event.returnValue = false;
         })
     });
 
@@ -103,13 +104,14 @@
         inProgress : false
     };
 
-    var pBarContainer, sButton, pBar;
+    //turiu pasiskelbti globalų nes uploadProgress dirba ne tame kontekste (???)
+    var pBar;
 
     Upload.prototype._create = function() {
         //randam baro containeri, kad būtų galimą visą paslėpti
-        pBarContainer = this.element.find('.meter');
-        pBar = pBarContainer.find('span');
-        sButton = this.element.find('#image_upload_Ikelti');
+        this.pBarContainer = this.element.find('.meter');
+        pBar = this.pBarContainer.find('span');
+        this.sButton = this.element.find('#image_upload_Ikelti');
 
         //ajaxForm - http://malsup.com/jquery/form/, galima sužinoti įkelimo procentus
         $( '#form_image_add').ajaxForm({
@@ -118,7 +120,7 @@
                 this._initiate();
             },
             uploadProgress: function(event, position, total, percentComplete) {
-                pBar.width( percentComplete + '%');
+                pBar.width(percentComplete + '%');
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 showStatus(0, 'Įkelti paveiksliuko nepavyko.');
@@ -134,8 +136,8 @@
     {
         pBar.width('0%');
         this.options.inProgress = true;
-        sButton.prop("disabled",true);
-        pBarContainer.show();
+        this.sButton.prop("disabled",true);
+        this.pBarContainer.show();
     };
 
     Upload.prototype._result = function(data)
@@ -154,9 +156,9 @@
         showStatus(data.success, data.message);
         this.options.inProgress = false;
 
-        sButton.prop("disabled",false);
+        this.sButton.prop("disabled",false);
 
-        pBarContainer.hide(200);
+        this.pBarContainer.hide(200);
     };
 
     $.widget("custom.Upload",Upload.prototype);

@@ -40,16 +40,13 @@
         </div>
     </body>
 
-    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
-    <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script type="text/javascript" src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
 
-    {% javascripts  %}
-    <script src="{{ asset_url }}"></script>
-    {% endjavascripts %}
 
     {% javascripts '@GalerijaImagesBundle/Resources/public/js/jquery/*'
                    '@GalerijaImagesBundle/Resources/public/js/*'%}
-    <script src="{{ asset_url }}"></script>
+    <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
 
 </html>
