@@ -53,7 +53,7 @@ class DefaultController extends Controller
             }
         }
 
-        return $this->render('GalerijaImagesBundle:Default:index.html.twig', array(
+        return $this->render('GalerijaImagesBundle:Default:albums.html.twig', array(
             'album_array' => $album_array,
             'form' => $form->createView(),
             'user' => $user,
@@ -67,22 +67,19 @@ class DefaultController extends Controller
         //sukuriam  formą įkėlimui
         $image = new Image();
 
-
-        //surandam visas nuotraukas (vėliau bus pakeista į albumus)
         $album = $this->getDoctrine()->getRepository('GalerijaImagesBundle:Album')->find($albumId);
-        $image_array = $album->getImages();
         $image->addAlbum($album);
 
         $form = $this->createForm(new ImageType(), $image, array(
-                'action' => $this->generateUrl('galerija_images_upload'),
-            ));
-
+                'action' => $this->generateUrl(('galerija_images_upload'),
+                array('albumId' => $albumId))
+        ));
 
         $token = $this->container->get('form.csrf_provider')->generateCsrfToken('authenticate');
         $user = $this->container->get('security.context')->getToken()->getUser();
 
-        return $this->render('GalerijaImagesBundle:Default:index.html.twig', array(
-            'image_array' => $image_array,
+        return $this->render('GalerijaImagesBundle:Default:images.html.twig', array(
+            'album' => $album,
             'form' => $form->createView(),
             'token' => $token,
             'user' => $user

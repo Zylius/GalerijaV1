@@ -43,7 +43,6 @@ class Image
     protected $pavadinimas;
 
     /**
-     * @Assert\NotBlank()
      * @ORM\Column(type="string")
      */
     protected $aprasymas;

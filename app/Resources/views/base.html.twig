@@ -1,39 +1,52 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Galerijos link</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <!--[if lt IE 9]>
-    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-    {% stylesheets '@GalerijaImagesBundle/Resources/public/css/*' %}
-    <link rel="stylesheet" href="{{ asset_url }}"/>
-    {% endstylesheets %}
-</head>
-<body>
-<div id="overlay_wrapper">
-    <div id="overlay">
-    </div>
-    {% block prisijungimas %}
-    {% endblock %}
-</div>
-<div id="topmenu">
-    <ul>
-        <li id="profile_button">
-            <a>
-                {% block username %}
+    <head>
+        <title>Galerijos link</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <!--[if lt IE 9]>
+        <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+        {% stylesheets '@GalerijaImagesBundle/Resources/public/css/*' %}
+        <link rel="stylesheet" href="{{ asset_url }}"/>
+        {% endstylesheets %}
+    </head>
+    <body>
+        <div id="overlay_wrapper">
+            <div id="overlay">
+            </div>
+            {% block prisijungimas %}
+            {% endblock %}
+        </div>
+        <div class="topmenu">
+            <div class="navigation">
+                <div>
+                    <a href="{{ path('galerija_images_homepage') }}">
+                        Albumai
+                    </a>
+                </div>
+                {% block topmenu %}
                 {% endblock %}
-            </a>
-        </li>
-    </ul>
-</div>
-<div id="content">
-    {% block content %}
-    {% endblock %}
-</div>
-</body>
+            </div>
+            <div class="topmenu_user">
+                <a href="">
+                    {% block username %}
+                    {% endblock %}
+                </a>
+            </div>
+        </div>
+        <div class="content">
+            {% block content %}
+            {% endblock %}
+        </div>
+    </body>
 
-{% javascripts '@GalerijaImagesBundle/Resources/public/js/*' %}
-<script type="text/javascript" src="{{ asset_url }}"></script>
-{% endjavascripts %}
+    <script type="text/javascript" src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script type="text/javascript" src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+
+
+    {% javascripts '@GalerijaImagesBundle/Resources/public/js/jquery/*'
+                   '@GalerijaImagesBundle/Resources/public/js/*'%}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+
 </html>

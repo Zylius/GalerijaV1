@@ -35,12 +35,15 @@ class ImageType extends AbstractType
             )
         ));
         $builder->add('shot_date', 'date', array(
+            'data' => new \DateTime(),
             'input'  => 'datetime',
             'widget' => 'choice',
+            'years'  => range(date("Y"),date("Y")-100)
+
         ));
         $builder->add('albums','entity', array(
                         'label' => 'Albumai',
-        'class' => 'Galerija\ImagesBundle\Entity\Album',
+                        'class' => 'Galerija\ImagesBundle\Entity\Album',
                         'property' => 'short_comment',
                         'multiple' => true,
                         'expanded' => false,

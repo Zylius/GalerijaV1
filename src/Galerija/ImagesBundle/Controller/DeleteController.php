@@ -3,18 +3,22 @@
 namespace Galerija\ImagesBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Galerija\ImagesBundle\Entity\Image;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 class DeleteController extends Controller
 {
     public function indexAction(Request $request)
     {
         //patikrinam ar vartotojas prisijungęs
         $securityContext = $this->container->get('security.context');
+        $response = new JsonResponse();
         if(!$securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED'))
         {
-            $this->get('session')->getFlashBag()->add('error','Trinti nuotraukas gali tik prisijungę vartotojai.');
-            return $this->redirect($this->generateUrl('galerija_images_homepage'));
+            $response->setData(array(
+                "success" => false,
+                "message" => 'Trinti nuotraukas gali tik prisijungę vartotojai.'
+            ));
+            return $response;
         }
 
         //paimam trinamos nuotrakos ID ir patikrinam ar tokia yra db
@@ -32,12 +36,19 @@ class DeleteController extends Controller
             $em->remove($image);
             $em->flush();
 
-            //nustatom pranešimą ir parodom klientui
-            $this->get('session')->getFlashBag()->add('success','Failas ištrintas sėkmingai!');
-            return $this->redirect($this->generateUrl('galerija_images_homepage'));
+            //nustatom pranešimą ir grąžinam klientui
+            $response->setData(array(
+                "success" => true,
+                "message" => 'Failas ištrintas sėkmingai!'
+            ));
+            return $response;
         }
 
-        $this->get('session')->getFlashBag()->add('error','Failo ištrinti nepavyko');
-        return $this->redirect($this->generateUrl('galerija_images_homepage'));
+        $response->setData(array(
+            "success" => false,
+            "message" => 'Failo ištrinti nepavyko'
+        ));
+
+        return $response;
     }
 }

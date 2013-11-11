@@ -1,43 +1,17 @@
-{{ form_start(form) }}
-<table id="form">
-    <tr>
-        <td>{{ form_label(form.pavadinimas) }}</td>
-        <td>
-            {{ form_widget(form.pavadinimas) }}
-            {{ form_errors(form.pavadinimas) }}
-        </td>
-    </tr>
-    <tr>
-        <td>{{ form_label(form.aprasymas) }}</td>
-        <td>
-            {{ form_widget(form.aprasymas) }}
-            {{ form_errors(form.aprasymas) }}
-        </td>
-    </tr>
-    <tr>
-        <td>{{ form_label(form.failas) }}</td>
-        <td>
-            {{ form_widget(form.failas) }}
-            {{ form_errors(form.failas) }}
-        </td>
-    </tr>
-    <tr>
-        <td>{{ form_label(form.shot_date) }}</td>
-        <td>
-            {{ form_widget(form.shot_date) }}
-            {{ form_errors(form.shot_date) }}
-        </td>
-    </tr>
-    <tr>
-        <td>{{ form_label(form.albums) }}</td>
-        <td>
-            {{ form_widget(form.albums) }}
-            {{ form_errors(form.albums) }}
-        </td>
-    </tr>
-    <tr>
-        <td></td>
-        <td>{{ form_widget(form.Ikelti) }}</td>
-    </tr>
-</table>
+{{ form_start(form, {'attr': {'id': 'form_image_add'}}) }}
+<fieldset class="form">
+    <legend>Įkelti nuotrauką</legend>
+        {{ form_row(form.pavadinimas) }}
+        {{ form_row(form.aprasymas) }}
+        {{ form_row(form.failas) }}
+        {{ form_row(form.shot_date) }}
+        {{ form_row(form.albums) }}
+        <div>
+            {{ form_row(form.Ikelti) }}
+        <div class="spacer"></div>
+        </div>
+        <div class="meter">
+            <span></span>
+        </div>
+</fieldset>
 {{ form_end(form) }}

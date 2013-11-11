@@ -1,0 +1,100 @@
+input {
+    font-family: sans-serif;
+}
+a{
+    font-weight: bold;
+    text-decoration: none;
+}
+body{
+    padding:0;
+    margin:0;
+    background: ghostwhite;
+    font-family: Courier;
+    font-size: 1em;
+}
+@media (max-width: 1000px) {
+    body { font-size: 0.8em; }
+}
+@media (max-width: 700px) {
+    body { font-size: 0.5em; }
+}
+@media (max-width: 500px) {
+    body { font-size: 0.3em; }
+    .navigation
+    {
+        display:none;
+    }
+}
+#overlay_wrapper{
+    display: none;
+}
+#overlay
+{
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    background-color: black;
+    opacity: 0.8;
+    width:100%;
+    height:100%;
+}
+.flash
+{
+    margin: 0 auto;
+    height: 3em;
+    width: 26em;
+    border: 0.2em solid;
+    border-top: 0;
+    text-align: center;
+}
+#success.flash
+{
+    background: rgba(92, 177, 87, 0.8);
+}
+#error.flash
+{
+    background: rgba(177, 35, 41, 0.8);
+}
+.topmenu {
+    background: rgb(49, 49, 49);
+    overflow: auto;
+    height: 2.6em;
+    margin:0;
+}
+.navigation div,
+.topmenu_user{
+    float:left;
+    cursor: pointer;
+    height: 2.6em;
+    padding-left:0.6em;
+    padding-right:0.6em;
+    border-color: ghostwhite;
+    font-family: Courier;
+    font-weight: bold;
+    color:ghostwhite;
+    display: inline-block;
+    list-style-type: none;
+    line-height: 2.6em;
+}
+.navigation div > a,
+.topmenu_user > a{
+    display: block;
+    color: ghostwhite;
+}
+.navigation div:hover,
+.topmenu_user:hover {
+    background: darkgrey;
+}
+.topmenu_user {
+    float:right;
+    padding-right:0.6em;
+    padding-left:0.6em;
+    border-left: 0.15em solid;
+}
+.topmenu img{
+    margin-top: 0.5em;
+    height: 1.6em;
+    width: auto;
+    float: left;
+}
