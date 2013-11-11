@@ -1,11 +1,11 @@
-    <div class="panel_wrapper">
-        <div class="panel">
+<div class="panel_wrapper">
+    <div class="panel">
         <div id="panel_title">
             Prisijungimas
         </div>
         <fieldset class="form" id="prisijungimas">
             <form action="{{ path("fos_user_security_check") }}" method="post">
-                <input type="hidden" name="_csrf_token" value="{{ token }}" />
+                <input type="hidden" name="_csrf_token" value="{{ token }}"/>
 
                 <div>
                     <label for="username">Vardas</label>
@@ -17,12 +17,12 @@
                 </div>
                 <div id="remember">
                     <label for="remember_me">Prisiminti</label>
-                    <input type="checkbox"  name="_remember_me" value="on" />
+                    <input type="checkbox" name="_remember_me" value="on"/>
                 </div>
                 <div>
-                    <button type="submit" id="_submit" name="_submit" >Prisijungti</button>
+                    <button type="submit" id="_submit" name="_submit">Prisijungti</button>
                 </div>
             </form>
         </fieldset>
-        </div>
     </div>
+</div>

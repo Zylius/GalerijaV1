@@ -41,12 +41,15 @@ body{
 }
 .flash
 {
-    margin: 0 auto;
     height: 3em;
     width: 26em;
     border: 0.2em solid;
     border-top: 0;
+    left:50%;
+    margin-left:-13em;
     text-align: center;
+    z-index:1;
+    position:absolute;
 }
 #success.flash
 {
