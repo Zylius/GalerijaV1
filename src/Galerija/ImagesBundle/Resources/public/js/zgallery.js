@@ -29,7 +29,7 @@
     {
         var div = $('<div class="flash" id="'+ (status?'success':'error') + '">' + msg + '</div>');
         $( ".content" ).prepend(div);
-        div.delay(3000).fadeOut(2000);
+        div.delay(3000).fadeOut(2000, function() { div.remove(); });
     }
 
     /*
