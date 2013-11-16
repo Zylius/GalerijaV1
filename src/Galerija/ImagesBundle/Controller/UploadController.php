@@ -87,6 +87,7 @@ class UploadController extends Controller
         {
             $result .= $error->getMessage();
         }
+        //kai php.ini failo dydis viršijamas, gražinamas tuščias klaidų sąrašas
         if($result == "")
             $result = "Failas per didelis";
         //nustatom pranešimą ir parodom klientui

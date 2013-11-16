@@ -17,7 +17,11 @@
         else
             div.style.display = "block";
     }
-
+    function bind(fn,obj) {
+        return function() {
+            fn.apply(obj,arguments);
+        };
+    };
     /*
      * Sukuria statuso žinutę
      */
@@ -86,14 +90,12 @@
             type: "POST",
             data: { "ID" : this.element.attr('id') },
             context: this,
-            beforeSend: this._initiate(),
+            beforeSend: this._initiate,
             error: function (xhr, ajaxOptions, thrownError) {
                 showStatus(0, 'Ištrinti paveiksliuko nepavyko');
                 this._failure();
             },
-            success: function(data) {
-                this._result(data);
-            }
+            success: this._result
         });
     };
 
@@ -111,40 +113,37 @@
         inProgress : false
     };
 
-    //turiu pasiskelbti globalų nes uploadProgress dirba ne tame kontekste (???)
-    var pBar;
-
     Upload.prototype._create = function() {
         //randam baro containeri, kad būtų galimą visą paslėpti
         this.pBarContainer = this.element.find('.meter');
-        pBar = this.pBarContainer.find('span');
+        this.pBar = this.pBarContainer.find('span');
         this.sButton = this.element.find('#image_upload_Ikelti');
+        //uploadProgress veikia ne tame kontekste todėl pribindinam updateProgress
+        this.updateProgress = bind(this.updateProgress, this);
 
         /*
-        *ajaxForm - http://malsup.com/jquery/form/, galima sužinoti įkelimo procentus
-        * išsiunčiama nuspaudus <input type="submit">
-        */
+         *ajaxForm - http://malsup.com/jquery/form/, galima sužinoti įkelimo procentus
+         * išsiunčiama nuspaudus <input type="submit">
+         */
         $( '#form_image_add').ajaxForm({
             context: this,
-            beforeSend: function() {
-                this._initiate();
-            },
-            uploadProgress: function(event, position, total, percentComplete) {
-                pBar.width(percentComplete + '%');
-            },
+            beforeSend: this._initiate,
+            uploadProgress: this._updateProgress,
             error: function (xhr, ajaxOptions, thrownError) {
                 showStatus(0, 'Įkelti paveiksliuko nepavyko.');
             },
-            success: function(data) {
-                this._result(data);
-            }
+            success: this._result
         });
-
     };
+
+    Upload.prototype._updateProgress = function(event, position, total, percentComplete)
+    {
+        this.pBar.width(percentComplete + '%');
+    }
 
     Upload.prototype._initiate = function ()
     {
-        pBar.width('0%');
+        this.pBar.width('0%');
         this.options.inProgress = true;
         this.sButton.prop("disabled",true);
         this.pBarContainer.show();
