@@ -8,6 +8,7 @@
 
         <p>E-Mail: {{ user.email }}</p>
 
+        <p><a href="{{ path('galerija_images_user_album', {'userId': user.id}) }}">Mano nuotraukos.</a></p>
         <form action="{{ path('fos_user_security_logout') }}">
             <input type="submit" value="Atsijungti">
         </form>

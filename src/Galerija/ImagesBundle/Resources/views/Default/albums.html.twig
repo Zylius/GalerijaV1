@@ -6,7 +6,7 @@
                     <div class="album">
                         <a href="{{ path('galerija_images_album', { 'albumId' : single.getAlbumId() })  }}">
                             {% if(single.getImages().first()) %}
-                                <img alt=" {{ single.getImages().last().getPavadinimas() }}" src="{{ asset( single.getImages().last().getWebPath()) }}"/>
+                                <img alt=" {{ single.getImages().last().getPavadinimas() }}" src="{{ asset(single.getImages().last().getWebPath() | imagine_filter('my_thumb')) }}"/>
                             {% else %}
                                 <img alt="Albumas neturi nuotraukų." src="{{ asset('bundles/GalerijaImages/images/no_image.png') }}"/>
                             {% endif %}

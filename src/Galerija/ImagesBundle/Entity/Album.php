@@ -11,6 +11,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class Album
 {
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -38,6 +39,11 @@ class Album
      * @ORM\Column(type="text")
      */
     protected $long_comment;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    protected $auto_add;
 
     /**
      * @ORM\Column(type="datetime")
@@ -227,4 +233,28 @@ class Album
     {
         $this->images->removeElement($images);
     }
+
+    /**
+     * Set auto_add
+     *
+     * @param boolean $autoAdd
+     * @return Album
+     */
+    public function setAutoAdd($autoAdd)
+    {
+        $this->auto_add = $autoAdd;
+    
+        return $this;
+    }
+
+    /**
+     * Get auto_add
+     *
+     * @return boolean 
+     */
+    public function getAutoAdd()
+    {
+        return $this->auto_add;
+    }
+
 }

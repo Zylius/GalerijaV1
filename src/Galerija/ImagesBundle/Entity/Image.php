@@ -13,7 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\Common\Collections\ArrayCollection;
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Galerija\ImagesBundle\Entity\ImageRepository")
  * @ORM\Table(name="images")
  */
 class Image

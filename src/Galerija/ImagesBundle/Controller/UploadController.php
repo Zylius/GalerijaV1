@@ -10,15 +10,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
 class UploadController extends Controller
 {
-    public function FindAlbum($id, $arr)
-    {
-        foreach($arr as $album)
-        {
-            if($album->getAlbumId() == $id)
-                return true;
-        }
-        return false;
-    }
+
     public function indexAction(Request $request, $albumId)
     {
         //patikrinam ar vartotojas prisijungęs
@@ -57,7 +49,7 @@ class UploadController extends Controller
 
 
             //patikrinam ar albumas iš kurio buvo įkelta buvo įtrauktas į šios nuotraukos albumų sąrašą
-            if($this->FindAlbum($albumId, $image->getAlbums()->toArray()))
+            if($this->FindAlbum($albumId, $image->getAlbums()->toArray()) ||$albumId == 0)
             {
                 $assetManager = $this->get('templating.helper.assets');
                 $cacheManager = $this->container->get('liip_imagine.cache.manager');
@@ -102,5 +94,14 @@ class UploadController extends Controller
         ));
         return $response;
     }
-
+    //TODO: perkelti logiką į service'us
+    public function FindAlbum($id, $arr)
+    {
+        foreach($arr as $album)
+        {
+            if($album->getAlbumId() == $id)
+                return true;
+        }
+        return false;
+    }
 }

@@ -16,6 +16,7 @@ class AlbumType extends AbstractType
             )
         ));
         $builder->add('long_comment', 'textarea', array('label' => "Ilgas aprašymas"));
+        $builder->add('auto_add', 'checkbox', array('label' => "Automatiškai pažymėti"));
         $builder->add('Ikelti', 'submit', array('label' => "Įkelti"));
     }
 

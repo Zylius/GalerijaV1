@@ -8,8 +8,10 @@ use Galerija\ImagesBundle\Form\Type\ImageType;
 use Galerija\ImagesBundle\Entity\Album;
 use Galerija\ImagesBundle\Form\Type\AlbumType;
 use Symfony\Component\HttpFoundation\Request;
+use Doctrine\Common\Collections\ArrayCollection;
 class DefaultController extends Controller
 {
+
     public function indexAction(Request $request)
     {
         //sukuriam  formą Albumui
@@ -62,22 +64,41 @@ class DefaultController extends Controller
 
 
     }
-    public function imageAction($albumId)
+
+    public function albumByUserAction($userId)
+    {
+
+        $user = $this->getDoctrine()->getRepository('GalerijaImagesBundle:User')->find($userId);
+        $album = new Album();
+        $rep = $this->getDoctrine()->getRepository('GalerijaImagesBundle:Album');
+        $album->setImages($rep->findUserImages($userId));
+        $album->setShortComment($user->getUsername() . "o nuotraukos.");
+        $album->setAlbumId(0);
+        return $this->albumShow($album);
+
+    }
+
+    public function albumByIdAction($albumId)
+    {
+        $album = $this->getDoctrine()->getRepository('GalerijaImagesBundle:Album')->find($albumId);
+        return $this->albumShow($album);
+    }
+
+    public function albumShow($album)
     {
         //sukuriam  formą įkėlimui
         $image = new Image();
 
-        $album = $this->getDoctrine()->getRepository('GalerijaImagesBundle:Album')->find($albumId);
-        $image->addAlbum($album);
+        //pridedam auto-select'ą
+        $image->setAlbums($this->getDoctrine()->getRepository('GalerijaImagesBundle:Image')->findAutoSelect($album->getAlbumId()));
 
         $form = $this->createForm(new ImageType(), $image, array(
                 'action' => $this->generateUrl(('galerija_images_upload'),
-                array('albumId' => $albumId))
+                array('albumId' => $album->getAlbumId()))
         ));
 
         $token = $this->container->get('form.csrf_provider')->generateCsrfToken('authenticate');
         $user = $this->container->get('security.context')->getToken()->getUser();
-
 
         return $this->render('GalerijaImagesBundle:Default:images.html.twig', array(
             'album' => $album,

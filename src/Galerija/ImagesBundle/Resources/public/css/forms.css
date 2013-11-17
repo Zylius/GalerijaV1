@@ -39,11 +39,21 @@
     padding-top:0.2em;
     text-align:right;
     font-weight:bold;
+
+}
+#albumas label
+{
+    font-size:0.8em;
+    width:40%;
 }
 #prisijungimas.form
 {
     border: 0px;
     width: auto;
+}
+#album_create_auto_add
+{
+    float:left;
 }
 #remember
 {
@@ -53,6 +63,7 @@
 {
     width:auto;
 }
+#album_create_auto_add,
 #remember input
 {
     width:1em;
