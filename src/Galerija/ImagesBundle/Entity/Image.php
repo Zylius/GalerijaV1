@@ -337,7 +337,23 @@ class Image
         if($this->pavadinimas == NULL)
             $this->pavadinimas = $this->failas->getClientOriginalName();
     }
+    public function delete($em)
+    {
+        if(file_exists($this->getAbsolutePath()))
+        {
+            unlink($this->getAbsolutePath());
+        }
 
+        $thumb_dir = __DIR__.'/../../../../web/media/cache/my_thumb/'.$this->getUploadDir().'/' . $this->imageId . '.jpeg';
+        if(file_exists($thumb_dir))
+        {
+            unlink($thumb_dir);
+        }
+
+        //pašalinam iš duomenų bazės
+        $em->remove($this);
+        $em->flush();
+    }
     /*
     * gražina failo pavadinimą
     */
@@ -359,7 +375,6 @@ class Image
     {
         return null === $this->getFileName() ? null : $this->getUploadDir().'/'.$this->getFileName();
     }
-
 
     /*
     * absoliuti direktorija kur nuotrauka turėtų būt išsaugota

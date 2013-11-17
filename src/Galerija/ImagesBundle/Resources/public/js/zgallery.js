@@ -138,6 +138,7 @@
             uploadProgress: this._updateProgress,
             error: function (xhr, ajaxOptions, thrownError) {
                 showStatus(0, 'Įkelti paveiksliuko nepavyko.');
+                this._hide();
             },
             success: this._result
         });
@@ -161,22 +162,31 @@
         if(data.success && data.name !== undefined)
         {
             //įdedam naują paveiksliuką
-            var fullimg = $('<div class="image"><img alt="' + data.name + '" src="' + data.path + '"/>');
-            fullimg.append('<img class="delete disappear" id="' + data.ID + '" alt="Delete" src="' + data.delpath + '"></div>');
+            var fullimg = $('<div class="image"><a class="fancybox" rel="gallery1" href="' + data.path + '" title="' + data.name + '">' +
+                '<img alt="' + data.name + '" src="' + data.thumb_path + '"/></a>' +
+                '<img class="delete disappear" id="' + data.ID + '" alt="Delete" src="' + data.delpath + '"></div>');
             $(".imglist" ).append(fullimg);
 
-            //pridedam delete widgetą prie naujo elemento
+            //pridedam widgetus prie naujo elemento
             fullimg.find('.delete').Delete({});
+            fullimg.find('.fancybox').fancybox({
+                openEffect	: 'none',
+                closeEffect	: 'none'
+            });
+
         }
 
         showStatus(data.success, data.message);
+        this._hide();
+    };
+    Upload.prototype._hide = function()
+    {
         this.options.inProgress = false;
 
         this.sButton.prop("disabled",false);
 
         this.pBarContainer.hide(200);
-    };
-
+    }
     $.widget("custom.Upload",Upload.prototype);
 
     //pridedam widgetus prie elemtų

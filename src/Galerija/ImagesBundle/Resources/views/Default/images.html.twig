@@ -14,7 +14,7 @@
         {% for single in album.getImages() %}
                 <div class="image">
                     <a class="fancybox" rel="gallery1" href="{{ asset(single.getWebPath()) }}" title="{{ single.getPavadinimas() }}">
-                    <img alt="{{ single.getPavadinimas() }}" src="{{ asset(single.getWebPath()) }}"/>
+                    <img alt="{{ single.getPavadinimas() }}" src="{{  asset(single.getWebPath() | imagine_filter('my_thumb')) }}"/>
                         </a>
                     {# patikriniam ar prisijungęs ir leidžiam trinti nuotraukas #}
                     {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
