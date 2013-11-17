@@ -11,4 +11,4 @@
 /vendor/
 /bin/
 /composer.phar
-
+/src/Galerija/ImagesBundle/Resources/public/images/monotone_arrow_right.png

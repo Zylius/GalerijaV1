@@ -13,7 +13,9 @@
     <div class="imglist">
         {% for single in album.getImages() %}
                 <div class="image">
+                    <a class="fancybox" rel="gallery1" href="{{ asset(single.getWebPath()) }}" title="{{ single.getPavadinimas() }}">
                     <img alt="{{ single.getPavadinimas() }}" src="{{ asset(single.getWebPath()) }}"/>
+                        </a>
                     {# patikriniam ar prisijungęs ir leidžiam trinti nuotraukas #}
                     {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
                         <img class="delete disappear"  id="{{ single.imageId }}" alt="Delete" src="{{ asset('bundles/GalerijaImages/images/delete.png') }}" />

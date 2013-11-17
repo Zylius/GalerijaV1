@@ -8,6 +8,10 @@
             //IE fix
             event.preventDefault ? event.preventDefault() : event.returnValue = false;
         })
+        $(".fancybox").fancybox({
+            openEffect	: 'none',
+            closeEffect	: 'none'
+        });
     });
 
     function showDiv() {
@@ -17,11 +21,15 @@
         else
             div.style.display = "block";
     }
+
     function bind(fn,obj) {
         return function() {
             fn.apply(obj,arguments);
         };
     };
+
+
+
     /*
      * Sukuria statuso žinutę
      */
@@ -119,13 +127,12 @@
         this.pBar = this.pBarContainer.find('span');
         this.sButton = this.element.find('#image_upload_Ikelti');
         //uploadProgress veikia ne tame kontekste todėl pribindinam updateProgress
-        this.updateProgress = bind(this.updateProgress, this);
-
+        this._updateProgress = bind(this._updateProgress, this);
         /*
          *ajaxForm - http://malsup.com/jquery/form/, galima sužinoti įkelimo procentus
          * išsiunčiama nuspaudus <input type="submit">
          */
-        $( '#form_image_add').ajaxForm({
+        this.send = $( '#form_image_add').ajaxForm({
             context: this,
             beforeSend: this._initiate,
             uploadProgress: this._updateProgress,
