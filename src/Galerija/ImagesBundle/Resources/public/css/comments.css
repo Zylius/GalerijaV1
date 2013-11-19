@@ -3,15 +3,21 @@
   float:right;
   width:15%;
   height:100%;
-  padding-right:5em;
-    text-align:right;
+  padding-right:5%;
+  text-align:right;
 }
 .comments > ul{
-    height:65%;
+    height: 70%;
+    width: 100%;
     list-style: none;
-    overflow-y:auto;
+    overflow-y: auto;
+    overflow-x: hidden;
+    text-align:left;
+    word-wrap: break-word;
+    padding:0;
 }
 .comments > form{
+
     height:30%;
 }
 

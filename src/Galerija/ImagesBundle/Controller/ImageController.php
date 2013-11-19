@@ -18,14 +18,22 @@ class ImageController extends Controller
         {
             $user = $securityContext->getToken()->getUser();
             $comment->setUser($user);
+
         }
+        $comment->setImage($image);
 
         $commentform = $this->createForm(new CommentType(), $comment,array(
                 'action' => $this->generateUrl('galerija_images_comment')
             ));
+        $commentform->get('image')->setData($imageId);
+
+        $rep = $this->getDoctrine()->getRepository('GalerijaImagesBundle:Comment');
+        $comment_array = $rep->findCommentsByImage($imageId);
+
         return $this->render('GalerijaImagesBundle:Default:image_info.html.twig', array(
             'image' => $image,
-            'form' => $commentform->createView()
+            'form' => $commentform->createView(),
+            'comments' => $comment_array
         ));
     }
     public function commentAction(Request $request)
@@ -52,16 +60,22 @@ class ImageController extends Controller
         //jei teisinga
         if($form->isValid())
         {
+
+            $comment->setApproved(false);
+            $comment->setUser($securityContext->getToken()->getUser());
+            $comment->setImage($this->getDoctrine()->getRepository('GalerijaImagesBundle:Image')->find($form->get('image')->getData()));
+
             //įkeliam į db
             $em = $this->getDoctrine()->getManager();
             $em->persist($comment);
             $em->flush();
 
+
                 $response->setData(array(
                         "success" => true,
                         "message" => 'Komentaras pridėtas!',
                         "value" => $comment->getComment(),
-                        "time" => new \DateTime($comment->getCreated()),
+                        "time" => $comment->getCreated(),
                         "username" => $comment->getUser()->getUserName()
                 ));
             //nustatom pranešimą ir parodom klientui

@@ -398,5 +398,4 @@ class Image
 
         return 'uploads';
     }
-
 }

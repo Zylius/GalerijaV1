@@ -8,27 +8,14 @@
 </div>
 <div class="comments">
 <ul>
-    <li> test</li>
-    <li> test</li>
-    <li> test</li>
-    <li> test</li>
-    <li> test</li>
-    <li> test</li>
-    <li> test</li>
-    <li> test</li>
-    <li> test</li>
-    <li> test</li>
-    <li> test</li>
-    <li> test</li>
-    <li> test</li>
-    <li> test</li>
-    <li> test</li>
-    <li> test</li>
-    <li> test</li>
-    <li> test</li>
-    <li> test</li>
-    <li> test</li>
-
+    {% for single in comments %}
+    <li>
+        <fieldset>
+            <legend>{{ single.user.username }}</legend>
+            {{ single.comment }}
+        </fieldset>
+    </li>
+   {% endfor %}
 </ul>
-    {{ form(form , {'attr': {'id': 'form_image_add'}}) }}
+    {{ form(form , {'attr': {'id': 'form_comment_add'}}) }}
 </div>

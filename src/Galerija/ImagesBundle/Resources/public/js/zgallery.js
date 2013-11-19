@@ -16,8 +16,8 @@
             minWidth: '700px',
             minHeight: '400px',
             wrapCSS : 'myclass',
-            afterLoad: function(){
-                $("#").PostComment({});
+            afterShow: function(){
+                $("#form_comment_add").PostComment({});
             }
         });
 
@@ -218,7 +218,8 @@
     };
 
     PostComment.prototype._create = function () {
-        this.sButton = this.element.find('#album_create_Ikelti');
+        console.dir('hooked');
+        this.sButton = this.element.find('#comment_post_Ikelti');
         this.send = this.element.ajaxForm({
             context: this,
             beforeSend: this._initiate,

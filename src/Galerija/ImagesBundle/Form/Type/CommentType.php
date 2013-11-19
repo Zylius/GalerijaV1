@@ -10,10 +10,15 @@ class CommentType extends AbstractType
     {
         $builder->add('comment', 'textarea', array('label' => "Komentaras"));
         $builder->add('Ikelti', 'submit', array('label' => "Įkelti"));
+        $builder->add('image', 'hidden', array('mapped' => false));
     }
 
     public function getName()
     {
-        return 'album_create';
+        return 'comment_post';
+    }
+    public function getDefaultOptions()
+    {
+        return array('data_class' => 'Galerija\ImagesBundle\Entity\Image');
     }
 }

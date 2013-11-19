@@ -48,7 +48,7 @@ body{
     left:50%;
     margin-left:-13em;
     text-align: center;
-    z-index:1;
+    z-index:9000;
     position:absolute;
 }
 #success.flash
