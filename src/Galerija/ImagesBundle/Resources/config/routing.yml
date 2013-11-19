@@ -31,3 +31,9 @@ galerija_images_image_info:
     defaults: { _controller: GalerijaImagesBundle:Image:showInfo }
     requirements:
         albumId: \d+
+
+galerija_images_comment:
+    pattern:  /postComment
+    defaults: { _controller: GalerijaImagesBundle:Image:comment }
+    requirements:
+        albumId: \d+

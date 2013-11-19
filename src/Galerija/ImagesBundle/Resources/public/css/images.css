@@ -39,6 +39,10 @@
 /* This parent can be any width and height */
 .block {
     text-align: center;
+    height:100%;
+    width:70%;
+    position:absolute;
+    background:black;
 }
 
 /* The ghost, nudged to maintain perfect centering */
@@ -56,4 +60,10 @@
     display: inline-block;
     vertical-align: middle;
     width: 95%;
+
+}
+.centered > img
+{
+    max-width:100%;
+    max-height:100%;
 }

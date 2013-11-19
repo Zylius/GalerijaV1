@@ -12,10 +12,13 @@
             height: '70%',
             openEffect	: 'none',
             closeEffect	: 'none',
-            scrolling : 'no'
-            /*onUpdate    : function(){
-                $.fancybox.update();
-            }*/
+            scrolling : 'no',
+            minWidth: '700px',
+            minHeight: '400px',
+            wrapCSS : 'myclass',
+            afterLoad: function(){
+                $("#").PostComment({});
+            }
         });
 
         $("#user_open").fancybox({
@@ -206,6 +209,46 @@
     //pridedam widgetus prie elemtų
     $("#form_image_add").Upload({});
 
+    //post Comment widget
+    function PostComment() {
+    }
+
+    PostComment.prototype.options = {
+        inProgress: false
+    };
+
+    PostComment.prototype._create = function () {
+        this.sButton = this.element.find('#album_create_Ikelti');
+        this.send = this.element.ajaxForm({
+            context: this,
+            beforeSend: this._initiate,
+            error: function (xhr, ajaxOptions, thrownError) {
+                showStatus(0, 'Komentuoti nepavyko.');
+                this._hide();
+            },
+            success: this._result
+        });
+    };
+    PostComment.prototype._initiate = function () {
+        this.sButton.prop("disabled", true);
+        this.options.inProgress = true;
+    };
+
+    PostComment.prototype._result = function (data) {
+        if (data.success) {
+            //įdedam naują paveiksliuką
+            var comment = $('<fieldset><legend>'+ data.username + '</legend>'+ data.value + '</fieldset>');
+            $(".comments").find("ul").append(comment);
+        }
+
+        showStatus(data.success, data.message);
+        this._hide();
+    };
+    PostComment.prototype._hide = function () {
+        this.options.inProgress = false;
+        this.sButton.prop("disabled", false);
+    };
+    $.widget("custom.PostComment", PostComment.prototype);
     //show Image info widget
     /*function Info() {
     }
