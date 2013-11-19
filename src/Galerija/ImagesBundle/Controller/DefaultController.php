@@ -8,7 +8,6 @@ use Galerija\ImagesBundle\Form\Type\ImageType;
 use Galerija\ImagesBundle\Entity\Album;
 use Galerija\ImagesBundle\Form\Type\AlbumType;
 use Symfony\Component\HttpFoundation\Request;
-use Doctrine\Common\Collections\ArrayCollection;
 class DefaultController extends Controller
 {
 
@@ -89,6 +88,7 @@ class DefaultController extends Controller
         //sukuriam  formą įkėlimui
         $image = new Image();
 
+
         //pridedam auto-select'ą
         $image->setAlbums($this->getDoctrine()->getRepository('GalerijaImagesBundle:Image')->findAutoSelect($album->getAlbumId()));
 
@@ -96,6 +96,8 @@ class DefaultController extends Controller
                 'action' => $this->generateUrl(('galerija_images_upload'),
                 array('albumId' => $album->getAlbumId()))
         ));
+
+
 
         $token = $this->container->get('form.csrf_provider')->generateCsrfToken('authenticate');
         $user = $this->container->get('security.context')->getToken()->getUser();

@@ -10,10 +10,10 @@
 {% endblock %}
 {% block list %}
     {% block imglist %}
-    <div class="imglist">
+    <div class="list">
         {% for single in album.getImages() %}
-                <div class="image">
-                    <a class="fancybox" rel="gallery1" href="{{ asset(single.getWebPath()) }}" title="{{ single.getPavadinimas() }}">
+                <div class="image isotope">
+                    <a class="fancybox" rel="gallery1" data-fancybox-type="ajax" href="{{ path('galerija_images_image_info', { 'imageId' : single.imageId })  }}">
                     <img alt="{{ single.getPavadinimas() }}" src="{{  asset(single.getWebPath() | imagine_filter('my_thumb')) }}"/>
                         </a>
                     {# patikriniam ar prisijungęs ir leidžiam trinti nuotraukas #}

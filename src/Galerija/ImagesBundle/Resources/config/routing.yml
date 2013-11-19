@@ -25,3 +25,9 @@ galerija_images_user_album:
     defaults: { _controller: GalerijaImagesBundle:Default:albumByUser }
     requirements:
         albumId: \d+
+
+galerija_images_image_info:
+    pattern:  /image/{imageId}
+    defaults: { _controller: GalerijaImagesBundle:Image:showInfo }
+    requirements:
+        albumId: \d+

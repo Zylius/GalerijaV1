@@ -27,10 +27,12 @@
                 {% block topmenu %}
                 {% endblock %}
             </div>
-            <div class="topmenu_user">
-                    {% block username %}
-                    {% endblock %}
-            </div>
+            <a id="user_open" href="#user_panel">
+                <div class="topmenu_user">
+                        {% block username %}
+                        {% endblock %}
+                </div>
+            </a>
         </div>
         <div class="content">
             {% block content %}

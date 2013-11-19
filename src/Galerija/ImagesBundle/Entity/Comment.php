@@ -3,6 +3,7 @@ namespace Galerija\ImagesBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity
  * @ORM\Table(name="comments")
@@ -30,6 +31,10 @@ class Comment
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\NotBlank(
+     *  message = "Komentaras negali būti tuščias"
+     * )
+     * @Assert\Length(min = "5")
      */
     protected $comment;
 

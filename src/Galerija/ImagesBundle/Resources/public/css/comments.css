@@ -1,0 +1,14 @@
+.comments
+{
+  float:right;
+    width:40%;
+    height:100%;
+}
+.comments > ul{
+    height:70%;
+    list-style: none;
+    overflow-y:scroll;
+}
+.comments > form{
+    height:30%;
+}

@@ -1,7 +1,6 @@
-.imglist div
+.list div
 {
     float: left;
-    position: relative;
 }
 
 .image:hover .disappear
@@ -32,4 +31,29 @@
     width: auto;
     max-height: 20em;
     max-width: 20em;
+}
+.fancybox-close {
+    top: 0;
+    right: 0;
+}
+/* This parent can be any width and height */
+.block {
+    text-align: center;
+}
+
+/* The ghost, nudged to maintain perfect centering */
+.block:before {
+    content: '';
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+    margin-right: -0.25em; /* Adjusts for spacing */
+}
+
+/* The element to be centered, can
+   also be of any width and height */
+.centered {
+    display: inline-block;
+    vertical-align: middle;
+    width: 95%;
 }

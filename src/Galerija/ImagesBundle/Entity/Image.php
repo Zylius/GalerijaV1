@@ -326,7 +326,11 @@ class Image
         $this->comments = new ArrayCollection();
         $this->albums = new ArrayCollection();
     }
-
+    public function getThumbSize()
+    {
+        list($width, $height) = getimagesize(__DIR__.'/../../../../web/media/cache/my_thumb/'.$this->getUploadDir().'/' . $this->imageId . '.jpeg');
+        $return = array('width' => $width, 'height' => $height);
+    }
     //vykdom įkėlimo procedūras
     public function uploadProcedures()
     {
