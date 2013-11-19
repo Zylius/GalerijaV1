@@ -1,14 +1,20 @@
 .comments
 {
   float:right;
-    width:40%;
-    height:100%;
+  width:15%;
+  height:100%;
+  padding-right:5em;
+    text-align:right;
 }
 .comments > ul{
-    height:70%;
+    height:65%;
     list-style: none;
-    overflow-y:scroll;
+    overflow-y:auto;
 }
 .comments > form{
     height:30%;
+}
+
+.myclass.fancybox-opened .fancybox-next {
+    right: 30%;
 }
