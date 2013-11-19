@@ -10,15 +10,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
 class UploadController extends Controller
 {
-    public function FindAlbum($id, $arr)
-    {
-        foreach($arr as $album)
-        {
-            if($album->getAlbumId() == $id)
-                return true;
-        }
-        return false;
-    }
+
     public function indexAction(Request $request, $albumId)
     {
         //patikrinam ar vartotojas prisijungęs
@@ -57,13 +49,18 @@ class UploadController extends Controller
 
 
             //patikrinam ar albumas iš kurio buvo įkelta buvo įtrauktas į šios nuotraukos albumų sąrašą
-            if($this->FindAlbum($albumId, $image->getAlbums()->toArray()))
+            if($this->FindAlbum($albumId, $image->getAlbums()->toArray()) ||$albumId == 0)
             {
+                $assetManager = $this->get('templating.helper.assets');
+                $cacheManager = $this->container->get('liip_imagine.cache.manager');
+                $this->container->get('liip_imagine.controller')->filterAction($this->getRequest(),$image->getWebPath(),'my_thumb');
+                $srcPath = $cacheManager->getBrowserPath($image->getWebPath(), 'my_thumb');
                 $response->setData(array(
                     "success" => true,
                     "message" => 'Failas įkeltas sėkmingai!',
-                    "path" =>  $this->get('templating.helper.assets')->getUrl($image->getWebPath()),
-                    "delpath" =>  $this->get('templating.helper.assets')->getUrl("bundles/GalerijaImages/images/delete.png"),
+                    "thumb_path" =>  $assetManager->getUrl($srcPath),
+                    "path" =>  $assetManager->getUrl($image->getWebPath()),
+                    "delpath" =>  $assetManager->getUrl("bundles/GalerijaImages/images/delete.png"),
                     "name" =>  $image->getPavadinimas(),
                     "ID" => $image->getImageId()
                 ));
@@ -87,6 +84,7 @@ class UploadController extends Controller
         {
             $result .= $error->getMessage();
         }
+        //kai php.ini failo dydis viršijamas, gražinamas tuščias klaidų sąrašas
         if($result == "")
             $result = "Failas per didelis";
         //nustatom pranešimą ir parodom klientui
@@ -96,5 +94,14 @@ class UploadController extends Controller
         ));
         return $response;
     }
-
+    //TODO: perkelti logiką į service'us
+    public function FindAlbum($id, $arr)
+    {
+        foreach($arr as $album)
+        {
+            if($album->getAlbumId() == $id)
+                return true;
+        }
+        return false;
+    }
 }

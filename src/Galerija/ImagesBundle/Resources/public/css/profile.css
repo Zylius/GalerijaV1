@@ -9,12 +9,5 @@
 }
 .panel_wrapper
 {
-    position: absolute;
-    height:auto;
     width:27em;
-    top:50%;
-    left:50%;
-    margin:-6em 0 0 -12.5em;
-    background: white;
-    z-index: 2;
 }

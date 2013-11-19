@@ -26,15 +26,7 @@ class DeleteController extends Controller
         if($image = $this->getDoctrine()->getRepository('GalerijaImagesBundle:Image')->find($id))
         {
             //patikrinam ar failas egzistuoja ir ištrinam
-            if(file_exists($image->getAbsolutePath()))
-            {
-                unlink($image->getAbsolutePath());
-            }
-
-            //pašalinam iš duomenų bazės
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($image);
-            $em->flush();
+            $image->delete($this->getDoctrine()->getManager());
 
             //nustatom pranešimą ir grąžinam klientui
             $response->setData(array(

@@ -1,19 +1,19 @@
 {% extends 'GalerijaImagesBundle:Default:index.html.twig' %}
 {% block list %}
     {% block albumlist %}
-        <div id="imglist">
+        <div class="list">
             {% for single in album_array %}
-                    <div class="album">
-                        <a href="{{ path('galerija_images_album', { 'albumId' : single.getAlbumId() })  }}">
+                <div class="album isotope">
+                   <a href="{{ path('galerija_images_album', { 'albumId' : single.getAlbumId() })  }}">
                             {% if(single.getImages().first()) %}
-                                <img alt=" {{ single.getImages().last().getPavadinimas() }}" src="{{ asset( single.getImages().last().getWebPath()) }}"/>
-                            {% else %}
+                                <img alt=" {{ single.getImages().last().getPavadinimas() }}" src="{{ asset(single.getImages().last().getWebPath() | imagine_filter('my_thumb')) }}"/>
+                           {% else %}
                                 <img alt="Albumas neturi nuotraukų." src="{{ asset('bundles/GalerijaImages/images/no_image.png') }}"/>
-                            {% endif %}
-                        </a>
-                        <p>
-                            {{single.getShortComment()}}
-                        </p>
+                     {% endif %}
+                     </a>
+                     <p>
+                         {{single.getShortComment()}}
+                     </p>
                     </div>
             {% endfor %}
         </div>

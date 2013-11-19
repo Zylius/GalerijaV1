@@ -1,8 +1,9 @@
 {{ form_start(form) }}
-<fieldset class="form">
+<fieldset class="form" id="albumas">
     <legend>Sukurti albumą</legend>
     {{ form_row(form.short_comment) }}
     {{ form_row(form.long_comment) }}
+    {{ form_row(form.auto_add) }}
     {{ form_row(form.Ikelti) }}
 </fieldset>
 {{ form_end(form) }}

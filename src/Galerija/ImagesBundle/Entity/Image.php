@@ -13,7 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\Common\Collections\ArrayCollection;
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Galerija\ImagesBundle\Entity\ImageRepository")
  * @ORM\Table(name="images")
  */
 class Image
@@ -326,7 +326,11 @@ class Image
         $this->comments = new ArrayCollection();
         $this->albums = new ArrayCollection();
     }
-
+    public function getThumbSize()
+    {
+        list($width, $height) = getimagesize(__DIR__.'/../../../../web/media/cache/my_thumb/'.$this->getUploadDir().'/' . $this->imageId . '.jpeg');
+        $return = array('width' => $width, 'height' => $height);
+    }
     //vykdom įkėlimo procedūras
     public function uploadProcedures()
     {
@@ -337,7 +341,23 @@ class Image
         if($this->pavadinimas == NULL)
             $this->pavadinimas = $this->failas->getClientOriginalName();
     }
+    public function delete($em)
+    {
+        if(file_exists($this->getAbsolutePath()))
+        {
+            unlink($this->getAbsolutePath());
+        }
 
+        $thumb_dir = __DIR__.'/../../../../web/media/cache/my_thumb/'.$this->getUploadDir().'/' . $this->imageId . '.jpeg';
+        if(file_exists($thumb_dir))
+        {
+            unlink($thumb_dir);
+        }
+
+        //pašalinam iš duomenų bazės
+        $em->remove($this);
+        $em->flush();
+    }
     /*
     * gražina failo pavadinimą
     */
@@ -359,7 +379,6 @@ class Image
     {
         return null === $this->getFileName() ? null : $this->getUploadDir().'/'.$this->getFileName();
     }
-
 
     /*
     * absoliuti direktorija kur nuotrauka turėtų būt išsaugota

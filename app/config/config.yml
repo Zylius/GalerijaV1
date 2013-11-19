@@ -20,12 +20,18 @@ framework:
     session:         ~
     fragments:       ~
     http_method_override: true
-
+# LiipImagine configuration
+liip_imagine:
+    filter_sets:
+        my_thumb:
+            quality: 75
+            filters:
+                relative_resize: { widen: 400 }
 # Twig Configuration
 twig:
     debug:            %kernel.debug%
     strict_variables: %kernel.debug%
-# app/config/config.yml
+# Fos User configuration
 fos_user:
     db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
     firewall_name: main
