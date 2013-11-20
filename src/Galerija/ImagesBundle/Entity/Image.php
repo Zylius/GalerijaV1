@@ -48,6 +48,11 @@ class Image
     protected $aprasymas;
 
     /**
+     * @ORM\Column(type="bigint")
+     */
+    protected $like_count;
+
+    /**
      * @ORM\Column(length=10)
      */
     protected $ext;
@@ -70,6 +75,20 @@ class Image
      * @ORM\OneToMany(targetEntity="Comment", mappedBy="image")
      */
     protected $comments;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Like", mappedBy="image")
+     */
+    protected $likes;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Tag", inversedBy="images")
+     * @ORM\JoinTable(name="tags_images",
+     *      joinColumns={@ORM\JoinColumn(name="imageId", referencedColumnName="imageId")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="tagId", referencedColumnName="tagId")}
+     *      )
+     */
+    protected $tags;
 
     /**
      * @ORM\ManyToOne(targetEntity="User", inversedBy="images")
@@ -397,5 +416,95 @@ class Image
     {
 
         return 'uploads';
+    }
+
+    /**
+     * Add likes
+     *
+     * @param \Galerija\ImagesBundle\Entity\Like $likes
+     * @return Image
+     */
+    public function addLike(\Galerija\ImagesBundle\Entity\Like $likes)
+    {
+        $this->likes[] = $likes;
+    
+        return $this;
+    }
+
+    /**
+     * Remove likes
+     *
+     * @param \Galerija\ImagesBundle\Entity\Like $likes
+     */
+    public function removeLike(\Galerija\ImagesBundle\Entity\Like $likes)
+    {
+        $this->likes->removeElement($likes);
+    }
+
+    /**
+     * Get likes
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getLikes()
+    {
+        return $this->likes;
+    }
+
+    /**
+     * Add tags
+     *
+     * @param \Galerija\ImagesBundle\Entity\Tag $tags
+     * @return Image
+     */
+    public function addTag(\Galerija\ImagesBundle\Entity\Tag $tags)
+    {
+        $this->tags[] = $tags;
+    
+        return $this;
+    }
+
+    /**
+     * Remove tags
+     *
+     * @param \Galerija\ImagesBundle\Entity\Tag $tags
+     */
+    public function removeTag(\Galerija\ImagesBundle\Entity\Tag $tags)
+    {
+        $this->tags->removeElement($tags);
+    }
+
+    /**
+     * Get tags
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getTags()
+    {
+        return $this->tags;
+    }
+
+
+    /**
+     * Set like_count
+     *
+     * @param integer $likeCount
+     * @return Image
+     */
+    public function setLikeCount($likeCount)
+    {
+        $this->like_count = $likeCount;
+    
+        return $this;
+    }
+
+    /**
+     * Get like_count
+     *
+     * @return integer 
+     */
+    public function getLikeCount()
+    {
+        return $this->like_count;
     }
 }

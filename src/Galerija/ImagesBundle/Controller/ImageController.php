@@ -5,21 +5,78 @@ namespace Galerija\ImagesBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Galerija\ImagesBundle\Entity\Comment;
+use Galerija\ImagesBundle\Entity\Like;
 use Galerija\ImagesBundle\Form\Type\CommentType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 class ImageController extends Controller
 {
-    public function  showInfoAction($imageId)
+    public function  likeAction($imageId)
     {
-        $image = $this->getDoctrine()->getRepository('GalerijaImagesBundle:Image')->find($imageId);
+        //patikrinam ar vartotojas prisijungęs
         $securityContext = $this->container->get('security.context');
-        $comment = new Comment();
+
+        $response = new JsonResponse();
+
+
+        $rep = $this->getDoctrine()->getRepository('GalerijaImagesBundle:Image');
+        $image = $rep->find($imageId);
+        $em = $this->getDoctrine()->getManager();
         if(!$securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED'))
         {
-            $user = $securityContext->getToken()->getUser();
-            $comment->setUser($user);
-
+            $response->setData(array(
+                "success" => false,
+                "message" => '"Like\'inti" gali tik prisijungę vartotojai.'
+            ));
+            return $response;
         }
+        $userId = $securityContext->getToken()->getUser()->getId();
+        $liked = $rep->findLikedByImageUser($imageId, $userId);
+        if($liked == true)
+        {
+            $image->setLikeCount($image->getLikeCount() - 1);
+            $em->remove($liked[0]);
+            $em->flush();
+            $response->setData(array(
+                "success" => true,
+                "count" => $image->getLikeCount()
+            ));
+            return $response;
+        }
+
+
+
+        $like = new Like();
+        $like->setImage($image);
+        $like->setUser($securityContext->getToken()->getUser());
+
+        $image->setLikeCount($image->getLikeCount() + 1);
+
+
+        $em->persist($like);
+        $em->persist($image);
+        $em->flush();
+
+        $response->setData(array(
+            "success" => true,
+            "count" => $image->getLikeCount()
+        ));
+
+        return $response;
+    }
+    public function  showInfoAction($imageId)
+    {
+        $securityContext = $this->container->get('security.context');
+        $liked = false;
+        $rep = $this->getDoctrine()->getRepository('GalerijaImagesBundle:Image');
+        if($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED'))
+        {
+            $userId = $securityContext->getToken()->getUser()->getId();
+            $liked = $rep->findLikedByImageUser($imageId, $userId);
+        }
+
+        $image = $rep->find($imageId);
+
+        $comment = new Comment();
         $comment->setImage($image);
 
         $commentform = $this->createForm(new CommentType(), $comment,array(
@@ -33,7 +90,8 @@ class ImageController extends Controller
         return $this->render('GalerijaImagesBundle:Default:image_info.html.twig', array(
             'image' => $image,
             'form' => $commentform->createView(),
-            'comments' => $comment_array
+            'comments' => $comment_array,
+            'liked' => $liked
         ));
     }
     public function commentAction(Request $request)

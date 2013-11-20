@@ -32,6 +32,15 @@ class User extends BaseUser
      */
     protected $albums;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Like", mappedBy="user")
+     */
+    protected $likes;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Tag", mappedBy="user")
+     */
+    protected $tags;
 
     public function __construct()
     {
@@ -149,5 +158,38 @@ class User extends BaseUser
     public function getAlbums()
     {
         return $this->albums;
+    }
+
+    /**
+     * Add tags
+     *
+     * @param \Galerija\ImagesBundle\Entity\Tag $tags
+     * @return User
+     */
+    public function addTag(\Galerija\ImagesBundle\Entity\Tag $tags)
+    {
+        $this->tags[] = $tags;
+    
+        return $this;
+    }
+
+    /**
+     * Remove tags
+     *
+     * @param \Galerija\ImagesBundle\Entity\Tag $tags
+     */
+    public function removeTag(\Galerija\ImagesBundle\Entity\Tag $tags)
+    {
+        $this->tags->removeElement($tags);
+    }
+
+    /**
+     * Get tags
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getTags()
+    {
+        return $this->tags;
     }
 }

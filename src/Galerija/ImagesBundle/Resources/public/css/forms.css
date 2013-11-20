@@ -50,6 +50,7 @@
 {
     border: 0px;
     width: auto;
+    background: inherit;
 }
 #album_create_auto_add
 {

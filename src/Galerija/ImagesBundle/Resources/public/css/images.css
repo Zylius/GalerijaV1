@@ -2,7 +2,6 @@
 {
     float: left;
 }
-
 .image:hover .disappear
 {
     display: block;
@@ -31,39 +30,4 @@
     width: auto;
     max-height: 20em;
     max-width: 20em;
-}
-.fancybox-close {
-    top: 0;
-    right: 0;
-}
-/* This parent can be any width and height */
-.block {
-    text-align: center;
-    height:100%;
-    width:70%;
-    position:absolute;
-    background:black;
-}
-
-/* The ghost, nudged to maintain perfect centering */
-.block:before {
-    content: '';
-    display: inline-block;
-    height: 100%;
-    vertical-align: middle;
-    margin-right: -0.25em; /* Adjusts for spacing */
-}
-
-/* The element to be centered, can
-   also be of any width and height */
-.centered {
-    display: inline-block;
-    vertical-align: middle;
-    width: 95%;
-
-}
-.centered > img
-{
-    max-width:100%;
-    max-height:100%;
 }

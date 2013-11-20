@@ -1,0 +1,66 @@
+.comments
+{
+
+    float:right;
+    width:20%;
+    height:100%;
+    padding-right:5%;
+    text-align:right;
+}
+.comments > ul{
+    height: 70%;
+    width: 100%;
+    list-style: none;
+    overflow-y: auto;
+    overflow-x: hidden;
+    text-align:left;
+    word-wrap: break-word;
+    padding:0;
+    margin:0;
+}
+.comments > form{
+    height:20%;
+}
+
+.block {
+    text-align: center;
+    height:100%;
+    width:70%;
+    position:absolute;
+    background:black;
+}
+
+.block:before {
+    content: '';
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+    margin-right: -0.25em;
+}
+
+.centered {
+    display: inline-block;
+    vertical-align: middle;
+    width: 95%;
+
+}
+.centered > img
+{
+    max-width:100%;
+    max-height:100%;
+}
+.like
+{
+    text-align:left;
+    overflow:hidden;
+    height:5%;
+}
+.like img
+{
+    width:1em;
+    height:1em;
+}
+.like > span
+{
+    background:white;
+}

@@ -17,5 +17,13 @@
     </li>
    {% endfor %}
 </ul>
+
     {{ form(form , {'attr': {'id': 'form_comment_add'}}) }}
+    <div class="like" id="like_area" like_status="{{ (liked ? 'true' : 'false') }}">
+        Patinka
+        <a href ="{{ path('galerija_images_like', { 'imageId' : image.imageId })  }}">
+            <img alt="Like" src="{{ (liked ? asset('bundles/GalerijaImages/images/like-ok.png')  :  asset('bundles/GalerijaImages/images/like.png')) }}  "/>
+        </a>
+        <span>{{ image.getLikeCount() }}</span>
+    </div>
 </div>

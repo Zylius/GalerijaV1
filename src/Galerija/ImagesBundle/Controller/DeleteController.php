@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 class DeleteController extends Controller
 {
-    public function indexAction(Request $request, $albumId)
+    public function indexAction(Request $request)
     {
         //patikrinam ar vartotojas prisijungęs
         $securityContext = $this->container->get('security.context');

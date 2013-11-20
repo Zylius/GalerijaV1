@@ -55,11 +55,12 @@ class UploadController extends Controller
                 $cacheManager = $this->container->get('liip_imagine.cache.manager');
                 $this->container->get('liip_imagine.controller')->filterAction($this->getRequest(),$image->getWebPath(),'my_thumb');
                 $srcPath = $cacheManager->getBrowserPath($image->getWebPath(), 'my_thumb');
+
                 $response->setData(array(
                     "success" => true,
                     "message" => 'Failas įkeltas sėkmingai!',
                     "thumb_path" =>  $assetManager->getUrl($srcPath),
-                    "path" =>  $assetManager->getUrl($image->getWebPath()),
+                    "path" =>  $this->generateUrl(('galerija_images_image_info'), array('imageId' => $image->getImageId())),
                     "delpath" =>  $assetManager->getUrl("bundles/GalerijaImages/images/delete.png"),
                     "name" =>  $image->getPavadinimas(),
                     "ID" => $image->getImageId()
@@ -99,7 +100,8 @@ class UploadController extends Controller
     {
         foreach($arr as $album)
         {
-            if($album->getAlbumId() == $id)
+            $aid = $album->getAlbumId();
+            if($aid == $id)
                 return true;
         }
         return false;

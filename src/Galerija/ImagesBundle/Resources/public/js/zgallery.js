@@ -4,32 +4,42 @@
      */
     $(document).ready(function () {
 
-        $(".fancybox").fancybox({
-            fitToView	: false,
-            autoSize: false,
-            autoDimensions: false,
-            width: '70%',
-            height: '70%',
-            openEffect	: 'none',
-            closeEffect	: 'none',
-            scrolling : 'no',
-            minWidth: '700px',
-            minHeight: '400px',
-            wrapCSS : 'myclass',
-            afterShow: function(){
-                $("#form_comment_add").PostComment({});
-            }
-        });
+         RefreshFancybox();
 
         $("#user_open").fancybox({
             'scrolling': 'no',
+            fitToView	: true,
+            autoSize: true,
+            autoDimensions: true,
             'titleShow': false
         });
 
 
     });
 
-
+    var RefreshFancybox = function()
+    {
+        $(".fancybox").fancybox({
+            fitToView	: false,
+            autoSize: false,
+            autoDimensions: false,
+            width: '90%',
+            height: '90%',
+            openEffect	: 'none',
+            closeEffect	: 'none',
+            scrolling : 'no',
+            minWidth: '700px',
+            minHeight: '400px',
+            //wrapCSS : 'myclass',
+            afterShow: function(){
+                $("#form_comment_add").PostComment({});
+                $("#like_area").LikeImage({});
+                $(".fancybox-next").css({
+                    right: "30%"
+                });
+            }
+        });
+    };
     var $container = $('.list');
 
     $container.imagesLoaded(function () {
@@ -37,7 +47,6 @@
             resizable: false,
             masonry: { columnWidth: $container.width() / 100 },
             animationEngine: 'jquery'
-
         });
     });
 
@@ -73,28 +82,27 @@
     }
 
     Delete.prototype.options = {
-        inProgress: false,
-        srcPath: ""
+        inProgress: false
     };
 
     Delete.prototype._create = function () {
-        //pakeičiam paveiksliuką pakeisdami tik jų galą, todėl išsisaugom tik direktorijas
-        this.options.srcPath = this.element.attr("src").match(/[^\.]+\//);
         this._on(this.element, {
             "click": "start"
         });
     };
 
     Delete.prototype._initiate = function () {
+        //pakeičiam paveiksliuką pakeisdami tik jų galą, todėl išsisaugom tik direktorijas
+        this.srcPath = this.element.attr("src").replace(/[^\/]*$/,"");
         this.options.inProgress = true;
         //panaikinam "pranykimo" klase, kad paveiksliukas nepradingtu
         this.element.removeClass("disappear");
-        this.element.attr("src", this.options.srcPath + "loading.gif");
+        this.element.attr("src", this.srcPath + "loading.gif");
     };
 
     Delete.prototype._result = function (data) {
         if (data.success) {
-            this.element.parent().remove();
+            $container.isotope('remove', this.element.parent());
         }
         else {
             //sugrąžinam į pradinę būseną
@@ -102,11 +110,12 @@
 
         }
         showStatus(data.success, data.message);
+
         this.options.inProgress = false;
     };
 
     Delete.prototype._failure = function () {
-        this.element.attr("src", this.options.srcPath + "delete.png");
+        this.element.attr("src", this.srcPath + "delete.png");
         this.element.addClass("disappear");
     };
 
@@ -180,17 +189,19 @@
 
     Upload.prototype._result = function (data) {
         if (data.success && data.name !== undefined) {
+
             //įdedam naują paveiksliuką
-            var fullimg = $('<div class="image"><a class="fancybox" rel="gallery1" href="' + data.path + '" title="' + data.name + '">' +
+            var fullimg = $('<div class="image">' +
+                '<a class="fancybox" data-fancybox-type="ajax"  rel="gallery1" href="' + data.path + '">' +
                 '<img alt="' + data.name + '" src="' + data.thumb_path + '"/></a>' +
                 '<img class="delete disappear" id="' + data.ID + '" alt="Delete" src="' + data.delpath + '"></div>');
-            $(".imglist").append(fullimg);
 
+            $('.list').append(fullimg);
             //pridedam widgetus prie naujo elemento
             fullimg.find('.delete').Delete({});
-            fullimg.find('.fancybox').fancybox({
-                openEffect: 'none',
-                closeEffect: 'none'
+            RefreshFancybox();
+            fullimg.imagesLoaded(function(){
+                $container.isotope( 'insert', fullimg );
             });
         }
 
@@ -218,7 +229,6 @@
     };
 
     PostComment.prototype._create = function () {
-        console.dir('hooked');
         this.sButton = this.element.find('#comment_post_Ikelti');
         this.send = this.element.ajaxForm({
             context: this,
@@ -230,6 +240,8 @@
             success: this._result
         });
     };
+
+
     PostComment.prototype._initiate = function () {
         this.sButton.prop("disabled", true);
         this.options.inProgress = true;
@@ -249,32 +261,75 @@
         this.options.inProgress = false;
         this.sButton.prop("disabled", false);
     };
-    $.widget("custom.PostComment", PostComment.prototype);
-    //show Image info widget
-    /*function Info() {
-    }
 
-    Info.prototype._create = function () {
-        this._on(this.element, {
+    $.widget("custom.PostComment", PostComment.prototype);
+
+    //"palikinimo" widgetas
+    function LikeImage(){}
+
+    LikeImage.prototype.options = {
+        inProgress: false
+    };
+
+    LikeImage.prototype._create = function () {
+        this.press = this.element.find('a');
+        this._on(this.press, {
             "click": "start"
         });
+        this.countField = this.element.find('span');
+        this.lButton = this.element.find('img');
+        this.Status = !!(this.element.attr('like_status') == "true");
+        this.srcPath = this.lButton.attr("src").replace(/[^\/]*$/,"");
     };
 
-    Info.prototype.start = function () {
-        event.preventDefault();
+    LikeImage.prototype.start = function () {
+        //jei siuntimas jau pradėtas sustabdyti
+        if (this.options.inProgress)
+            return false;
+
         $.ajax({
-            beforeSend: $.fancybox.showLoading(),
-            url: this.element.attr('href'),
-            type: "POST",
-            success: function (data) {
-                $.fancybox(data )
-            }
+            url: this.press.attr('href'),
+            type: "GET",
+            context: this,
+            beforeSend: this._initiate,
+            error: function (xhr, ajaxOptions, thrownError) {
+                showStatus(0, '"Like\'inti" gali tik prisijungę vartotojai.');
+                this._failure();
+            },
+            success: this._result
         });
+        return false;
     };
 
-    $.widget("custom.Info", Info.prototype);*/
+    LikeImage.prototype._initiate = function () {
+        this.options.inProgress = true;
+    };
 
-    //pridedam widgetus prie elemtų
-    //$(".fancybox").Info({});
+    LikeImage.prototype._result = function (data) {
+        if (data.success) {
+            this.switch();
+            this.countField.html(data.count);
+        }
+        this.options.inProgress = false;
+    };
+
+    LikeImage.prototype._failure = function () {
+        this.options.inProgress = false;
+    };
+
+    LikeImage.prototype.switch = function()
+    {
+        if(this.Status)
+        {
+            this.lButton.attr("src", this.srcPath + "like.png");
+            this.Status = false;
+        }
+        else
+        {
+            this.lButton.attr("src", this.srcPath + "like-ok.png");
+            this.Status = true;
+        }
+    }
+    $.widget("custom.LikeImage", LikeImage.prototype);
 
 })(jQuery);

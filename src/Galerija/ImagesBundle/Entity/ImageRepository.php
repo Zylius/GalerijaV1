@@ -13,4 +13,17 @@ class ImageRepository extends EntityRepository
         $results = $query->getResult();
         return $results;
     }
+    public function findLikedByImageUser($imageId, $userId)
+    {
+        $query =  $this->getEntityManager()->createQuery(
+            'SELECT p
+             FROM GalerijaImagesBundle:Like p
+             WHERE p.image = :image AND p.user = :user'
+        )->setParameters(array(
+                'image' => $imageId,
+                'user' => $userId
+            ));
+        $results = $query->getResult();
+        return $results;
+    }
 }

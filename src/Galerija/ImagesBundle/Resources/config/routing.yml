@@ -24,16 +24,20 @@ galerija_images_user_album:
     pattern:  /photosby/{userId}
     defaults: { _controller: GalerijaImagesBundle:Default:albumByUser }
     requirements:
-        albumId: \d+
+        userId: \d+
 
 galerija_images_image_info:
     pattern:  /image/{imageId}
     defaults: { _controller: GalerijaImagesBundle:Image:showInfo }
     requirements:
-        albumId: \d+
+        imageId: \d+
 
 galerija_images_comment:
     pattern:  /postComment
     defaults: { _controller: GalerijaImagesBundle:Image:comment }
+
+galerija_images_like:
+    pattern:  /commitLike{imageId}
+    defaults: { _controller: GalerijaImagesBundle:Image:like }
     requirements:
-        albumId: \d+
+        imageId: \d+
