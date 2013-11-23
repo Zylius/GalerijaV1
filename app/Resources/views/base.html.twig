@@ -6,7 +6,9 @@
         <!--[if lt IE 9]>
         <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
-        {% stylesheets 'bundles/GalerijaImages/css/*' filter='cssrewrite' %}
+        {% stylesheets 'bundles/GalerijaImages/css/*'
+        'bundles/GalerijaImages/css/ui-lightness/*'
+        filter='cssrewrite' %}
         <link rel="stylesheet" href="{{ asset_url }}"/>
         {% endstylesheets %}
     </head>
@@ -27,12 +29,15 @@
                 {% block topmenu %}
                 {% endblock %}
             </div>
+
             <a id="user_open" href="#user_panel">
                 <div class="topmenu_user">
                         {% block username %}
                         {% endblock %}
                 </div>
             </a>
+            {% block search %}
+            {% endblock %}
         </div>
         <div class="content">
             {% block content %}

@@ -1,10 +1,20 @@
+.form_wrapper
+{
+    margin: 0 auto;
+    width: 30em;
+    font-family: Courier;
+    font-size:1em;
+}
+#form_array
+{
+    margin: 0 auto;
+}
 .form
 {
     clear:both;
     background: #ffffff;
     border: 1px solid #000000;
-    margin: 0 auto;
-    width: 30em;
+    width:inherit;
 }
 .form legend
 {
@@ -41,6 +51,11 @@
     font-weight:bold;
 
 }
+#image_upload_albums, #image_upload_tags
+{
+    width: 15em;
+}
+
 #albumas label
 {
     font-size:0.8em;

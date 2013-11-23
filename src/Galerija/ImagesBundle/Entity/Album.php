@@ -139,6 +139,7 @@ class Album
 
     public function __construct()
     {
+        $this->albumId = 0;
         $this->images = new ArrayCollection();
     }
 

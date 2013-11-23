@@ -4,7 +4,7 @@
      */
     $(document).ready(function () {
 
-         RefreshFancybox();
+        RefreshFancybox();
 
         $("#user_open").fancybox({
             'scrolling': 'no',
@@ -13,7 +13,21 @@
             autoDimensions: true,
             'titleShow': false
         });
+        $("#form_array").accordion({
+            heightStyle: "content"
+        });
 
+        $('#tag_filter').bind('input propertychange', function() {
+            var input = $(this).val();
+            if(input != '')
+            {
+                $container.isotope({ filter: '.tag-' + input });
+            }
+            else
+            {
+                $container.isotope({ filter: '*' });
+            }
+        });
 
     });
 
@@ -30,10 +44,12 @@
             scrolling : 'no',
             minWidth: '700px',
             minHeight: '400px',
-            //wrapCSS : 'myclass',
             afterShow: function(){
                 $("#form_comment_add").PostComment({});
                 $("#like_area").LikeImage({});
+                $("#image_accordion").accordion({
+                    heightStyle: "content"
+                });
                 $(".fancybox-next").css({
                     right: "30%"
                 });
@@ -191,7 +207,7 @@
         if (data.success && data.name !== undefined) {
 
             //įdedam naują paveiksliuką
-            var fullimg = $('<div class="image">' +
+            var fullimg = $('<div class="image' + data.tags + '">' +
                 '<a class="fancybox" data-fancybox-type="ajax"  rel="gallery1" href="' + data.path + '">' +
                 '<img alt="' + data.name + '" src="' + data.thumb_path + '"/></a>' +
                 '<img class="delete disappear" id="' + data.ID + '" alt="Delete" src="' + data.delpath + '"></div>');

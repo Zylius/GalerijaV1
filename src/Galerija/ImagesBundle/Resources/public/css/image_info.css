@@ -1,14 +1,24 @@
-.comments
+.image_panel
 {
-
+    padding:0;
+    margin:0;
     float:right;
     width:20%;
     height:100%;
     padding-right:5%;
     text-align:right;
+
+}
+.comments
+{
+    border: solid black 1px;
+    padding:0;
+    margin:0;
+    height:90%;
+    overflow:hidden;
 }
 .comments > ul{
-    height: 70%;
+    height: 75%;
     width: 100%;
     list-style: none;
     overflow-y: auto;
@@ -17,9 +27,32 @@
     word-wrap: break-word;
     padding:0;
     margin:0;
+    border-bottom: solid black 1px;
+}
+.comments textarea{
+    width: 95%;
+    padding:0;
 }
 .comments > form{
     height:20%;
+}
+#comment_post
+{
+    height:100%;
+
+}
+#comment_post div:first-child
+{
+    height:90%;
+}
+.comments input
+{
+    height:5%;
+}
+.comments textarea
+{
+    resize: none;
+    height:60%;
 }
 
 .block {
@@ -42,12 +75,13 @@
     display: inline-block;
     vertical-align: middle;
     width: 95%;
-
 }
 .centered > img
 {
     max-width:100%;
     max-height:100%;
+    width: auto;
+    height: auto;
 }
 .like
 {
@@ -63,4 +97,24 @@
 .like > span
 {
     background:white;
+}
+#image_accordion
+{
+    font-size: 1em;
+    padding:0;
+    width:100%;
+    height: 95%;
+    font-family: Courier;
+}
+#image_accordion .ui-accordion-content {
+    padding: 0;
+    overflow:hidden;
+}
+#image_accordion h3 {
+    margin:0;
+    padding: 0;
+}
+.tags
+{
+    text-align: left;
 }

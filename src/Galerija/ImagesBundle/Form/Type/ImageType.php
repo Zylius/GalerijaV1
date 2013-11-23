@@ -18,6 +18,7 @@ class ImageType extends AbstractType
                 'placeholder' => 'Neprivalomas'
             )
         ));
+
         $builder->add('aprasymas', 'text', array('label' => "Aprašymas",
             'attr' =>
             array
@@ -26,6 +27,7 @@ class ImageType extends AbstractType
                 'placeholder' => 'Privalomas'
             )
         ));
+
         $builder->add('failas', 'file', array(
             'attr' =>
             array
@@ -34,13 +36,14 @@ class ImageType extends AbstractType
                 'size' =>'40'
             )
         ));
+
         $builder->add('shot_date', 'date', array(
             'data' => new \DateTime(),
             'input'  => 'datetime',
             'widget' => 'choice',
             'years'  => range(date("Y"),date("Y")-100)
-
         ));
+
         $builder->add('albums','entity', array(
                         'label' => 'Albumai',
                         'class' => 'Galerija\ImagesBundle\Entity\Album',
@@ -48,8 +51,19 @@ class ImageType extends AbstractType
                         'multiple' => true,
                         'expanded' => false,
                         'required' => true));
-        $builder->add('Ikelti', 'submit', array('label' => "Įkelti"));
 
+        $builder->add('tags','entity', array(
+                        'label' => 'Tag\'ai',
+                        'class' => 'Galerija\ImagesBundle\Entity\Tag',
+                        'property' => 'name',
+                        'multiple' => true,
+                        'expanded' => false,
+                        'required' => false,
+            )
+
+        );
+
+        $builder->add('Ikelti', 'submit', array('label' => "Įkelti"));
     }
 
     public function getName()

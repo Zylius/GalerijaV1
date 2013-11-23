@@ -6,19 +6,39 @@
     </div>
 
 </div>
-<div class="comments">
-<ul>
-    {% for single in comments %}
-    <li>
-        <fieldset>
-            <legend>{{ single.user.username }}</legend>
-            {{ single.comment }}
-        </fieldset>
-    </li>
-   {% endfor %}
-</ul>
-
-    {{ form(form , {'attr': {'id': 'form_comment_add'}}) }}
+<div class="image_panel">
+    <div id="image_accordion">
+        <h3>Komentarai</h3>
+        <div class="comments">
+        <ul>
+                {% if comments is empty %}
+                    Komentarų nėra
+                {% endif %}
+            {% for single in comments %}
+            <li>
+                <fieldset>
+                    <legend>{{ single.user.username }}</legend>
+                    {{ single.comment }}
+                </fieldset>
+            </li>
+           {% endfor %}
+        </ul>
+            {{ form(form , {'attr': {'id': 'form_comment_add'}}) }}
+        </div>
+        <h3>Tagai</h3>
+        <div class="tags">
+            <ul>
+                {% if image.getTags() is empty %}
+                Tag'ų nėra
+                {% endif %}
+                {% for tag in image.getTags() %}
+                <li>
+                    {{ tag.getName() }}
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
     <div class="like" id="like_area" like_status="{{ (liked ? 'true' : 'false') }}">
         Patinka
         <a href ="{{ path('galerija_images_like', { 'imageId' : image.imageId })  }}">

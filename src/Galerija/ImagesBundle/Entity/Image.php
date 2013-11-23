@@ -342,8 +342,10 @@ class Image
 
     public function __construct()
     {
+        $this->like_count = 0;
         $this->comments = new ArrayCollection();
         $this->albums = new ArrayCollection();
+
     }
     public function getThumbSize()
     {

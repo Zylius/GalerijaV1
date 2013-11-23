@@ -10,7 +10,20 @@ use Galerija\ImagesBundle\Form\Type\AlbumType;
 use Symfony\Component\HttpFoundation\Request;
 class DefaultController extends Controller
 {
+    public function tagAction(Request $request)
+    {
+        $tm = $this->get("tag_manager");
 
+        $form = $tm->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $tm->save();
+            $this->get('session')->getFlashBag()->add('success', 'Tag\'as sukurtas sėkmingai!');
+            return $this->redirect($request->headers->get('referer'));
+        }
+    }
     public function indexAction(Request $request)
     {
         //sukuriam  formą Albumui
@@ -72,9 +85,7 @@ class DefaultController extends Controller
         $rep = $this->getDoctrine()->getRepository('GalerijaImagesBundle:Album');
         $album->setImages($rep->findUserImages($userId));
         $album->setShortComment($user->getUsername() . "o nuotraukos.");
-        $album->setAlbumId(0);
         return $this->albumShow($album);
-
     }
 
     public function albumByIdAction($albumId)
@@ -88,7 +99,6 @@ class DefaultController extends Controller
         //sukuriam  formą įkėlimui
         $image = new Image();
 
-
         //pridedam auto-select'ą
         $image->setAlbums($this->getDoctrine()->getRepository('GalerijaImagesBundle:Image')->findAutoSelect($album->getAlbumId()));
 
@@ -97,7 +107,7 @@ class DefaultController extends Controller
                 array('albumId' => $album->getAlbumId()))
         ));
 
-
+        $tm = $this->get("tag_manager");
 
         $token = $this->container->get('form.csrf_provider')->generateCsrfToken('authenticate');
         $user = $this->container->get('security.context')->getToken()->getUser();
@@ -106,7 +116,8 @@ class DefaultController extends Controller
             'album' => $album,
             'form' => $form->createView(),
             'token' => $token,
-            'user' => $user
+            'user' => $user,
+            'tag_form' => $tm->getForm()->createView()
         ));
     }
 }

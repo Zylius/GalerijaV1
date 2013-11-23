@@ -41,3 +41,7 @@ galerija_images_like:
     defaults: { _controller: GalerijaImagesBundle:Image:like }
     requirements:
         imageId: \d+
+
+galerija_tag_create:
+    pattern:  /tagCreate
+    defaults: { _controller: GalerijaImagesBundle:Default:tag }

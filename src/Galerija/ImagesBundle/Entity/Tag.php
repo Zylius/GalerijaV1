@@ -31,7 +31,7 @@ class Tag
     /**
      * @ORM\Column(type="string")
      */
-    protected $short_comment;
+    protected $name;
     /**
      * Constructor
      */
@@ -48,29 +48,6 @@ class Tag
     public function getTagId()
     {
         return $this->tagId;
-    }
-
-    /**
-     * Set short_comment
-     *
-     * @param string $shortComment
-     * @return Tag
-     */
-    public function setShortComment($shortComment)
-    {
-        $this->short_comment = $shortComment;
-    
-        return $this;
-    }
-
-    /**
-     * Get short_comment
-     *
-     * @return string 
-     */
-    public function getShortComment()
-    {
-        return $this->short_comment;
     }
 
     /**
@@ -127,5 +104,28 @@ class Tag
     public function getImages()
     {
         return $this->images;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     * @return Tag
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string 
+     */
+    public function getName()
+    {
+        return $this->name;
     }
 }
