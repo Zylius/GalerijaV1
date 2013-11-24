@@ -67,6 +67,17 @@
     width: auto;
     background: inherit;
 }
+#right
+{
+    float: right;
+    margin-left:0;
+
+}
+#left
+{
+    margin-right:0;
+    float: left;
+}
 #album_create_auto_add
 {
     float:left;

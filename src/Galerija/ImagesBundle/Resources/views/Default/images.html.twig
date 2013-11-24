@@ -15,7 +15,7 @@
     {% block imglist %}
     <div class="list">
         {% for single in album.getImages() %}
-                <div class="image isotope {% for tag in single.getTags() %}tag-{{ tag.getName() }}{% endfor %}">
+                <div class="image isotope {% for tag in single.getTags() %} tag-{{ tag.getName() }}{% endfor %}">
                     <a class="fancybox" rel="gallery1" data-fancybox-type="ajax" href="{{ path('galerija_images_image_info', { 'imageId' : single.imageId })  }}">
                     <img alt="{{ single.getPavadinimas() }}" src="{{  asset(single.getWebPath() | imagine_filter('my_thumb')) }}"/>
                     </a>

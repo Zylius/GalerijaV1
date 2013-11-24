@@ -45,3 +45,7 @@ galerija_images_like:
 galerija_tag_create:
     pattern:  /tagCreate
     defaults: { _controller: GalerijaImagesBundle:Default:tag }
+
+galerija_tag_create:
+    pattern:  /profileInfo
+    defaults: { _controller: GalerijaImagesBundle:Profile:fullPanel }

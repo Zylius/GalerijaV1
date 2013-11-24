@@ -5,12 +5,15 @@
     $(document).ready(function () {
 
         RefreshFancybox();
-
+        $(".flash").delay(3000).fadeOut(2000, function () {
+            div.remove();
+        });
         $("#user_open").fancybox({
             'scrolling': 'no',
             fitToView	: true,
             autoSize: true,
             autoDimensions: true,
+            minWidth: '350px',
             'titleShow': false
         });
         $("#form_array").accordion({
