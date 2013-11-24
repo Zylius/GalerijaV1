@@ -1,15 +1,47 @@
 parameters:
-    galerija_images.example.class: Galerija\ImagesBundle\Example
+
 
 services:
     tag_manager:
         class:        Galerija\ImagesBundle\Services\TagManager
         arguments:
-                  - "@doctrine.orm.entity_manager"
-                  - "@form.factory"
-                  - "@router"
+                  em: "@doctrine.orm.entity_manager"
+                  formFactory: "@form.factory"
+                  router: "@router"
 
-    demo_user.registration_listener:
+    album_manager:
+        class:        Galerija\ImagesBundle\Services\AlbumManager
+        arguments:
+                  em: "@doctrine.orm.entity_manager"
+                  formFactory: "@form.factory"
+                  router: "@router"
+
+    image_manager:
+            class:        Galerija\ImagesBundle\Services\ImageManager
+            arguments:
+                      em: "@doctrine.orm.entity_manager"
+                      formFactory: "@form.factory"
+                      router: "@router"
+    like_manager:
+            class:        Galerija\ImagesBundle\Services\LikeManager
+            arguments:
+                      em: "@doctrine.orm.entity_manager"
+                      formFactory: "@form.factory"
+                      router: "@router"
+                      im: "@image_manager"
+
+    comment_manager:
+            class:        Galerija\ImagesBundle\Services\CommentManager
+            arguments:
+                      em: "@doctrine.orm.entity_manager"
+                      formFactory: "@form.factory"
+                      router: "@router"
+    errors:
+            class:        Galerija\ImagesBundle\Services\Errors
+            arguments:
+                      validator: "@validator"
+
+    registration_listener:
         class: Galerija\ImagesBundle\Handler\RegistrationHandler
         arguments: [ @service_container ]
         tags:

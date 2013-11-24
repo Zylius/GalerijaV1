@@ -340,86 +340,6 @@ class Image
         $this->comments->removeElement($comments);
     }
 
-    public function __construct()
-    {
-        $this->like_count = 0;
-        $this->comments = new ArrayCollection();
-        $this->albums = new ArrayCollection();
-
-    }
-    public function getThumbSize()
-    {
-        list($width, $height) = getimagesize(__DIR__.'/../../../../web/media/cache/my_thumb/'.$this->getUploadDir().'/' . $this->imageId . '.jpeg');
-        $return = array('width' => $width, 'height' => $height);
-    }
-    //vykdom įkėlimo procedūras
-    public function uploadProcedures()
-    {
-        //išsaugom failo tipą
-        $this->setExt($this->failas->guessExtension());
-
-        //išsaugom originalų pavadinimą, jei jis nebuvo nurodytas
-        if($this->pavadinimas == NULL)
-            $this->pavadinimas = $this->failas->getClientOriginalName();
-    }
-    public function delete($em)
-    {
-        if(file_exists($this->getAbsolutePath()))
-        {
-            unlink($this->getAbsolutePath());
-        }
-
-        $thumb_dir = __DIR__.'/../../../../web/media/cache/my_thumb/'.$this->getUploadDir().'/' . $this->imageId . '.jpeg';
-        if(file_exists($thumb_dir))
-        {
-            unlink($thumb_dir);
-        }
-
-        //pašalinam iš duomenų bazės
-        $em->remove($this);
-        $em->flush();
-    }
-    /*
-    * gražina failo pavadinimą
-    */
-   public function getFileName()
-   {
-       return $this->imageId . "." . $this->ext;
-   }
-   /*
-    * gražina pilna direktoriją su failo pavadinimu
-    */
-    public function getAbsolutePath()
-    {
-        return null === $this->getFileName() ? null : $this->getUploadRootDir().'/'.$this->getFileName();
-    }
-    /*
-    * gražinam paveikslėlio direktoriją atvaizdavimui puslapy
-    */
-    public function getWebPath()
-    {
-        return null === $this->getFileName() ? null : $this->getUploadDir().'/'.$this->getFileName();
-    }
-
-    /*
-    * absoliuti direktorija kur nuotrauka turėtų būt išsaugota
-    *
-    */
-    public function getUploadRootDir()
-    {
-
-        return __DIR__.'/../../../../web/'.$this->getUploadDir();
-    }
-
-    /*
-    * atsikratom __DIR__, kad negadintu vaizdo
-    */
-    protected function getUploadDir()
-    {
-
-        return 'uploads';
-    }
-
     /**
      * Add likes
      *
@@ -508,5 +428,54 @@ class Image
     public function getLikeCount()
     {
         return $this->like_count;
+    }
+
+    /*
+    * gražina failo pavadinimą
+    */
+    public function getFileName()
+    {
+        return $this->imageId . "." . $this->ext;
+    }
+
+    /*
+     * gražina pilna direktoriją su failo pavadinimu
+     */
+    public function getAbsolutePath()
+    {
+        return null === $this->getFileName() ? null : $this->getUploadRootDir().'/'.$this->getFileName();
+    }
+
+    /*
+    * gražinam paveikslėlio direktoriją atvaizdavimui puslapy
+    */
+    public function getWebPath()
+    {
+        return null === $this->getFileName() ? null : $this->getUploadDir().'/'.$this->getFileName();
+    }
+
+    /*
+    * absoliuti direktorija kur nuotrauka turėtų būt išsaugota
+    *
+    */
+    public function getUploadRootDir()
+    {
+
+        return __DIR__.'/../../../../web/'.$this->getUploadDir();
+    }
+
+    /*
+    * atsikratom __DIR__, kad negadintu vaizdo
+    */
+    public function getUploadDir()
+    {
+        return 'uploads';
+    }
+
+    public function __construct()
+    {
+        $this->like_count = 0;
+        $this->comments = new ArrayCollection();
+        $this->albums = new ArrayCollection();
     }
 }

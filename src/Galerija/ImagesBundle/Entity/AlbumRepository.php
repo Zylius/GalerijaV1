@@ -5,12 +5,13 @@ use Doctrine\ORM\EntityRepository;
 
 class AlbumRepository extends EntityRepository
 {
-    public function findUserImages($id)
+    public function findAutoSelect($id)
     {
         $query =  $this->getEntityManager()->createQuery(
-            'SELECT p FROM GalerijaImagesBundle:Image p WHERE p.user = :id'
-            )->setParameter('id', $id);
+            'SELECT p FROM GalerijaImagesBundle:Album p WHERE p.auto_add = TRUE OR p.albumId = :id'
+        )->setParameter('id', $id);
         $results = $query->getResult();
         return $results;
     }
+
 }

@@ -101,17 +101,50 @@
     }
 
     Delete.prototype.options = {
-        inProgress: false
+        inProgress: false,
+        aID: 0
     };
 
     Delete.prototype._create = function () {
         this._on(this.element, {
-            "click": "start"
+           "click": "_prompt"
         });
+        this.deleteAll = bind(this.deleteAll, this);
+        this.deleteSingle = bind(this.deleteSingle, this);
     };
+    Delete.prototype._prompt = function () {
+        //jei siuntimas jau pradėtas sustabdyti
+        if (this.options.inProgress)
+            return;
+        this.box = $("#delete-dialog" ).dialog(
+            {
+                modal:true, //Not necessary but dims the page background
+                width: '25em',
+                resizable: false,
+                context: this,
+                buttons:{
+                    'Iš visų albumų': this.deleteAll,
+                    'Tik iš šio albumo':this.deleteSingle
+                }
+            }
 
+        );
+        if(this.options.aID == 0)
+        {
+            $(".ui-dialog-buttonpane button:contains('Tik iš šio albumo')").attr("disabled", true).addClass("ui-state-disabled");
+        }
+    };
+    Delete.prototype.deleteAll = function ()
+    {
+        this.start(0);
+    }
+    Delete.prototype.deleteSingle = function ()
+    {
+        this.start(this.options.aID);
+    }
     Delete.prototype._initiate = function () {
         //pakeičiam paveiksliuką pakeisdami tik jų galą, todėl išsisaugom tik direktorijas
+
         this.srcPath = this.element.attr("src").replace(/[^\/]*$/,"");
         this.options.inProgress = true;
         //panaikinam "pranykimo" klase, kad paveiksliukas nepradingtu
@@ -138,15 +171,15 @@
         this.element.addClass("disappear");
     };
 
-    Delete.prototype.start = function () {
-        //jei siuntimas jau pradėtas sustabdyti
-        if (this.options.inProgress)
-            return;
+    Delete.prototype.start = function (mode) {
+
+        $("#delete-dialog").dialog( "close" );
 
         $.ajax({
             url: Routing.generate('galerija_images_delete'),
             type: "POST",
-            data: { "ID": this.element.attr('id') },
+            data: { "ID": this.element.attr('id'),
+                    "aID": mode},
             context: this,
             beforeSend: this._initiate,
             error: function (xhr, ajaxOptions, thrownError) {
@@ -160,7 +193,7 @@
     $.widget("custom.Delete", Delete.prototype);
 
     //pridedam widgetus prie elemtų
-    $(".delete").Delete({});
+    $(".delete").Delete({ aID: $container.attr('aID') });
 
     /*
      * Picture add

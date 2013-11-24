@@ -1,28 +1,28 @@
 galerija_images_homepage:
     pattern:  /
-    defaults: { _controller: GalerijaImagesBundle:Default:index }
+    defaults: { _controller: GalerijaImagesBundle:AlbumList:index }
 
 galerija_images_upload:
     path:  /upload{albumId}
-    defaults: { _controller: GalerijaImagesBundle:Upload:index, albumId: 1 }
+    defaults: { _controller: GalerijaImagesBundle:Image:upload, albumId: 0 }
     requirements:
         albumId: \d+
 
 galerija_images_delete:
     path:  /delete
-    defaults: { _controller: GalerijaImagesBundle:Delete:index }
+    defaults: { _controller: GalerijaImagesBundle:Image:delete }
     options:
         expose: true
 
 galerija_images_album:
     pattern:  /{albumId}
-    defaults: { _controller: GalerijaImagesBundle:Default:albumById }
+    defaults: { _controller: GalerijaImagesBundle:ImageList:albumById }
     requirements:
         albumId: \d+
 
 galerija_images_user_album:
     pattern:  /photosby/{userId}
-    defaults: { _controller: GalerijaImagesBundle:Default:albumByUser }
+    defaults: { _controller: GalerijaImagesBundle:ImageList:albumByUser }
     requirements:
         userId: \d+
 
@@ -34,18 +34,14 @@ galerija_images_image_info:
 
 galerija_images_comment:
     pattern:  /postComment
-    defaults: { _controller: GalerijaImagesBundle:Image:comment }
+    defaults: { _controller: GalerijaImagesBundle:Comment:submit }
 
 galerija_images_like:
     pattern:  /commitLike{imageId}
-    defaults: { _controller: GalerijaImagesBundle:Image:like }
+    defaults: { _controller: GalerijaImagesBundle:Like:submit }
     requirements:
         imageId: \d+
 
 galerija_tag_create:
     pattern:  /tagCreate
-    defaults: { _controller: GalerijaImagesBundle:Default:tag }
-
-galerija_tag_create:
-    pattern:  /profileInfo
-    defaults: { _controller: GalerijaImagesBundle:Profile:fullPanel }
+    defaults: { _controller: GalerijaImagesBundle:Tag:submit }

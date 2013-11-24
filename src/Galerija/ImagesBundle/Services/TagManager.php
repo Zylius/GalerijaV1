@@ -9,32 +9,23 @@ class TagManager
 {
     protected $em;
     protected $formFactory;
-    protected $tag;
     protected $router;
+
     public function __construct(EntityManager $em, FormFactoryInterface $formFactory, Router $router)
     {
         $this->em = $em;
         $this->formFactory = $formFactory;
         $this->router = $router;
-        $tag = new Tag();
     }
-    public function set($tag)
+    public function getForm($tag)
     {
-        $this->tag  = $tag;
-    }
-    public function get()
-    {
-        return $this->tag;
-    }
-    public function getForm()
-    {
-        return $this->formFactory->create(new TagType(), $this->tag, array(
+        return $this->formFactory->create(new TagType(), $tag, array(
             'action' => $this->router->generate('galerija_tag_create'),
         ));
     }
-    public function save()
+    public function save($tag)
     {
-        $this->em->persist($this->tag);
+        $this->em->persist($tag);
         $this->em->flush();
     }
 }

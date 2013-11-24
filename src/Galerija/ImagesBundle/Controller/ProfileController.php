@@ -14,7 +14,6 @@ class ProfileController extends Controller
     public function fullPanelAction()
     {
         $user = $this->container->get('security.context')->getToken()->getUser();
-       // $regform = $this->createForm(new RegistrationFormType('GalerijaImagesBundle:User'));
         $formFactory = $this->container->get('fos_user.registration.form.factory');
         $form = $formFactory->createForm();
         $token = $this->container->get('form.csrf_provider')->generateCsrfToken('authenticate');

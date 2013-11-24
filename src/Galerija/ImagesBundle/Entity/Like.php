@@ -4,7 +4,7 @@ namespace Galerija\ImagesBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 /**
-* @ORM\Entity(repositoryClass="Galerija\ImagesBundle\Entity\ImageRepository")
+* @ORM\Entity(repositoryClass="Galerija\ImagesBundle\Entity\LikeRepository")
 * @ORM\Table(name="likes")
 */
 class Like

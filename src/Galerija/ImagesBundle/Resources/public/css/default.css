@@ -117,3 +117,7 @@ body{
     pointer-events: none;
     z-index: 1;
 }
+#delete-dialog
+{
+    display:none;
+}

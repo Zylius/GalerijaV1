@@ -16,10 +16,8 @@
 {% block content %}
     {% for flashMessage in app.session.flashbag.get('success') %}
         <div class="flash" id="success">
-            {{ flashMessage }}
             {{ flashMessage|trans({}, 'FOSUserBundle', "lt") }}
         </div>
-
     {% endfor %}
     {% for flashMessage in app.session.flashbag.get('error') %}
         <div class="flash" id="error">

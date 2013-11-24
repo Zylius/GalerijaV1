@@ -13,9 +13,9 @@
 {% endblock %}
 {% block list %}
     {% block imglist %}
-    <div class="list">
+    <div aID="{{ album.albumId }}" class="list">
         {% for single in album.getImages() %}
-                <div class="image isotope {% for tag in single.getTags() %} tag-{{ tag.getName() }}{% endfor %}">
+                <div class="image isotope {% for tag in single.tags %} tag-{{ tag.name }}{% endfor %}">
                     <a class="fancybox" rel="gallery1" data-fancybox-type="ajax" href="{{ path('galerija_images_image_info', { 'imageId' : single.imageId })  }}">
                     <img alt="{{ single.getPavadinimas() }}" src="{{  asset(single.getWebPath() | imagine_filter('my_thumb')) }}"/>
                     </a>
@@ -33,4 +33,8 @@
         {% include "GalerijaImagesBundle:Forms:tag_create.html.twig" %}
     </div>
     {% endblock imglist %}
+    <div id="delete-dialog" title="Trinimo dialogas">
+        <p>Kaip ištrinti? </p>
+        <p>(Jei trinate iš savo įkeltų nuotraukų albumo, galima ištrinti tik iš visų albumų)</p>
+    </div>
 {% endblock list %}
