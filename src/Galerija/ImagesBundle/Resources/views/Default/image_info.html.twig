@@ -1,10 +1,14 @@
 
 <div class="block">
-
+    <div class="image_texts image_title">
+        {{ image.getPavadinimas() }}
+    </div>
     <div class="centered">
         <img alt="{{ image.getPavadinimas() }}" src="{{  asset(image.getWebPath()) }}"/>
     </div>
-
+    <div class="image_texts image_description">
+        {{ image.getAprasymas() }}
+    </div>
 </div>
 <div class="image_panel">
     <div id="image_accordion">

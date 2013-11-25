@@ -19,9 +19,8 @@
                     <a class="fancybox" rel="gallery1" data-fancybox-type="ajax" href="{{ path('galerija_images_image_info', { 'imageId' : single.imageId })  }}">
                     <img alt="{{ single.getPavadinimas() }}" src="{{  asset(single.getWebPath() | imagine_filter('my_thumb')) }}"/>
                     </a>
-                    {# patikriniam ar prisijungęs ir leidžiam trinti nuotraukas #}
-                    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-                        <img class="delete disappear"  id="{{ single.imageId }}" alt="Delete" src="{{ asset('bundles/GalerijaImages/images/delete.png') }}" />
+                    {% if single|belongs %}
+                        <img class="delete disappear delete-image"  id="{{ single.imageId }}" alt="Delete" src="{{ asset('bundles/GalerijaImages/images/delete.png') }}" />
                     {% endif %}
                 </div>
         {% endfor %}

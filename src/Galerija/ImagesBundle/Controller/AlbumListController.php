@@ -5,6 +5,7 @@ namespace Galerija\ImagesBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Galerija\ImagesBundle\Entity\Album;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 class AlbumListController extends Controller
 {
     public function indexAction(Request $request)
@@ -24,7 +25,7 @@ class AlbumListController extends Controller
 
                 $am->save($album);
 
-                $this->get('session')->getFlashBag()->add('success', 'Failas ?keltas s?kmingai!');
+                $this->get('session')->getFlashBag()->add('success', 'Albumas sukurtas sėkmingai!');
                 return $this->redirect($this->generateUrl('galerija_images_homepage'));
             }
             else
@@ -49,5 +50,41 @@ class AlbumListController extends Controller
             'form' => $form->createView(),
             'user' => $user
         ));
+    }
+    public function deleteAction(Request $request)
+    {
+        $response = new JsonResponse();
+
+        $am = $this->get("album_manager");
+
+        $aid = (int)$request->request->get('ID');
+
+        $album = $am->findById($aid);
+
+        if($album == null)
+        {
+            $response->setData(array(
+                "success" => false,
+                "message" => 'Tokio paveiksliuko nerasta'
+            ));
+            return $response;
+        }
+
+        if(!$this->get("user_extension")->belongsFilter($album))
+        {
+            $response->setData(array(
+                "success" => false,
+                "message" => 'Galima trinti tik savo albumus.'
+            ));
+            return $response;
+        }
+
+        $am->delete($album);
+
+        $response->setData(array(
+            "success" => true,
+            "message" => 'Albumas ištrintas sėkmingai!'
+        ));
+        return $response;
     }
 }

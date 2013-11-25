@@ -33,16 +33,6 @@ class ImageManager
     }
     public function remove(Image $image)
     {
-        foreach ($image->getComments() AS $comment) {
-            $this->em->remove($comment);
-        }
-        foreach ($image->getLikes() AS $like) {
-            $this->em->remove($like);
-        }
-        $this->em->remove($image);
-    }
-    public function delete(Image $image,Album $album = null)
-    {
         if(file_exists($image->getAbsolutePath()))
         {
             unlink($image->getAbsolutePath());
@@ -53,13 +43,25 @@ class ImageManager
         {
             unlink($thumb_dir);
         }
+        foreach ($image->getComments() AS $comment) {
+            $this->em->remove($comment);
+        }
+        foreach ($image->getLikes() AS $like) {
+            $this->em->remove($like);
+        }
+        $this->em->remove($image);
+    }
+    public function delete(Image $image,Album $album = null)
+    {
         if($album != null)
         {
             $image->removeAlbum($album);
-            if($image->getAlbums()->count() == 0)
+            $count  = $image->getAlbums()->count();
+            if($count == 0)
             {
                 $this->remove($image);
             }
+
         }
         else
         {
@@ -81,14 +83,6 @@ class ImageManager
     {
         $value = $this->em->getRepository('GalerijaImagesBundle:Image')->findUserImages($user->getId());
         return $value;
-    }
-    public function formatTags(Image $image)
-    {
-        $tags = "";
-        foreach ($image->getTags()->toArray() as $arr) {
-            $tags .= ' tag-'.$arr->getName();
-        }
-        return $tags;
     }
     public function uploadProcedures(Image $image)
     {

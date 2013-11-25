@@ -56,6 +56,13 @@
                 $(".fancybox-next").css({
                     right: "30%"
                 });
+                $( ".fancybox-nav" ).hover(
+                    function() {
+                        $(".image_texts").show();
+                    }, function() {
+                        $(".image_texts").hide();
+                    }
+                );
             }
         });
     };
@@ -102,7 +109,9 @@
 
     Delete.prototype.options = {
         inProgress: false,
-        aID: 0
+        aID: 0,
+        type: 'image',
+        route: 'galerija_images_delete'
     };
 
     Delete.prototype._create = function () {
@@ -111,12 +120,30 @@
         });
         this.deleteAll = bind(this.deleteAll, this);
         this.deleteSingle = bind(this.deleteSingle, this);
+        this.start = bind(this.start, this);
+        this.srcPath = this.element.attr("src").replace(/[^\/]*$/,"");
     };
     Delete.prototype._prompt = function () {
         //jei siuntimas jau pradėtas sustabdyti
         if (this.options.inProgress)
             return;
-        this.box = $("#delete-dialog" ).dialog(
+        if(this.options.type != 'image')
+        {
+            $("#delete-dialog" ).dialog(
+                {
+                    modal:true, //Not necessary but dims the page background
+                    width: '25em',
+                    resizable: false,
+                    context: this,
+                    buttons:{
+                        'Patvirtinti': this.start
+                    }
+                }
+
+            );
+            return;
+        }
+        $("#delete-dialog" ).dialog(
             {
                 modal:true, //Not necessary but dims the page background
                 width: '25em',
@@ -145,7 +172,6 @@
     Delete.prototype._initiate = function () {
         //pakeičiam paveiksliuką pakeisdami tik jų galą, todėl išsisaugom tik direktorijas
 
-        this.srcPath = this.element.attr("src").replace(/[^\/]*$/,"");
         this.options.inProgress = true;
         //panaikinam "pranykimo" klase, kad paveiksliukas nepradingtu
         this.element.removeClass("disappear");
@@ -176,14 +202,14 @@
         $("#delete-dialog").dialog( "close" );
 
         $.ajax({
-            url: Routing.generate('galerija_images_delete'),
+            url: Routing.generate(this.options.route),
             type: "POST",
             data: { "ID": this.element.attr('id'),
-                    "aID": mode},
+                    "aID": mode?0:0},
             context: this,
             beforeSend: this._initiate,
             error: function (xhr, ajaxOptions, thrownError) {
-                showStatus(0, 'Ištrinti paveiksliuko nepavyko');
+                showStatus(0, 'Ištrinti nepavyko');
                 this._failure();
             },
             success: this._result
@@ -193,8 +219,11 @@
     $.widget("custom.Delete", Delete.prototype);
 
     //pridedam widgetus prie elemtų
-    $(".delete").Delete({ aID: $container.attr('aID') });
-
+    $(".delete-image").Delete({ aID: $container.attr('aID') });
+    $(".delete-album").Delete({
+        type: 'album',
+        route: 'galerija_album_delete'
+    });
     /*
      * Picture add
      */
@@ -250,7 +279,7 @@
 
             $('.list').append(fullimg);
             //pridedam widgetus prie naujo elemento
-            fullimg.find('.delete').Delete({});
+            fullimg.find('.delete').Delete({ aID: $container.attr('aID') });
             RefreshFancybox();
             fullimg.imagesLoaded(function(){
                 $container.isotope( 'insert', fullimg );

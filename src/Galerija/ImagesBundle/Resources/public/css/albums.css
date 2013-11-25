@@ -5,15 +5,22 @@
     padding: 0.3em;
     float:left;
     margin:0.5em;
+    position:relative;
 }
-.album img
+.album img:first-child
 {
     height: auto;
     width: auto;
     max-height: 20em;
     max-width: 20em;
+
 }
 .album p
 {
     padding:0.3em;
+}
+.album:hover .disappear
+{
+    display: block;
+    cursor: pointer;
 }

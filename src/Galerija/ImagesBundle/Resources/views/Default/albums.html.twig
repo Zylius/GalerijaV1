@@ -9,8 +9,11 @@
                                 <img alt=" {{ single.getImages().last().getPavadinimas() }}" src="{{ asset(single.getImages().last().getWebPath() | imagine_filter('my_thumb')) }}"/>
                            {% else %}
                                 <img alt="Albumas neturi nuotraukų." src="{{ asset('bundles/GalerijaImages/images/no_image.png') }}"/>
-                     {% endif %}
-                     </a>
+                           {% endif %}
+                   </a>
+                           {% if single|belongs %}
+                                <img class="delete disappear delete-album"  id="{{ single.albumId }}" alt="Delete" src="{{ asset('bundles/GalerijaImages/images/delete.png') }}" />
+                           {% endif %}
                      <p>
                          {{single.getShortComment()}}
                      </p>
@@ -19,6 +22,10 @@
         </div>
         <div class=form_wrapper>
         {% include "GalerijaImagesBundle:Forms:album.html.twig" %}
+        </div>
+        <div id="delete-dialog" title="Trinimo dialogas">
+            <p>Trinti albumą</p>
+            <p>Kartu bus ištrintos visos nuotraukos nesusietos su kitais albumais</p>
         </div>
     {% endblock albumlist %}
 {% endblock list %}

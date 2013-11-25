@@ -72,7 +72,7 @@ class ImageController extends Controller
 
                 $response->setData(array(
                     "success" => true,
-                    "tags" => $im->formatTags($image),
+                    "tags" => $this->get("tag_manager")->formatTags($image),
                     "message" => 'Failas įkeltas sėkmingai!',
                     "thumb_path" =>  $assetManager->getUrl($srcPath),
                     "path" =>  $this->generateUrl(('galerija_images_image_info'), array('imageId' => $image->getImageId())),
@@ -106,40 +106,40 @@ class ImageController extends Controller
     }
     public function deleteAction(Request $request)
     {
-        //patikrinam ar vartotojas prisijungęs
-        $securityContext = $this->container->get('security.context');
         $response = new JsonResponse();
-        if(!$securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED'))
+
+        $im = $this->get("image_manager");
+
+        $id = (int)$request->request->get('ID');
+        $aid = (int)$request->request->get('aID');
+
+        $image = $im->findById($id);
+
+        if($image == null)
         {
             $response->setData(array(
                 "success" => false,
-                "message" => 'Trinti nuotraukas gali tik prisijungę vartotojai.'
+                "message" => 'Tokio paveiksliuko nerasta'
             ));
             return $response;
         }
 
-        //paimam trinamos nuotrakos ID ir patikrinam ar tokia yra db
-        $im = $this->get("image_manager");
-        $id = (int)$request->request->get('ID');
-        $aid = (int)$request->request->get('aID');
-        if($image = $im->findById($id))
+        if(!$this->get("user_extension")->belongsFilter($image))
         {
-            //patikrinam ar failas egzistuoja ir ištrinam
-            $im->delete($image,  $this->get("album_manager")->findById($aid));
-
-            //nustatom pranešimą ir grąžinam klientui
             $response->setData(array(
-                "success" => true,
-                "message" => 'Failas ištrintas sėkmingai!'
+                "success" => false,
+                "message" => 'Galima trinti tik savo nuotraukas.'
             ));
             return $response;
         }
+
+        $im->delete($image,  $this->get("album_manager")->findById($aid));
 
         $response->setData(array(
-            "success" => false,
-            "message" => 'Failo ištrinti nepavyko'
+            "success" => true,
+            "message" => 'Failas ištrintas sėkmingai!'
         ));
-
         return $response;
+
     }
 }

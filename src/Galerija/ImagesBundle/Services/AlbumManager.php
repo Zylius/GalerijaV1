@@ -10,20 +10,31 @@ class AlbumManager
     protected $em;
     protected $formFactory;
     protected $router;
+    protected $im;
 
-    public function __construct(EntityManager $em, FormFactoryInterface $formFactory, Router $router)
+    public function __construct(EntityManager $em, FormFactoryInterface $formFactory, Router $router, ImageManager $im)
     {
         $this->em = $em;
         $this->formFactory = $formFactory;
         $this->router = $router;
+        $this->im = $im;
     }
-    public function getForm($album)
+    public function getForm(Album $album)
     {
         return $this->formFactory->create(new AlbumType(), $album);
     }
-    public function save($album)
+    public function save(Album $album)
     {
         $this->em->persist($album);
+        $this->em->flush();
+    }
+    public function delete(Album $album)
+    {
+        foreach($album->getImages() as $image)
+        {
+            $this->im->delete($image, $album);
+        }
+        $this->em->remove($album);
         $this->em->flush();
     }
     public function findAll()

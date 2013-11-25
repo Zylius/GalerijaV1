@@ -1,7 +1,7 @@
 <?php
 namespace Galerija\ImagesBundle\Services;
 use Doctrine\ORM\EntityManager;
-use Galerija\ImagesBundle\Entity\Tag;
+use Galerija\ImagesBundle\Entity\Image;
 use Galerija\ImagesBundle\Form\Type\TagType;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -27,5 +27,16 @@ class TagManager
     {
         $this->em->persist($tag);
         $this->em->flush();
+    }
+    public function formatTags(Image $image)
+    {
+        if($image->getTags() == null)
+            return "";
+
+        $tags = "";
+        foreach ($image->getTags()->toArray() as $arr) {
+            $tags .= ' tag-'.$arr->getName();
+        }
+        return $tags;
     }
 }
