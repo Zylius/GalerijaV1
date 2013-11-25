@@ -205,7 +205,7 @@
             url: Routing.generate(this.options.route),
             type: "POST",
             data: { "ID": this.element.attr('id'),
-                    "aID": mode?0:0},
+                    "aID": mode?mode:0},
             context: this,
             beforeSend: this._initiate,
             error: function (xhr, ajaxOptions, thrownError) {
