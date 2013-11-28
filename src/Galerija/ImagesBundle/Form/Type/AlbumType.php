@@ -8,15 +8,15 @@ class AlbumType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('short_comment', 'text', array('label' => "Komentaras",
+        $builder->add('short_comment', 'text', array('label' => "Pavadinimas",
             'attr' =>
             array
             (
                 'placeholder' => 'Privalomas'
             )
         ));
-        $builder->add('long_comment', 'textarea', array('label' => "Ilgas aprašymas"));
-        $builder->add('auto_add', 'checkbox', array('label' => "Automatiškai pažymėti"));
+        $builder->add('long_comment', 'textarea', array('label' => "Aprašymas"));
+        $builder->add('auto_add', 'checkbox', array('label' => "Automatiškai pažymėti", 'required' => false));
         $builder->add('Ikelti', 'submit', array('label' => "Įkelti"));
     }
 

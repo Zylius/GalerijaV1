@@ -2,10 +2,11 @@
 {
     float: left;
 }
-.image:hover .disappear
+.image:hover .disappear, .image:hover .make_default
 {
     display: block;
     cursor:pointer;
+
 }
 
 .disappear
@@ -21,7 +22,15 @@
     height: 20px;
     width: 20px;
 }
-
+.make_default
+{
+    display:none;
+    top: 0;
+    right: 20px;
+    position: absolute;
+    height: 20px;
+    width: 20px;
+}
 .image img:first-child
 {
     margin: 0.6em;

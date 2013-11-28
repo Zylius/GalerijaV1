@@ -28,6 +28,9 @@ class ImageManager
     }
     public function save($image)
     {
+        foreach ($image->getAlbums() AS $album) {
+            $album->setImageCount($album->getImageCount() + 1);
+        }
         $this->em->persist($image);
         $this->em->flush();
     }
@@ -49,19 +52,27 @@ class ImageManager
         foreach ($image->getLikes() AS $like) {
             $this->em->remove($like);
         }
+        foreach ($image->getAlbums() AS $album) {
+            $album->setImageCount($album->getImageCount() - 1);
+            if($album->getDefaultImage() == $image)
+                $album->setDefaultImage(null);
+        }
         $this->em->remove($image);
     }
     public function delete(Image $image,Album $album = null)
     {
-        if($album != null)
+        if($album != null && $album->getAlbumId() != 0)
         {
             $image->removeAlbum($album);
-            $count  = $image->getAlbums()->count();
+
+            $album->setImageCount($album->getImageCount() - 1);
+            $album->setDefaultImage(null);
+
+            $count = $image->getAlbums()->count();
             if($count == 0)
             {
                 $this->remove($image);
             }
-
         }
         else
         {

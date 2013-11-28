@@ -181,6 +181,19 @@ class Image
     }
 
     /**
+     * Set ID for custom file
+     *
+     * @param string $file_name
+     * @return Image
+     */
+    public function setImageId($file_name)
+    {
+        $this->imageId = $file_name;
+
+        return $this;
+    }
+
+    /**
      * Set pavadinimas
      *
      * @param string $pavadinimas

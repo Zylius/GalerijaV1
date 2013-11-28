@@ -15,11 +15,14 @@
         <h3>Komentarai</h3>
         <div class="comments">
         <ul>
-                {% if comments is empty %}
-                    Komentarų nėra
-                {% endif %}
             {% for single in comments %}
             <li>
+                {% if single|belongs or image|belongs %}
+                    <img class="delete disappear delete-comment"
+                         id="{{ single.commentId }}" alt="Delete"
+                         src="{{ asset('bundles/GalerijaImages/images/delete.png') }}"
+                         data-csrf_token="{{ csrf_token("comment" ~ single.commentId) }}"   />
+                {% endif %}
                 <fieldset>
                     <legend>{{ single.user.username }}</legend>
                     {{ single.comment }}
@@ -32,9 +35,6 @@
         <h3>Tagai</h3>
         <div class="tags">
             <ul>
-                {% if image.getTags() is empty %}
-                Tag'ų nėra
-                {% endif %}
                 {% for tag in image.getTags() %}
                 <li>
                     {{ tag.getName() }}

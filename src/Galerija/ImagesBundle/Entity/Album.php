@@ -58,6 +58,17 @@ class Album
     protected $updated;
 
     /**
+     * @ORM\Column(type="integer")
+     */
+    protected $image_count;
+
+    /**
+     * @ORM\OneToOne(targetEntity="Image")
+     * @ORM\JoinColumn(name="image_id", referencedColumnName="imageId")
+     */
+    protected $defaultImage;
+
+    /**
      * @param mixed $userId
      */
     public function setUserId($userId)
@@ -139,6 +150,8 @@ class Album
 
     public function __construct()
     {
+        $this->defaultImage = null;
+        $this->image_count = 0;
         $this->albumId = 0;
         $this->images = new ArrayCollection();
     }
@@ -258,4 +271,51 @@ class Album
         return $this->auto_add;
     }
 
+
+    /**
+     * Set image_count
+     *
+     * @param integer $imageCount
+     * @return Album
+     */
+    public function setImageCount($imageCount)
+    {
+        $this->image_count = $imageCount;
+    
+        return $this;
+    }
+
+    /**
+     * Get image_count
+     *
+     * @return integer 
+     */
+    public function getImageCount()
+    {
+        return $this->image_count;
+    }
+
+
+    /**
+     * Set defaultImage
+     *
+     * @param \Galerija\ImagesBundle\Entity\Image $defaultImage
+     * @return Album
+     */
+    public function setDefaultImage(\Galerija\ImagesBundle\Entity\Image $defaultImage = null)
+    {
+        $this->defaultImage = $defaultImage;
+    
+        return $this;
+    }
+
+    /**
+     * Get defaultImage
+     *
+     * @return \Galerija\ImagesBundle\Entity\Image 
+     */
+    public function getDefaultImage()
+    {
+        return $this->defaultImage;
+    }
 }

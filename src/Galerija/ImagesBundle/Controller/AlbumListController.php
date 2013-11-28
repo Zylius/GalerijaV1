@@ -14,7 +14,6 @@ class AlbumListController extends Controller
         $am = $this->get("album_manager");
         $form = $am->getForm($album);
         $user = $this->container->get('security.context')->getToken()->getUser();
-        $album_array = $am->findAll();
 
         if ($request->isMethod('POST'))
         {
@@ -44,7 +43,7 @@ class AlbumListController extends Controller
                 return $this->redirect($this->generateUrl('galerija_images_homepage'));
             }
         }
-
+        $album_array = $am->findAll();
         return $this->render('GalerijaImagesBundle:Default:albums.html.twig', array(
             'album_array' => $album_array,
             'form' => $form->createView(),
@@ -65,7 +64,16 @@ class AlbumListController extends Controller
         {
             $response->setData(array(
                 "success" => false,
-                "message" => 'Tokio paveiksliuko nerasta'
+                "message" => 'Tokio albumo nerasta'
+            ));
+            return $response;
+        }
+
+        if (!$this->get('form.csrf_provider')->isCsrfTokenValid("album".$aid, $request->request->get('csrf_token')))
+        {
+            $response->setData(array(
+                "success" => false,
+                "message" => 'Neteisingas CSRF.'
             ));
             return $response;
         }
@@ -84,6 +92,49 @@ class AlbumListController extends Controller
         $response->setData(array(
             "success" => true,
             "message" => 'Albumas ištrintas sėkmingai!'
+        ));
+        return $response;
+    }
+    public function setDefaultAction(Request $request)
+    {
+        $response = new JsonResponse();
+        $aid = (int)$request->request->get('aID');
+        $id = (int)$request->request->get('ID');
+
+        $album = $this->get("album_manager")->findById($aid);
+        $image = $this->get("image_manager")->findById($id);
+        if($album == null || $album->getAlbumId() == 0)
+        {
+            $response->setData(array(
+                "success" => false,
+                "message" => 'Tokio albumo nerasta'
+            ));
+            return $response;
+        }
+
+        if (!$this->get('form.csrf_provider')->isCsrfTokenValid("default_image", $request->request->get('csrf_token')))
+        {
+            $response->setData(array(
+                "success" => false,
+                "message" => 'Neteisingas CSRF.'
+            ));
+            return $response;
+        }
+
+        if(!$this->get("user_extension")->belongsFilter($album))
+        {
+            $response->setData(array(
+                "success" => false,
+                "message" => 'Nustatyti titulines nuotraukas galima tik savo albumams.'
+            ));
+            return $response;
+        }
+
+        $album->setDefaultImage($image);
+        $this->getDoctrine()->getManager()->flush();
+        $response->setData(array(
+            "success" => true,
+            "message" => 'Titulinė nuotrauka pakeista.'
         ));
         return $response;
     }

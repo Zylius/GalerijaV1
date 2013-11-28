@@ -14,15 +14,8 @@
 {% block list %}
     {% block imglist %}
     <div aID="{{ album.albumId }}" class="list">
-        {% for single in album.getImages() %}
-                <div class="image isotope {% for tag in single.tags %} tag-{{ tag.name }}{% endfor %}">
-                    <a class="fancybox" rel="gallery1" data-fancybox-type="ajax" href="{{ path('galerija_images_image_info', { 'imageId' : single.imageId })  }}">
-                    <img alt="{{ single.getPavadinimas() }}" src="{{  asset(single.getWebPath() | imagine_filter('my_thumb')) }}"/>
-                    </a>
-                    {% if single|belongs %}
-                        <img class="delete disappear delete-image"  id="{{ single.imageId }}" alt="Delete" src="{{ asset('bundles/GalerijaImages/images/delete.png') }}" />
-                    {% endif %}
-                </div>
+        {% for image in album.getImages() %}
+            {% include 'GalerijaImagesBundle:Default:single_image.html.twig' %}
         {% endfor %}
     </div>
     <div class="form_wrapper" id="form_array">

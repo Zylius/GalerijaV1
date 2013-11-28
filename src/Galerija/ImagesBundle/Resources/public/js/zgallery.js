@@ -32,6 +32,7 @@
             }
         });
 
+
     });
 
     var RefreshFancybox = function()
@@ -52,6 +53,10 @@
                 $("#like_area").LikeImage({});
                 $("#image_accordion").accordion({
                     heightStyle: "content"
+                });
+                $(".delete-comment").Delete({
+                    type: 'comment',
+                    route: 'galerija_comment_delete'
                 });
                 $(".fancybox-next").css({
                     right: "30%"
@@ -122,12 +127,18 @@
         this.deleteSingle = bind(this.deleteSingle, this);
         this.start = bind(this.start, this);
         this.srcPath = this.element.attr("src").replace(/[^\/]*$/,"");
+        this.csrf_token = this.element.attr("data-csrf_token");
     };
     Delete.prototype._prompt = function () {
         //jei siuntimas jau pradėtas sustabdyti
         if (this.options.inProgress)
             return;
-        if(this.options.type != 'image')
+        if(this.options.type == 'comment')
+        {
+            this.start(null);
+            return;
+        }
+        if(this.options.type == 'album')
         {
             $("#delete-dialog" ).dialog(
                 {
@@ -163,11 +174,11 @@
     };
     Delete.prototype.deleteAll = function ()
     {
-        this.start(0);
+        this.start(null, 0);
     }
     Delete.prototype.deleteSingle = function ()
     {
-        this.start(this.options.aID);
+        this.start(null, this.options.aID);
     }
     Delete.prototype._initiate = function () {
         //pakeičiam paveiksliuką pakeisdami tik jų galą, todėl išsisaugom tik direktorijas
@@ -183,7 +194,7 @@
             $container.isotope('remove', this.element.parent());
         }
         else {
-            //sugrąžinam į pradinę būseną
+            //sugr?žinam ? pradin? b?sen?
             this._failure();
 
         }
@@ -197,15 +208,20 @@
         this.element.addClass("disappear");
     };
 
-    Delete.prototype.start = function (mode) {
+    Delete.prototype.start = function (event, extraData) {
 
-        $("#delete-dialog").dialog( "close" );
-
+        var dialog_container = $("#delete-dialog");
+        if( dialog_container.hasClass('ui-dialog-content'))
+            dialog_container.dialog( "close" );
+        extraData = extraData || 0;
         $.ajax({
             url: Routing.generate(this.options.route),
             type: "POST",
-            data: { "ID": this.element.attr('id'),
-                    "aID": mode?mode:0},
+            data: {
+                "ID": this.element.attr('id'),
+                "aID": extraData,
+                "csrf_token": this.csrf_token
+            },
             context: this,
             beforeSend: this._initiate,
             error: function (xhr, ajaxOptions, thrownError) {
@@ -218,7 +234,7 @@
 
     $.widget("custom.Delete", Delete.prototype);
 
-    //pridedam widgetus prie elemtų
+    //pridedam widgetus prie elemt?
     $(".delete-image").Delete({ aID: $container.attr('aID') });
     $(".delete-album").Delete({
         type: 'album',
@@ -235,20 +251,22 @@
     };
 
     Upload.prototype._create = function () {
-        //randam baro containeri, kad būtų galimą visą paslėpti
+        //randam baro containeri, kad b?t? galim? vis? pasl?pti
         this.pBarContainer = this.element.find('.meter');
         this.pBar = this.pBarContainer.find('span');
         this.sButton = this.element.find('#image_upload_Ikelti');
-        //uploadProgress veikia ne tame kontekste todėl pribindinam updateProgress
+        //uploadProgress veikia ne tame kontekste tod?l pribindinam updateProgress
         this._updateProgress = bind(this._updateProgress, this);
         /*
-         *ajaxForm - http://malsup.com/jquery/form/, galima sužinoti įkelimo procentus
-         * išsiunčiama nuspaudus <input type="submit">
+         *ajaxForm - http://malsup.com/jquery/form/, galima sužinoti ?kelimo procentus
+         * išsiun?iama nuspaudus <input type="submit">
          */
         this.send = $('#form_image_add').ajaxForm({
             context: this,
             beforeSend: this._initiate,
             uploadProgress: this._updateProgress,
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
             error: function (xhr, ajaxOptions, thrownError) {
                 showStatus(0, 'Įkelti paveiksliuko nepavyko.');
                 this._hide();
@@ -269,14 +287,10 @@
     };
 
     Upload.prototype._result = function (data) {
-        if (data.success && data.name !== undefined) {
+        if (data.success && data.value !== undefined) {
 
-            //įdedam naują paveiksliuką
-            var fullimg = $('<div class="image' + data.tags + '">' +
-                '<a class="fancybox" data-fancybox-type="ajax"  rel="gallery1" href="' + data.path + '">' +
-                '<img alt="' + data.name + '" src="' + data.thumb_path + '"/></a>' +
-                '<img class="delete disappear" id="' + data.ID + '" alt="Delete" src="' + data.delpath + '"></div>');
-
+            //?dedam nauj? paveiksliuk?
+            var fullimg = $('<div>',{html:data.value});
             $('.list').append(fullimg);
             //pridedam widgetus prie naujo elemento
             fullimg.find('.delete').Delete({ aID: $container.attr('aID') });
@@ -289,6 +303,7 @@
         showStatus(data.success, data.message);
         this._hide();
     };
+
     Upload.prototype._hide = function () {
         this.options.inProgress = false;
 
@@ -298,7 +313,7 @@
     };
     $.widget("custom.Upload", Upload.prototype);
 
-    //pridedam widgetus prie elemtų
+    //pridedam widgetus prie elemt?
     $("#form_image_add").Upload({});
 
     //post Comment widget
@@ -330,11 +345,16 @@
 
     PostComment.prototype._result = function (data) {
         if (data.success) {
-            //įdedam naują paveiksliuką
-            var comment = $('<fieldset><legend>'+ data.username + '</legend>'+ data.value + '</fieldset>');
+            //?dedam nauj? paveiksliuk?
+            var comment = $('<li><img class="delete disappear delete-comment" id="' + data.id + '"' +
+            'alt="Delete" src="' + data.delpath + '" data-csrf_token="'+ data.token +'"/>' +
+            '<fieldset><legend>'+ data.username + '</legend>'+ data.value + '</fieldset></li>');
             $(".comments").find("ul").append(comment);
+            comment.find('img').Delete({
+                type: 'comment',
+                route: 'galerija_comment_delete'
+            });
         }
-
         showStatus(data.success, data.message);
         this._hide();
     };
@@ -364,7 +384,7 @@
     };
 
     LikeImage.prototype.start = function () {
-        //jei siuntimas jau pradėtas sustabdyti
+        //jei siuntimas jau prad?tas sustabdyti
         if (this.options.inProgress)
             return false;
 
@@ -374,7 +394,7 @@
             context: this,
             beforeSend: this._initiate,
             error: function (xhr, ajaxOptions, thrownError) {
-                showStatus(0, '"Like\'inti" gali tik prisijungę vartotojai.');
+                showStatus(0, '"Like\'inti" gali tik prisijung? vartotojai.');
                 this._failure();
             },
             success: this._result
@@ -413,4 +433,59 @@
     }
     $.widget("custom.LikeImage", LikeImage.prototype);
 
+    //nustato kaip titulinį image albumui
+    function DefaultImage(){}
+
+    DefaultImage.prototype.options = {
+        inProgress: false,
+        aID: 0
+    };
+
+    DefaultImage.prototype._create = function () {
+
+        this.CSRF = this.element.attr('data-csrf_token');
+        this.ID = this.element.attr('data-id');
+        this._on(this.element, {
+            "click": "start"
+        });
+    };
+
+    DefaultImage.prototype.start = function () {
+        //jei siuntimas jau prad?tas sustabdyti
+        if (this.options.inProgress)
+            return false;
+
+        $.ajax({
+            url: Routing.generate("galerija_album_default"),
+            type: "POST",
+            data: {
+                "ID": this.ID,
+                "aID": this.options.aID,
+                "csrf_token": this.CSRF
+            },
+            context: this,
+            beforeSend: this._initiate,
+            error: function (xhr, ajaxOptions, thrownError) {
+                showStatus(0, 'Klaida!');
+                this._failure();
+            },
+            success: this._result
+        });
+        return false;
+    };
+
+    DefaultImage.prototype._initiate = function () {
+        this.options.inProgress = true;
+    };
+
+    DefaultImage.prototype._result = function (data) {
+        showStatus(data.success, data.message);
+        this.options.inProgress = false;
+    };
+
+    DefaultImage.prototype._failure = function () {
+        this.options.inProgress = false;
+    };
+    $.widget("custom.DefaultImage", DefaultImage.prototype);
+    $(".make_default").DefaultImage({ aID: $container.attr('aID') });
 })(jQuery);

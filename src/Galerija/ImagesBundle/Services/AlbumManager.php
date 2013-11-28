@@ -1,6 +1,7 @@
 <?php
 namespace Galerija\ImagesBundle\Services;
 use Doctrine\ORM\EntityManager;
+use Galerija\ImagesBundle\Entity\Image;
 use Galerija\ImagesBundle\Entity\Album;
 use Galerija\ImagesBundle\Form\Type\AlbumType;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
@@ -30,22 +31,28 @@ class AlbumManager
     }
     public function delete(Album $album)
     {
+        $album->setDefaultImage(null);
         foreach($album->getImages() as $image)
         {
             $this->im->delete($image, $album);
         }
+
         $this->em->remove($album);
         $this->em->flush();
     }
     public function findAll()
     {
         $value = $this->em->getRepository('GalerijaImagesBundle:Album')->findAll();
+        foreach($value as $album)
+        {
+            $this->processDefaultImage($album);
+        }
         return null === $value ? new Album() : $value;
     }
     public function findById($id)
     {
         $value = $this->em->getRepository('GalerijaImagesBundle:Album')->find($id);
-        return null === $value ? null : $value;
+        return null === $value ? new Album() : $value;
     }
     public function findAutoSelect(Album $album)
     {
@@ -61,5 +68,21 @@ class AlbumManager
                 return true;
         }
         return false;
+    }
+    public function processDefaultImage(Album $album)
+    {
+       if($album->getDefaultImage() == null)
+       {
+           if($album->getImages()->Count() != 0)
+           {
+               $album->setDefaultImage($album->getImages()->last());
+               return;
+           }
+           $image = new Image();
+           $image->setImageId("no_image");
+           $image->setExt("png");
+           $image->setPavadinimas("Albumas neturi nuotraukų.");
+           $album->setDefaultImage($image);
+       }
     }
 }

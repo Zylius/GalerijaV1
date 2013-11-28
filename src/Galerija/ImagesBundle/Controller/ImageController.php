@@ -65,20 +65,13 @@ class ImageController extends Controller
             //patikrinam ar albumas iš kurio buvo įkelta buvo įtrauktas į šios nuotraukos albumų sąrašą
             if($albumId == 0 || $this->get('album_manager')->findAlbumInArray($albumId, $image->getAlbums()->toArray()))
             {
-                $assetManager = $this->get('templating.helper.assets');
-                $cacheManager = $this->container->get('liip_imagine.cache.manager');
-                $this->container->get('liip_imagine.controller')->filterAction($this->getRequest(),$image->getWebPath(),'my_thumb');
-                $srcPath = $cacheManager->getBrowserPath($image->getWebPath(), 'my_thumb');
-
-                $response->setData(array(
+                return $response->setData(array(
                     "success" => true,
-                    "tags" => $this->get("tag_manager")->formatTags($image),
                     "message" => 'Failas įkeltas sėkmingai!',
-                    "thumb_path" =>  $assetManager->getUrl($srcPath),
-                    "path" =>  $this->generateUrl(('galerija_images_image_info'), array('imageId' => $image->getImageId())),
-                    "delpath" =>  $assetManager->getUrl("bundles/GalerijaImages/images/delete.png"),
-                    "name" =>  $image->getPavadinimas(),
-                    "ID" => $image->getImageId()
+                    "value" => $this->render('GalerijaImagesBundle:Default:single_image.html.twig', array(
+                        'image' => $image,
+                        'album' => $this->get('album_manager')->findById($albumId),
+                    ))->getContent()
                 ));
             }
             else
@@ -120,6 +113,15 @@ class ImageController extends Controller
             $response->setData(array(
                 "success" => false,
                 "message" => 'Tokio paveiksliuko nerasta'
+            ));
+            return $response;
+        }
+
+        if (!$this->get('form.csrf_provider')->isCsrfTokenValid("image".$id, $request->request->get('csrf_token')))
+        {
+            $response->setData(array(
+                "success" => false,
+                "message" => 'Neteisingas CSRF.'
             ));
             return $response;
         }

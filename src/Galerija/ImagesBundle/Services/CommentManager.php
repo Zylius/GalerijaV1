@@ -32,9 +32,19 @@ class CommentManager
         $this->em->persist($comment);
         $this->em->flush();
     }
+    public function remove(Comment $comment)
+    {
+        $this->em->remove($comment);
+        $this->em->flush();
+    }
     public function findByImage(Image $image)
     {
         $value = $this->em->getRepository('GalerijaImagesBundle:Comment')->findCommentsByImage($image->getImageId());
+        return $value;
+    }
+    public function findById($id)
+    {
+        $value = $this->em->getRepository('GalerijaImagesBundle:Comment')->find($id);
         return $value;
     }
 }

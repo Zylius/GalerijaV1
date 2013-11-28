@@ -47,7 +47,10 @@ class CommentController extends Controller
                 "message" => 'Komentaras pridėtas!',
                 "value" => $comment->getComment(),
                 "time" => $comment->getCreated(),
-                "username" => $comment->getUser()->getUserName()
+                "id" => $comment->getCommentId(),
+                "delpath" => $this->get('templating.helper.assets')->getUrl("bundles/GalerijaImages/images/delete.png"),
+                "username" => $comment->getUser()->getUserName(),
+                "token" => $this->get('form.csrf_provider')->generateCsrfToken("comment".$comment->getCommentId())
             ));
             //nustatom pranešimą ir parodom klientui
             return $response;
@@ -59,5 +62,53 @@ class CommentController extends Controller
             "message" => $this->get("errors")->getErrors($comment)
         ));
         return $response;
+    }
+    public function deleteAction(Request $request)
+    {
+        $response = new JsonResponse();
+
+        $cm = $this->get("comment_manager");
+
+        $id = (int)$request->request->get('ID');
+
+        $comment = $cm->findById($id);
+
+        if($comment == null)
+        {
+            $response->setData(array(
+                "success" => false,
+                "message" => 'Tokio komentaro nerasta'
+            ));
+            return $response;
+        }
+
+        if (!$this->get('form.csrf_provider')->isCsrfTokenValid("comment".$id, $request->request->get('csrf_token')))
+        {
+            $response->setData(array(
+                "success" => false,
+                "message" => 'Neteisingas CSRF.'
+            ));
+            return $response;
+        }
+
+        $image = $comment->getImage();
+
+        if(!$this->get("user_extension")->belongsFilter($comment) && !$this->get("user_extension")->belongsFilter($image))
+        {
+            $response->setData(array(
+                "success" => false,
+                "message" => 'Galima trinti tik savo nuotraukų komentarus arba savo komentarus.'
+            ));
+            return $response;
+        }
+
+        $cm->remove($comment);
+
+        $response->setData(array(
+            "success" => true,
+            "message" => 'Titulinė nuotrauka atnaujinta.'
+        ));
+        return $response;
+
     }
 }

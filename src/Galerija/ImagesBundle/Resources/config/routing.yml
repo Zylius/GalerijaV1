@@ -17,6 +17,14 @@ galerija_images_delete:
 galerija_album_delete:
     path:  /deletealbum
     defaults: { _controller: GalerijaImagesBundle:AlbumList:delete }
+    methods:  [POST]
+    options:
+        expose: true
+
+galerija_album_default:
+    path:  /defaultalbum
+    defaults: { _controller: GalerijaImagesBundle:AlbumList:setDefault }
+    methods:  [POST]
     options:
         expose: true
 
@@ -42,6 +50,13 @@ galerija_images_comment:
     pattern:  /postComment
     defaults: { _controller: GalerijaImagesBundle:Comment:submit }
 
+galerija_comment_delete:
+    pattern:  /deleteComment
+    defaults: { _controller: GalerijaImagesBundle:Comment:delete }
+    methods:  [POST]
+    options:
+         expose: true
+
 galerija_images_like:
     pattern:  /commitLike{imageId}
     defaults: { _controller: GalerijaImagesBundle:Like:submit }
@@ -51,3 +66,4 @@ galerija_images_like:
 galerija_tag_create:
     pattern:  /tagCreate
     defaults: { _controller: GalerijaImagesBundle:Tag:submit }
+
