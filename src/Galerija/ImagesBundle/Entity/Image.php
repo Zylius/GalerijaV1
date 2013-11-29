@@ -43,7 +43,7 @@ class Image
     protected $pavadinimas;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
     protected $aprasymas;
 

@@ -10,21 +10,21 @@ class ImageType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
 
-        $builder->add('pavadinimas', 'text',  array('required' => false,
-            'attr' =>
-            array
-            (
-                'size' =>'40',
-                'placeholder' => 'Neprivalomas'
-            )
-        ));
-
-        $builder->add('aprasymas', 'text', array('label' => "Aprašymas",
+        $builder->add('pavadinimas', 'text',  array('required' => true,
             'attr' =>
             array
             (
                 'size' =>'40',
                 'placeholder' => 'Privalomas'
+            )
+        ));
+
+        $builder->add('aprasymas', 'text', array('required' => false, 'label' => "Aprašymas",
+            'attr' =>
+            array
+            (
+                'size' =>'40',
+                'placeholder' => 'Neprivalomas'
             )
         ));
 

@@ -32,7 +32,7 @@ class ImageListController extends Controller
 
         //pridedam auto-select'ą
         $image->setAlbums($this->get("album_manager")->findAutoSelect($album));
-
+        $this->get('tag_manager')->preloadTags($album->getImages());
         $user = $this->container->get('security.context')->getToken()->getUser();
 
         return $this->render('GalerijaImagesBundle:Default:images.html.twig', array(

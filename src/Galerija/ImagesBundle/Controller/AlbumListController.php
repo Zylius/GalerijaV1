@@ -17,6 +17,14 @@ class AlbumListController extends Controller
 
         if ($request->isMethod('POST'))
         {
+            $securityContext = $this->container->get('security.context');
+
+            if(!$securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED'))
+            {
+                $this->get('session')->getFlashBag()->add('success', 'Kurti albumus gali tik prisijungę vartotojai.');
+                return $this->redirect($this->generateUrl('galerija_images_homepage'));
+        }
+
             $form->handleRequest($request);
             if ($form->isValid()) {
 
@@ -29,13 +37,7 @@ class AlbumListController extends Controller
             }
             else
             {
-                //surandam klaidas
-                $errors = $this->get('validator')->validate($form);
-                $result = "";
-                foreach( $errors as $error )
-                {
-                    $result .= $error->getMessage();
-                }
+                $result = $this->get("errors")->getErrors($album);
 
                 //nustatom pranešim? ir parodom klientui
                 $this->get('session')->getFlashBag()->add('error',$result);

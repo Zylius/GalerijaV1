@@ -5,7 +5,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\Common\Collections\ArrayCollection;
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Galerija\ImagesBundle\Entity\TagRepository")
  * @ORM\Table(name="tags")
  */
 class Tag
