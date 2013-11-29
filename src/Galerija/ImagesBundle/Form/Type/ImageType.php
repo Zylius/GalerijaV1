@@ -7,15 +7,19 @@ use Symfony\Component\Validator\Constraints\Image;
 
 class ImageType extends AbstractType
 {
+    protected $intention;
+    public function __construct($intention = 'add')
+    {
+        $this->intention = $intention;
+    }
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
 
-        $builder->add('pavadinimas', 'text',  array('required' => true,
+        $builder->add('pavadinimas', 'text',  array('required' => false,
             'attr' =>
             array
             (
                 'size' =>'40',
-                'placeholder' => 'Privalomas'
             )
         ));
 
@@ -24,18 +28,19 @@ class ImageType extends AbstractType
             array
             (
                 'size' =>'40',
-                'placeholder' => 'Neprivalomas'
             )
         ));
-
-        $builder->add('failas', 'file', array(
-            'attr' =>
-            array
-            (
-                'accept' => 'image/*',
-                'size' =>'40'
-            )
-        ));
+        if($this->intention != 'edit')
+        {
+            $builder->add('failas', 'file', array(
+                'attr' =>
+                array
+                (
+                    'accept' => 'image/*',
+                    'size' =>'40'
+                )
+            ));
+        }
 
         $builder->add('shot_date', 'date', array(
             'data' => new \DateTime(),
@@ -50,7 +55,10 @@ class ImageType extends AbstractType
                         'property' => 'short_comment',
                         'multiple' => true,
                         'expanded' => false,
-                        'required' => true));
+                        'required' => true,
+            )
+
+        );
 
         $builder->add('tags','entity', array(
                         'label' => 'Tag\'ai',
@@ -63,9 +71,8 @@ class ImageType extends AbstractType
 
         );
 
-        $builder->add('Ikelti', 'submit', array('label' => "Įkelti"));
+        $builder->add('Ikelti', 'submit', array('label' => ($this->intention != 'edit'?"Pateikti":"Redaguoti")));
     }
-
     public function getName()
     {
         return 'image_upload';

@@ -8,14 +8,21 @@
         $(".flash").delay(3000).fadeOut(2000, function () {
             div.remove();
         });
-        $("#user_open").fancybox({
+
+        $("#upload_image, #user_open, .view_edit").fancybox({
             'scrolling': 'no',
             fitToView	: true,
             autoSize: true,
             autoDimensions: true,
             minWidth: '350px',
-            'titleShow': false
+            'titleShow': false,
+            afterShow: function()
+            {
+                AddSelectFix()
+            }
         });
+
+
         $("#form_array").accordion({
             heightStyle: "content"
         });
@@ -32,9 +39,17 @@
             }
         });
 
+        AddSelectFix();
+
 
     });
-
+    var AddSelectFix = function()
+    {
+        $('.form_tag_select option').on('mousedown', function (e) {
+            this.selected = !this.selected;
+            e.preventDefault();
+        });
+    }
     var RefreshFancybox = function()
     {
         $(".fancybox").fancybox({
@@ -76,7 +91,7 @@
     $container.imagesLoaded(function () {
         $container.isotope({
             resizable: false,
-            masonry: { columnWidth: $container.width() / 100 },
+            masonry: { columnWidth: $container.width() / 1000 },
             animationEngine: 'jquery'
         });
     });
@@ -84,7 +99,7 @@
     $(window).smartresize(function () {
         $.fancybox.update();
         $container.isotope({
-            masonry: { columnWidth: $container.width() / 100 }
+            masonry: { columnWidth: $container.width() / 1000 }
         });
     });
 
@@ -191,7 +206,7 @@
 
     Delete.prototype._result = function (data) {
         if (data.success) {
-            $container.isotope('remove', this.element.parent());
+            $container.isotope('remove', this.element.parent().parent());
         }
         else {
             //sugr?žinam ? pradin? b?sen?
@@ -293,15 +308,17 @@
             var fullimg = $('<div>',{html:data.value});
             $('.list').append(fullimg);
             //pridedam widgetus prie naujo elemento
-            fullimg.find('.delete').Delete({ aID: $container.attr('aID') });
+            fullimg.find('.delete-image').Delete({ aID: $container.attr('aID') });
+            fullimg.find(".make_default").DefaultImage({ aID: $container.attr('aID') });
             RefreshFancybox();
             fullimg.imagesLoaded(function(){
                 $container.isotope( 'insert', fullimg );
             });
         }
-
         showStatus(data.success, data.message);
         this._hide();
+        $.fancybox.close();
+
     };
 
     Upload.prototype._hide = function () {
@@ -346,8 +363,8 @@
     PostComment.prototype._result = function (data) {
         if (data.success) {
             //?dedam nauj? paveiksliuk?
-            var comment = $('<li><img class="delete disappear delete-comment" id="' + data.id + '"' +
-            'alt="Delete" src="' + data.delpath + '" data-csrf_token="'+ data.token +'"/>' +
+            var comment = $('<li><div class="control"><img class="disappear delete-comment" id="' + data.id + '"' +
+            'alt="Delete" src="' + data.delpath + '" data-csrf_token="'+ data.token +'"/></div>' +
             '<fieldset><legend>'+ data.username + '</legend>'+ data.value + '</fieldset></li>');
             $(".comments").find("ul").append(comment);
             comment.find('img').Delete({
@@ -430,7 +447,8 @@
             this.lButton.attr("src", this.srcPath + "like-ok.png");
             this.Status = true;
         }
-    }
+    };
+
     $.widget("custom.LikeImage", LikeImage.prototype);
 
     //nustato kaip titulinį image albumui

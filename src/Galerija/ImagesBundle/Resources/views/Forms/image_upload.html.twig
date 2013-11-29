@@ -1,12 +1,14 @@
 {{ form_start(form, {'attr': {'id': 'form_image_add'}}) }}
 <fieldset class="form">
-    <legend>Įkelti nuotrauką</legend>
+    <legend>{% if form.failas is defined %}Įkelti{% else %}Redaguoti{% endif %} nuotrauką</legend>
         {{ form_row(form.pavadinimas) }}
         {{ form_row(form.aprasymas) }}
+        {% if form.failas is defined %}
         {{ form_row(form.failas) }}
+        {% endif %}
         {{ form_row(form.shot_date) }}
         {{ form_row(form.albums) }}
-        {{ form_row(form.tags) }}
+        {{ form_row(form.tags, {'attr': {'class': 'form_tag_select'}}) }}
         <div>
             {{ form_row(form.Ikelti) }}
         <div class="spacer"></div>

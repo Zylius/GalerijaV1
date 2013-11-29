@@ -3,10 +3,15 @@
     <img src="{{ asset('bundles/GalerijaImages/images/right_arrow.png') }}" alt="Dešinė"/>
 <div>
   <a href="">
-
       {{ album.getShortComment() }}
-  </a>
+    </a>
 </div>
+    <a id="upload_image" href="#form_array">
+    <div   class="navigation-border">
+        <img src="{{ asset('bundles/GalerijaImages/images/up_arrow.png') }}" alt="Įkelti"/>
+        Įkelti
+    </div>
+    </a>
 {% endblock %}
 {% block search %}
     <textarea placeholder="Paieška pagal tag'us..." cols="25" maxlength="25" id="tag_filter" rows="1"></textarea>
@@ -14,11 +19,11 @@
 {% block list %}
     {% block imglist %}
     <div aID="{{ album.albumId }}" class="list">
-        {% for image in album.getImages() %}
+        {% for image in album.images %}
             {% include 'GalerijaImagesBundle:Default:single_image.html.twig' %}
         {% endfor %}
     </div>
-    <div class="form_wrapper" id="form_array">
+    <div class="form_wrapper disappear" id="form_array">
         <h3>Įkelti paveiksliuka</h3>
         {% include "GalerijaImagesBundle:Forms:image_upload.html.twig" %}
         <h3>Sukurti tag'ą</h3>

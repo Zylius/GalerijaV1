@@ -13,5 +13,16 @@ class AlbumRepository extends EntityRepository
         $results = $query->getResult();
         return $results;
     }
+    public function loadImages($id)
+    {
+        $query =  $this->getEntityManager()->createQuery(
+            'SELECT p, i, t FROM GalerijaImagesBundle:Album p
+             LEFT JOIN p.images i
+             LEFT JOIN i.tags t
+             WHERE p.albumId = :id'
+        )->setParameter('id', $id);
+        $results = $query->getSingleResult();
+        return $results;
+    }
 
 }

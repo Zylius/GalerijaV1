@@ -55,7 +55,10 @@
 {
     width: 15em;
 }
-
+#albumas
+{
+    width:30em;
+}
 #albumas label
 {
     font-size:0.8em;
@@ -63,7 +66,7 @@
 }
 #prisijungimas.form
 {
-    border: 0px;
+    border: 0;
     width: auto;
     background: inherit;
 }

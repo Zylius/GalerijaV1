@@ -101,8 +101,13 @@ body{
     float:right;
     padding-right:0.6em;
     padding-left:0.6em;
-    border-left: 0.15em solid;
+
 }
+.navigation-border
+{
+    border-left: 0.3em solid;
+}
+
 .topmenu img{
     margin-top: 0.5em;
     height: 1.6em;
@@ -120,4 +125,21 @@ body{
 #delete-dialog
 {
     display:none;
+}
+.disappear
+{
+    display: none;
+}
+
+.control
+{
+    top: 0;
+    right: 0;
+    position: absolute;
+}
+.control img
+{
+    width:20px;
+    height:20px;
+    float:right;
 }

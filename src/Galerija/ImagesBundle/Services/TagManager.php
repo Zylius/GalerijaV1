@@ -39,13 +39,5 @@ class TagManager
         }
         return $tags;
     }
-    public function preloadTags($images)
-    {
-        $image_ids = Array();
-        foreach($images as $image)
-        {
-            array_push($image_ids, $image->getImageId());
-        }
-        $this->em->getRepository('GalerijaImagesBundle:Tag')->findByImages($image_ids);
-    }
+
 }

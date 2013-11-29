@@ -2,18 +2,24 @@
     <a class="fancybox" rel="gallery1" data-fancybox-type="ajax" href="{{ path('galerija_images_image_info', { 'imageId' : image.imageId })  }}">
         <img alt="{{ image.getPavadinimas() }}" src="{{  asset(image.getWebPath() | imagine_filter('my_thumb')) }}"/>
     </a>
+    <div class="control">
     {% if image|belongs %}
-        <img class="delete disappear delete-image"
-             id="{{ image.imageId }}" alt="Delete"
-             title="Ištrinti"
+        <img class="disappear delete-image"
+             id="{{ image.imageId }}" alt="Delete" title="Ištrinti"
              src="{{ asset('bundles/GalerijaImages/images/delete.png') }}"
              data-csrf_token="{{ csrf_token("image" ~ image.imageId) }}"   />
+        <a class="view_edit" data-fancybox-type="ajax" href="{{ path('galerija_image_edit', { 'imageId' : image.imageId })  }}" >
+            <img class="disappear edit-album"
+                 data-id="{{ image.imageId }}" alt="Delete" title="Redaguoti"
+                 src="{{ asset('bundles/GalerijaImages/images/edit.png') }}" />
+        </a>
     {% endif %}
     {% if album|belongs %}
-        <img class="make_default"
+        <img class="make_default disappear"
              data-id="{{ image.imageId }}" alt="Padaryti tituliniu albumo paveiksliuku"
              title="Padaryti titulinį albumo paveiksliuką"
              src="{{ asset('bundles/GalerijaImages/images/pin.png') }}"
              data-csrf_token="{{ csrf_token("default_image") }}" />
     {% endif %}
+    </div>
 </div>

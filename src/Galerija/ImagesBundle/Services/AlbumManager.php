@@ -24,6 +24,14 @@ class AlbumManager
     {
         return $this->formFactory->create(new AlbumType(), $album);
     }
+    public function getEditForm(Album $album)
+    {
+        return $form = $this->formFactory->create(new AlbumType(),  $album, array(
+                'action' => $this->router->generate('galerija_album_edit',
+                    array('albumId' => $album->getAlbumId())),
+            ));
+
+    }
     public function save(Album $album)
     {
         $this->em->persist($album);
@@ -69,11 +77,24 @@ class AlbumManager
         }
         return false;
     }
+    public function recalculateCount($image)
+    {
+        $arr = $this->em->getRepository('GalerijaImagesBundle:Album')->findAll();
+        foreach($arr as $album)
+        {
+            $count = $album->getImages()->count();
+            $album->setImageCount($count);
+            if($album->getDefaultImage() == $image)
+                $album->setDefaultImage(null);
+        }
+        $this->em->flush();
+
+    }
     public function processDefaultImage(Album $album)
     {
        if($album->getDefaultImage() == null)
        {
-           if($album->getImages()->Count() != 0)
+           if($album->getImageCount() != 0)
            {
                $album->setDefaultImage($album->getImages()->last());
                return;

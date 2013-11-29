@@ -14,6 +14,14 @@ galerija_images_delete:
     options:
         expose: true
 
+galerija_image_edit:
+    path:  /editImage{imageId}
+    defaults: { _controller: GalerijaImagesBundle:Image:edit }
+
+galerija_album_edit:
+    path:  /editAlbum{albumId}
+    defaults: { _controller: GalerijaImagesBundle:AlbumList:edit }
+
 galerija_album_delete:
     path:  /deletealbum
     defaults: { _controller: GalerijaImagesBundle:AlbumList:delete }

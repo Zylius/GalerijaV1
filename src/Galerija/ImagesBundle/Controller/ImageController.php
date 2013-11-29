@@ -144,4 +144,47 @@ class ImageController extends Controller
         return $response;
 
     }
+
+    public function editAction(Request $request, $imageId)
+    {
+        $im = $this->get("image_manager");
+        $image = $im->findById($imageId);
+        $form = $im->getEditForm($image);
+
+        if($image == null || $image->getImageId() == 0)
+        {
+            $this->get('session')->getFlashBag()->add('error', 'Tokio paveiksliuko nerasta.');
+            return $this->redirect($this->generateUrl('galerija_images_homepage'));
+        }
+        if(!$this->get("user_extension")->belongsFilter($image))
+        {
+            $this->get('session')->getFlashBag()->add('error', 'Šis paveiksliukas nepriklauso jums');
+            return $this->redirect($request->headers->get('referer'));
+        }
+        if ($request->isMethod('POST'))
+        {
+            if(!$this->container->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED'))
+            {
+                $this->get('session')->getFlashBag()->add('success', 'Redaguoti nuotraukas gali tik prisijungę vartotojai.');
+                return $this->redirect($request->headers->get('referer'));
+            }
+            $form->handleRequest($request);
+            if ($form->isValid()) {
+                $this->getDoctrine()->getManager()->flush();
+                $this->get("album_manager")->recalculateCount($image);
+                $this->get('session')->getFlashBag()->add('success', 'Nuotrauka sėkmingai atnaujinta.');
+                return $this->redirect($request->headers->get('referer'));
+            }
+            else
+            {
+                $result = $this->get("errors")->getErrors($image);
+                $this->get('session')->getFlashBag()->add('error',$result);
+                return $this->redirect($request->headers->get('referer'));
+            }
+        }
+
+        return $this->render('GalerijaImagesBundle:Forms:image_upload.html.twig', array(
+            'form' => $form->createView(),
+        ));
+    }
 }

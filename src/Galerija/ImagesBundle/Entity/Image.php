@@ -15,9 +15,11 @@ use Doctrine\Common\Collections\ArrayCollection;
 /**
  * @ORM\Entity(repositoryClass="Galerija\ImagesBundle\Entity\ImageRepository")
  * @ORM\Table(name="images")
+ * @ORM\HasLifecycleCallbacks
  */
 class Image
 {
+
     /**
      * @ORM\Column(type="integer")
      * @ORM\Id

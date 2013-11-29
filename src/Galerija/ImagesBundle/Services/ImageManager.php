@@ -1,5 +1,6 @@
 <?php
 namespace Galerija\ImagesBundle\Services;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
 use Galerija\ImagesBundle\Entity\Album;
 use Galerija\ImagesBundle\Entity\Image;
@@ -18,13 +19,23 @@ class ImageManager
         $this->formFactory = $formFactory;
         $this->router = $router;
     }
-    public function getForm(Image $image, Album $album = null )
+    public function getForm(Image $image, Album $album = null)
     {
         return $this->formFactory->create(new ImageType(), $image, array(
-            'action' => $this->router->generate(('galerija_images_upload'),
-            (array('albumId' => ($album == null ? 0 : $album->getAlbumId()) )
-            )))
+                'action' => $this->router->generate(('galerija_images_upload'),
+                ( array('albumId' => ($album == null ? 0 : $album->getAlbumId())) )
+                ))
         );
+    }
+
+    public function getEditForm(Image $image, Album $album = null)
+    {
+        return
+            $form = $this->formFactory->create(new ImageType('edit'), $image, array(
+            'action' => $this->router->generate('galerija_image_edit',
+                array('imageId' => $image->getImageId())),
+            ));
+
     }
     public function save($image)
     {
@@ -84,6 +95,17 @@ class ImageManager
     {
         $value = $this->em->getRepository('GalerijaImagesBundle:Image')->findAll();
         return $value;
+    }
+    public function preloadImages($images)
+    {
+        if ($images->count() == 0)
+            return null;
+        $image_ids = Array();
+        foreach($images as $image)
+        {
+            array_push($image_ids, $image->getImageId());
+        }
+        return $this->em->getRepository('GalerijaImagesBundle:Image')->preloadTags($image_ids);
     }
     public function findById($id)
     {

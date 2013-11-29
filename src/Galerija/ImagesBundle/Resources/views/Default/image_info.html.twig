@@ -18,10 +18,12 @@
             {% for single in comments %}
             <li>
                 {% if single|belongs or image|belongs %}
-                    <img class="delete disappear delete-comment"
+                    <div class="control">
+                    <img class="disappear delete-comment"
                          id="{{ single.commentId }}" alt="Delete"
                          src="{{ asset('bundles/GalerijaImages/images/delete.png') }}"
                          data-csrf_token="{{ csrf_token("comment" ~ single.commentId) }}"   />
+                    </div>
                 {% endif %}
                 <fieldset>
                     <legend>{{ single.user.username }}</legend>
