@@ -112,9 +112,14 @@ class ImageManager
         $value = $this->em->getRepository('GalerijaImagesBundle:Image')->find($id);
         return $value;
     }
-    public function findByUser(\Galerija\ImagesBundle\Entity\User $user)
+    public function findByUser(\Galerija\ImagesBundle\Entity\User $user, $page)
     {
-        $value = $this->em->getRepository('GalerijaImagesBundle:Image')->findUserImages($user->getId());
+        $value = $this->em->getRepository('GalerijaImagesBundle:Image')->findForPageByUser($user->getId(), $page);
+        return $value;
+    }
+    public function findForPage($albumId,$page)
+    {
+        $value = $this->em->getRepository('GalerijaImagesBundle:Image')->findForPageByAlbum($albumId,$page);
         return $value;
     }
     public function uploadProcedures(Image $image)

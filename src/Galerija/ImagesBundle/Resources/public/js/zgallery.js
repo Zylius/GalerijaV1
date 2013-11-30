@@ -1,12 +1,12 @@
 (function ($) {
-    /*
-     * Profilio meniu
-     */
+    var $container = $('.list');
+    var DoneLoading = false;
     $(document).ready(function () {
-
+        $container = $('.list');
         RefreshFancybox();
+
         $(".flash").delay(3000).fadeOut(2000, function () {
-            div.remove();
+            this.remove();
         });
 
         $("#upload_image, #user_open, .view_edit").fancybox({
@@ -26,26 +26,37 @@
         $("#form_array").accordion({
             heightStyle: "content"
         });
-
-        $('#tag_filter').bind('input propertychange', function() {
+        var tag_filter =  $('#tag_filter');
+        tag_filter.bind('input propertychange', function() {
             var input = $(this).val();
+
             if(input != '')
             {
+                if(!DoneLoading)
+                    $container.infinitescroll('retrieve');
                 $container.isotope({ filter: '.tag-' + input });
+
             }
             else
             {
                 $container.isotope({ filter: '*' });
             }
         });
-
-        AddSelectFix();
-
+        tag_filter.autocomplete({
+            source: tag_filter.attr('data-tags').split(','),
+            select: function( event, ui ) {
+                if(!DoneLoading)
+                    $container.infinitescroll('retrieve');
+                $container.isotope({ filter: '.tag-' + ui.item.value });
+            }
+        });
 
     });
     var AddSelectFix = function()
     {
-        $('.form_tag_select option').on('mousedown', function (e) {
+        var tag_selections = $('.form_tag_select option');
+        tag_selections.unbind('mousedown');
+        tag_selections.on('mousedown', function (e) {
             this.selected = !this.selected;
             e.preventDefault();
         });
@@ -86,13 +97,36 @@
             }
         });
     };
-    var $container = $('.list');
+
 
     $container.imagesLoaded(function () {
         $container.isotope({
             resizable: false,
             masonry: { columnWidth: $container.width() / 1000 },
             animationEngine: 'jquery'
+        });
+        $container.infinitescroll({
+
+            navSelector  : "#page_nav",
+            nextSelector : "#page_nav a",
+            itemSelector : ".image",
+            prefill: true,
+            loading: {
+                msgText: 'Paveikslėliai kraunami.',
+                finished: function() {
+                    DoneLoading = true;
+                },
+                finishedMsg: 'Visi paveiksliukai užkrauti.',
+                img: 'http://i.imgur.com/qkKy8.gif'
+            },
+        },function(arrayOfNewElems){
+            $(arrayOfNewElems).hide();
+            $(arrayOfNewElems).imagesLoaded(function(){
+                $container.isotope( 'insert', $(arrayOfNewElems) );
+                $(arrayOfNewElems).find('.delete-image').Delete({ aID: $container.attr('aID') });
+                $(arrayOfNewElems).find(".make_default").DefaultImage({ aID: $container.attr('aID') });
+                $(arrayOfNewElems).show();
+            });
         });
     });
 
@@ -107,7 +141,7 @@
         return function () {
             fn.apply(obj, arguments);
         };
-    };
+    }
 
 
     /*
@@ -311,8 +345,9 @@
             fullimg.find('.delete-image').Delete({ aID: $container.attr('aID') });
             fullimg.find(".make_default").DefaultImage({ aID: $container.attr('aID') });
             RefreshFancybox();
+            $container.prepend(fullimg);
             fullimg.imagesLoaded(function(){
-                $container.isotope( 'insert', fullimg );
+                $container.isotope( 'reloadItems' ).isotope({ sortBy: 'original-order' });
             });
         }
         showStatus(data.success, data.message);

@@ -37,16 +37,18 @@ galerija_album_default:
         expose: true
 
 galerija_images_album:
-    pattern:  /{albumId}
-    defaults: { _controller: GalerijaImagesBundle:ImageList:albumById }
+    pattern:  /{albumId}/{page}
+    defaults: { _controller: GalerijaImagesBundle:ImageList:albumById, page: 1 }
     requirements:
         albumId: \d+
+        page: \d+
 
 galerija_images_user_album:
-    pattern:  /photosby/{userId}
-    defaults: { _controller: GalerijaImagesBundle:ImageList:albumByUser }
+    pattern:  /photosby/{userId}/{page}
+    defaults: { _controller: GalerijaImagesBundle:ImageList:albumByUser, , page: 1  }
     requirements:
         userId: \d+
+        page: \d+
 
 galerija_images_image_info:
     pattern:  /image/{imageId}

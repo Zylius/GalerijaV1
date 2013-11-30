@@ -39,5 +39,14 @@ class TagManager
         }
         return $tags;
     }
+    public function formatAllTags()
+    {
+        $tags = "";
+        foreach ($this->em->getRepository('GalerijaImagesBundle:Tag')->findAll() as $arr) {
+            $tags .= $arr->getName().',';
+        }
+        $tags = rtrim($tags, ',');
+        return $tags;
+    }
 
 }

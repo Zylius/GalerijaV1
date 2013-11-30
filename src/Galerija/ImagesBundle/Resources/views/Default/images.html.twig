@@ -14,7 +14,7 @@
     </a>
 {% endblock %}
 {% block search %}
-    <textarea placeholder="Paieška pagal tag'us..." cols="25" maxlength="25" id="tag_filter" rows="1"></textarea>
+    <textarea placeholder="Paieška pagal tag'us..." cols="25" maxlength="25" id="tag_filter" data-tags="{{ tags }}" rows="1"></textarea>
 {% endblock %}
 {% block list %}
     {% block imglist %}
@@ -29,9 +29,16 @@
         <h3>Sukurti tag'ą</h3>
         {% include "GalerijaImagesBundle:Forms:tag_create.html.twig" %}
     </div>
+
     {% endblock imglist %}
+    <nav id="page_nav">
+        <a href="{{ page }}">
+            Kitas puslapis
+        </a>
+    </nav>
     <div id="delete-dialog" title="Trinimo dialogas">
         <p>Kaip ištrinti? </p>
         <p>(Jei trinate iš savo įkeltų nuotraukų albumo, galima ištrinti tik iš visų albumų)</p>
     </div>
+
 {% endblock list %}
