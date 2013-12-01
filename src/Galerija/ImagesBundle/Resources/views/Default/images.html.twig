@@ -18,7 +18,7 @@
 {% endblock %}
 {% block list %}
     {% block imglist %}
-    <div aID="{{ album.albumId }}" class="list">
+    <div data-aID="{{ album.albumId }}" class="list">
         {% for image in album.images %}
             {% include 'GalerijaImagesBundle:Default:single_image.html.twig' %}
         {% endfor %}

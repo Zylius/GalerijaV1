@@ -11,7 +11,7 @@
                     {% if single|belongs %}
                         <div class="control">
                         <img class="disappear delete-album"
-                             id="{{ single.albumId }}" alt="Delete" title="Ištrinti"
+                             data-id="{{ single.albumId }}" alt="Delete" title="Ištrinti"
                              src="{{ asset('bundles/GalerijaImages/images/delete.png') }}"
                              data-csrf_token="{{ csrf_token("album" ~ single.albumId) }}"/>
                         <a class="view_edit" data-fancybox-type="ajax" href="{{ path('galerija_album_edit', { 'albumId' : single.albumId })  }}" >

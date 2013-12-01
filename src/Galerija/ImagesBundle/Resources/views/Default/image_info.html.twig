@@ -20,7 +20,7 @@
                 {% if single|belongs or image|belongs %}
                     <div class="control">
                     <img class="disappear delete-comment"
-                         id="{{ single.commentId }}" alt="Delete"
+                         data-id="{{ single.commentId }}" alt="Delete"
                          src="{{ asset('bundles/GalerijaImages/images/delete.png') }}"
                          data-csrf_token="{{ csrf_token("comment" ~ single.commentId) }}"   />
                     </div>
@@ -45,7 +45,7 @@
             </ul>
         </div>
     </div>
-    <div class="like" id="like_area" like_status="{{ (liked ? 'true' : 'false') }}">
+    <div class="like" id="like_area" data-like_status="{{ (liked ? 'true' : 'false') }}">
         Patinka
         <a href ="{{ path('galerija_images_like', { 'imageId' : image.imageId })  }}">
             <img alt="Like" src="{{ (liked ? asset('bundles/GalerijaImages/images/like-ok.png')  :  asset('bundles/GalerijaImages/images/like.png')) }}  "/>

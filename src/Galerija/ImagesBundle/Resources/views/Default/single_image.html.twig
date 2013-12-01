@@ -5,7 +5,7 @@
     <div class="control">
     {% if image|belongs %}
         <img class="disappear delete-image"
-             id="{{ image.imageId }}" alt="Delete" title="Ištrinti"
+             data-id="{{ image.imageId }}" alt="Delete" title="Ištrinti"
              src="{{ asset('bundles/GalerijaImages/images/delete.png') }}"
              data-csrf_token="{{ csrf_token("image" ~ image.imageId) }}"   />
         <a class="view_edit" data-fancybox-type="ajax" href="{{ path('galerija_image_edit', { 'imageId' : image.imageId })  }}" >
