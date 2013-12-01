@@ -96,8 +96,15 @@ class AlbumManager
        {
            if($album->getImageCount() != 0)
            {
-               $album->setDefaultImage($album->getImages()->last());
-               return;
+               if(!$album->getImages()->last())
+               {
+                   $this->recalculateCount(null);
+               }
+               else
+               {
+                    $album->setDefaultImage($album->getImages()->last());
+                    return;
+               }
            }
            $image = new Image();
            $image->setImageId("no_image");

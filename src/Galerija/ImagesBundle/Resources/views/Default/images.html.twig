@@ -23,14 +23,13 @@
             {% include 'GalerijaImagesBundle:Default:single_image.html.twig' %}
         {% endfor %}
     </div>
+    {% endblock imglist %}
     <div class="form_wrapper disappear" id="form_array">
         <h3>Įkelti paveiksliuka</h3>
         {% include "GalerijaImagesBundle:Forms:image_upload.html.twig" %}
         <h3>Sukurti tag'ą</h3>
         {% include "GalerijaImagesBundle:Forms:tag_create.html.twig" %}
     </div>
-
-    {% endblock imglist %}
     <nav id="page_nav">
         <a href="{{ page }}">
             Kitas puslapis

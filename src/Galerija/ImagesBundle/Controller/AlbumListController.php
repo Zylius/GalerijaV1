@@ -21,7 +21,7 @@ class AlbumListController extends Controller
 
             if(!$securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED'))
             {
-                $this->get('session')->getFlashBag()->add('success', 'Kurti albumus gali tik prisijungę vartotojai.');
+                $this->get('session')->getFlashBag()->add('error', 'Kurti albumus gali tik prisijungę vartotojai.');
                 return $this->redirect($this->generateUrl('galerija_images_homepage'));
             }
 

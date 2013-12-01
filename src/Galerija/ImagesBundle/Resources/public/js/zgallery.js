@@ -32,8 +32,10 @@
 
             if(input != '')
             {
-                if(!DoneLoading)
+                if(DoneLoading == false)
+                {
                     $container.infinitescroll('retrieve');
+                }
                 $container.isotope({ filter: '.tag-' + input });
 
             }
@@ -56,11 +58,14 @@
     {
         var tag_selections = $('.form_tag_select option');
         tag_selections.unbind('mousedown');
-        tag_selections.on('mousedown', function (e) {
-            this.selected = !this.selected;
-            e.preventDefault();
+        tag_selections.mousedown(function () {
+            if ($(this).prop("selected"))
+                $(this).prop("selected", false);
+            else
+                $(this).prop("selected", true);
+            return false;
         });
-    }
+    };
     var RefreshFancybox = function()
     {
         $(".fancybox").fancybox({
@@ -102,10 +107,10 @@
     $container.imagesLoaded(function () {
         $container.isotope({
             resizable: false,
-            masonry: { columnWidth: $container.width() / 1000 },
+            masonry: { columnWidth: $container.width() / 100 },
             animationEngine: 'jquery'
         });
-        $container.infinitescroll({
+       $container.infinitescroll({
 
             navSelector  : "#page_nav",
             nextSelector : "#page_nav a",
@@ -119,6 +124,9 @@
                 finishedMsg: 'Visi paveiksliukai užkrauti.',
                 img: 'http://i.imgur.com/qkKy8.gif'
             },
+           errorCallback: function(){
+               DoneLoading = true;
+           }
         },function(arrayOfNewElems){
             $(arrayOfNewElems).hide();
             $(arrayOfNewElems).imagesLoaded(function(){
@@ -133,7 +141,7 @@
     $(window).smartresize(function () {
         $.fancybox.update();
         $container.isotope({
-            masonry: { columnWidth: $container.width() / 1000 }
+            masonry: { columnWidth: $container.width() / 100 }
         });
     });
 
@@ -240,7 +248,11 @@
 
     Delete.prototype._result = function (data) {
         if (data.success) {
-            $container.isotope('remove', this.element.parent().parent());
+            $container.isotope('remove', this.element.parent().parent(),
+            function(){
+                $(window).smartresize();
+            });
+
         }
         else {
             //sugr?žinam ? pradin? b?sen?
@@ -347,6 +359,7 @@
             RefreshFancybox();
             $container.prepend(fullimg);
             fullimg.imagesLoaded(function(){
+
                 $container.isotope( 'reloadItems' ).isotope({ sortBy: 'original-order' });
             });
         }

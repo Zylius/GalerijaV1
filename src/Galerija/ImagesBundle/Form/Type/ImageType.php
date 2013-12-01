@@ -19,7 +19,7 @@ class ImageType extends AbstractType
             'attr' =>
             array
             (
-                'size' =>'40',
+                'size' =>'30',
             )
         ));
 
@@ -27,7 +27,7 @@ class ImageType extends AbstractType
             'attr' =>
             array
             (
-                'size' =>'40',
+                'size' =>'30',
             )
         ));
         if($this->intention != 'edit')
@@ -37,7 +37,7 @@ class ImageType extends AbstractType
                 array
                 (
                     'accept' => 'image/*',
-                    'size' =>'40'
+                    'size' =>'25'
                 )
             ));
         }
