@@ -12,12 +12,12 @@
                         <div class="control">
                         <img class="disappear delete-album"
                              data-id="{{ single.albumId }}" alt="Delete" title="Ištrinti"
-                             src="{{ asset('bundles/GalerijaImages/images/delete.png') }}"
+                             src="{{ asset('bundles/galerijaimages/images/delete.png') }}"
                              data-csrf_token="{{ csrf_token("album" ~ single.albumId) }}"/>
                         <a class="view_edit" data-fancybox-type="ajax" href="{{ path('galerija_album_edit', { 'albumId' : single.albumId })  }}" >
                                 <img class="disappear edit-album"
                                      alt="Edit" title="Redaguoti"
-                                     src="{{ asset('bundles/GalerijaImages/images/edit.png') }}" />
+                                     src="{{ asset('bundles/galerijaimages/images/edit.png') }}" />
                         </a>
                         </div>
                     {% endif %}

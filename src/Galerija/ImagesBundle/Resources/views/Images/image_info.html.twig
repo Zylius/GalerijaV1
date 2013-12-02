@@ -21,7 +21,7 @@
                     <div class="control">
                     <img class="disappear delete-comment"
                          data-id="{{ single.commentId }}" alt="Delete"
-                         src="{{ asset('bundles/GalerijaImages/images/delete.png') }}"
+                         src="{{ asset('bundles/galerijaimages/images/delete.png') }}"
                          data-csrf_token="{{ csrf_token("comment" ~ single.commentId) }}"   />
                     </div>
                 {% endif %}
@@ -52,8 +52,8 @@
         Patinka
         <a href ="#">
             <img alt="Like"
-                 src="{{ (liked ? asset('bundles/GalerijaImages/images/like-ok.png')
-                 :  asset('bundles/GalerijaImages/images/like.png')) }}"/>
+                 src="{{ (liked ? asset('bundles/galerijaimages/images/like-ok.png')
+                 :  asset('bundles/galerijaimages/images/like.png')) }}"/>
         </a>
         <span>{{ image.getLikeCount() }}</span>
     </div>

@@ -57,7 +57,7 @@ class CommentController extends Controller
                 "value" => $comment->getComment(),
                 "time" => $comment->getCreated(),
                 "id" => $comment->getCommentId(),
-                "delpath" => $this->get('templating.helper.assets')->getUrl("bundles/GalerijaImages/images/delete.png"),
+                "delpath" => $this->get('templating.helper.assets')->getUrl("bundles/galerijaimages/images/delete.png"),
                 "username" => $comment->getUser()->getUserName(),
                 "token" => $this->get('form.csrf_provider')->generateCsrfToken("comment".$comment->getCommentId())
             ));

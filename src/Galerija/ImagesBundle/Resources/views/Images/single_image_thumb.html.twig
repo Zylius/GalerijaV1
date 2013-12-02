@@ -6,19 +6,19 @@
     {% if image|belongs %}
         <img class="disappear delete-image"
              data-id="{{ image.imageId }}" alt="Delete" title="Ištrinti"
-             src="{{ asset('bundles/GalerijaImages/images/delete.png') }}"
+             src="{{ asset('bundles/galerijaimages/images/delete.png') }}"
              data-csrf_token="{{ csrf_token("image" ~ image.imageId) }}"   />
         <a class="view_edit" data-fancybox-type="ajax" href="{{ path('galerija_image_edit', { 'imageId' : image.imageId })  }}" >
             <img class="disappear edit-album"
                  data-id="{{ image.imageId }}" alt="Delete" title="Redaguoti"
-                 src="{{ asset('bundles/GalerijaImages/images/edit.png') }}" />
+                 src="{{ asset('bundles/galerijaimages/images/edit.png') }}" />
         </a>
     {% endif %}
     {% if album|belongs %}
         <img class="make_default disappear"
              data-id="{{ image.imageId }}" alt="Padaryti tituliniu albumo paveiksliuku"
              title="Padaryti titulinį albumo paveiksliuką"
-             src="{{ asset('bundles/GalerijaImages/images/pin.png') }}"
+             src="{{ asset('bundles/galerijaimages/images/pin.png') }}"
              data-csrf_token="{{ csrf_token("default_image") }}" />
     {% endif %}
     </div>
