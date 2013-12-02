@@ -5,6 +5,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\Common\Collections\ArrayCollection;
 /**
+ * Albumų klasė
+ *
  * @ORM\Entity(repositoryClass="Galerija\ImagesBundle\Entity\AlbumRepository")
  * @ORM\Table(name="albums")
  */
@@ -12,6 +14,8 @@ class Album
 {
 
     /**
+     * Albumo unikalus Id
+     *
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -19,49 +23,67 @@ class Album
     protected $albumId;
 
     /**
+     * Albumo kūrėjas
+     *
      * @ORM\ManyToOne(targetEntity="User", inversedBy="albums")
      * @ORM\JoinColumn(name="userId", referencedColumnName="id")
      */
     protected $user;
 
     /**
+     * Paveiksliukai priklausantys albumui
+     *
      * @ORM\ManyToMany(targetEntity="Image", mappedBy="albums")
      */
     protected $images;
 
     /**
+     * Trumpas komentaras (pavadinimas)
+     *
      * @ORM\Column(type="string")
      */
     protected $short_comment;
 
     /**
-     * @ORM\Column(type="text")
+     * Ilgas komentaras
+     *
+     * @ORM\Column(type="text", nullable=true)
      */
     protected $long_comment;
 
     /**
+     * Ar automatiškai pažymim albumą keliant paviksliuką
+     *
      * @ORM\Column(type="boolean")
      */
     protected $auto_add;
 
     /**
+     * Kada alumas sukurtas
+     *
      * @ORM\Column(type="datetime")
      * @Gedmo\Timestampable(on="create")
      */
     protected $created;
 
     /**
+     * Kada atnaujintas
+     *
      * @ORM\Column(type="datetime")
      * @Gedmo\Timestampable(on="update")
      */
     protected $updated;
 
     /**
+     * Paveiksliukų skaitiklis albume
+     *
      * @ORM\Column(type="integer")
      */
     protected $image_count;
 
     /**
+     * Titulinis albumo paveiksliukas
+     *
      * @ORM\OneToOne(targetEntity="Image")
      * @ORM\JoinColumn(name="image_id", referencedColumnName="imageId")
      */

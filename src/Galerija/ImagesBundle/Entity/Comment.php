@@ -5,12 +5,16 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 /**
+ * Komentarų klasė
+ *
  * @ORM\Entity(repositoryClass="Galerija\ImagesBundle\Entity\CommentRepository")
  * @ORM\Table(name="comments")
  */
 class Comment
 {
     /**
+     * Komentaro unikalus Id
+     *
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -18,18 +22,24 @@ class Comment
     protected $commentId;
 
     /**
+     * Komentaro kūrėjas
+     *
      * @ORM\ManyToOne(targetEntity="User", inversedBy="comments")
      * @ORM\JoinColumn(name="userId", referencedColumnName="id")
      */
     protected $user;
 
     /**
+     * Paveiksliukas kuriam priklauso komentaras
+     *
      * @ORM\ManyToOne(targetEntity="Image", inversedBy="comments")
      * @ORM\JoinColumn(name="imageId", referencedColumnName="imageId")
      */
     protected $image;
 
     /**
+     * Komentaro tekstas, negali būti trumpesnis nei 5 simboliai.
+     *
      * @ORM\Column(type="text")
      * @Assert\NotBlank(
      *  message = "Komentaras negali būti tuščias"
@@ -39,17 +49,23 @@ class Comment
     protected $comment;
 
     /**
+     * Ar patvirtintas
+     *
      * @ORM\Column(type="boolean")
      */
     protected $approved;
 
     /**
+     * Kada sukurtas
+     *
      * @ORM\Column(type="datetime")
      * @Gedmo\Timestampable(on="create")
      */
     protected $created;
 
     /**
+     * Kada atnaujintas
+     *
      * @ORM\Column(type="datetime")
      * @Gedmo\Timestampable(on="update")
      */

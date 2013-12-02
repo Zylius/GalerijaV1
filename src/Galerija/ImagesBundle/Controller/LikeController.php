@@ -5,8 +5,20 @@ namespace Galerija\ImagesBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
+
+/**
+ * Class Like'ų controlleris
+ * @package Galerija\ImagesBundle\Controller
+ */
 class LikeController extends Controller
 {
+    /**
+     * "apkeitimo" metodas, jei vartotojui paveiksliukas jau patinka, įvykdžius šį metodą jis nebepatiks,
+     * ir atvirkščiai. Patikrinama ar vartotojas prisijungęs.
+     *
+     * @param $imageId kuriam paveiksliukui priskiriamas naujas like'as
+     * @return JsonResponse json tipo atsakymas, kuris apdorojamas LikeWidget.js javascripte
+     */
     public function  submitAction($imageId)
     {
         $securityContext = $this->container->get('security.context');

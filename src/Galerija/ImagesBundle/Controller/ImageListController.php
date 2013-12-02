@@ -8,24 +8,50 @@ use Galerija\ImagesBundle\Entity\Album;
 use Galerija\ImagesBundle\Entity\Tag;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+
+/**
+ * Class Nuotraukų sąrašo (list'o) kontroleris
+ *
+ * @package Galerija\ImagesBundle\Controller
+ */
 class ImageListController extends Controller
 {
+
+    /**
+     * Atvaizduoja nuotruakų sąrašą pagal vartotoją.
+     * Patikrinama ar toks useris egzistuoja, jei ne, vartotojas grąžinamas į pradinį puslapį
+     *
+     * @param int $userId vartotojo Id
+     * @param int $page esamas (nuradoytas) puslapis
+     * @return mixed jei viskas sėkmingai, grąžinamas sugeneruotas puslapis, jei ne nurodymas į homepage'ą
+     */
     public function albumByUserAction($userId, $page)
     {
         $user = $this->getDoctrine()->getRepository('GalerijaImagesBundle:User')->find($userId);
+
         if(!$user)
         {
             $this->get('session')->getFlashBag()->add('error', 'Toks vartotojas neegizstuoja.');
             return new RedirectResponse($this->get('router')->generate('galerija_images_homepage'));
         }
+
         $album = new Album();
         $album->setImages($this->get("image_manager")->findByUser($user, $page));
         $album->setShortComment($user->getUsername() . "o nuotraukos.");
         $album->setAlbumId(0);
+
         return $this->albumShow($album, $this->get('router')->generate('galerija_images_user_album',
             array('userId' => $userId, 'page' => $page + 1)));
     }
 
+    /**
+     * Atvaizduoja nuotruakų sąrašą pagal albumąą.
+     * Patikrinama ar toks albumas egzistuoja, jei ne, vartotojas grąžinamas į pradinį puslapį
+     *
+     * @param int $albumId albumo Id
+     * @param int $page esamas (nuradoytas) puslapis
+     * @return mixed jei viskas sėkmingai, grąžinamas sugeneruotas puslapis, jei ne nurodymas į homepage'ą
+     */
     public function albumByIdAction($albumId, $page)
     {
         $album = $this->get("album_manager")->findById($albumId);
@@ -39,7 +65,14 @@ class ImageListController extends Controller
             array('albumId' => $albumId, 'page' => $page + 1)));
     }
 
-    public function albumShow($album, $page)
+    /**
+     * Atvaizduojamas albumas, jei albumas yra tuščias, parodoma žinutė
+     *
+     * @param Album $album albumas kurį atvaizduojame
+     * @param int $page kito puslapio linkas
+     * @return mixed sugeneruotas puslapis
+     */
+    public function albumShow(Album $album, $page)
     {
         $image = new Image();
         if($album->getImages()->count() == 0)

@@ -5,13 +5,31 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\Image;
 
+/**
+ * Nuotraukos formos klasė
+ *
+ * @package Galerija\ImagesBundle\Form\Type
+ */
 class ImageType extends AbstractType
 {
     protected $intention;
+
+    /**
+     * Konstruktorius.
+     *
+     * @param string $intention nurodo kam bus kuriama: redagavimui ar knaujos nuotraukos sukūrimui
+     */
     public function __construct($intention = 'add')
     {
         $this->intention = $intention;
     }
+
+    /**
+     * Sukuriama forma.
+     *
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
 
@@ -73,6 +91,10 @@ class ImageType extends AbstractType
 
         $builder->add('Ikelti', 'submit', array('label' => ($this->intention != 'edit'?"Pateikti":"Redaguoti")));
     }
+
+    /**
+     * @return string
+     */
     public function getName()
     {
         return 'image_upload';

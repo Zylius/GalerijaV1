@@ -5,12 +5,14 @@ galerija_images_homepage:
 galerija_images_upload:
     path:  /upload{albumId}
     defaults: { _controller: GalerijaImagesBundle:Image:upload, albumId: 0 }
+    methods:  [POST]
     requirements:
         albumId: \d+
 
 galerija_images_delete:
     path:  /delete
     defaults: { _controller: GalerijaImagesBundle:Image:delete }
+    methods:  [POST]
     options:
         expose: true
 
@@ -58,6 +60,7 @@ galerija_images_image_info:
 
 galerija_images_comment:
     pattern:  /postComment
+    methods:  [POST]
     defaults: { _controller: GalerijaImagesBundle:Comment:submit }
 
 galerija_comment_delete:
@@ -69,11 +72,13 @@ galerija_comment_delete:
 
 galerija_images_like:
     pattern:  /commitLike{imageId}
+    methods:  [POST]
     defaults: { _controller: GalerijaImagesBundle:Like:submit }
     requirements:
         imageId: \d+
 
 galerija_tag_create:
     pattern:  /tagCreate
+    methods:  [POST]
     defaults: { _controller: GalerijaImagesBundle:Tag:submit }
 

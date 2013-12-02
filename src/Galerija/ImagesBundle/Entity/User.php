@@ -5,12 +5,16 @@ use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 /**
+ * Vartotojo klasė
+ *
  * @ORM\Entity
  * @ORM\Table(name="user")
  */
 class User extends BaseUser
 {
     /**
+     * Unikalus ID
+     *
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -18,26 +22,36 @@ class User extends BaseUser
     protected $id;
 
     /**
+     * Vartotojo komentarai
+     *
      * @ORM\OneToMany(targetEntity="Comment", mappedBy="user")
      */
     protected $comments;
 
     /**
+     * Vartotojo paveiksliukai
+     *
      * @ORM\OneToMany(targetEntity="Image", mappedBy="user")
      */
     protected $images;
 
     /**
+     * Vartotojo albumai
+     *
      * @ORM\OneToMany(targetEntity="Album", mappedBy="user")
      */
     protected $albums;
 
     /**
+     * Vartotojo like'ai
+     *
      * @ORM\OneToMany(targetEntity="Like", mappedBy="user")
      */
     protected $likes;
 
     /**
+     * Vartotojo tag'ai
+     *
      * @ORM\OneToMany(targetEntity="Tag", mappedBy="user")
      */
     protected $tags;
@@ -48,7 +62,6 @@ class User extends BaseUser
         $this->images = new ArrayCollection();
         $this->albums = new ArrayCollection();
         parent::__construct();
-        // your own logic
     }
 
     /**
