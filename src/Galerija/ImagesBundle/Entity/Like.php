@@ -4,37 +4,49 @@ namespace Galerija\ImagesBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 /**
+* Like'o klasė
+*
 * @ORM\Entity(repositoryClass="Galerija\ImagesBundle\Entity\LikeRepository")
 * @ORM\Table(name="likes")
 */
 class Like
 {
     /**
+    * Unikalus like'o ID
+    *
     * @ORM\Column(type="integer")
     * @ORM\Id
     * @ORM\GeneratedValue(strategy="AUTO")
     */
     protected $likeId;
 
-    /**
+   /**
+    * Like'o sukūrimo data
+    *
     * @Gedmo\Timestampable(on="create")
     * @ORM\Column(type="datetime")
     */
     private $created;
 
     /**
+    * Paskutinio atnaujinimo data
+    *
     * @Gedmo\Timestampable(on="update")
     * @ORM\Column(type="datetime")
     */
     private $updated;
 
     /**
+     * Paveiksliukas kuriam priklauso like'as
+     *
      * @ORM\ManyToOne(targetEntity="Image", inversedBy="likes")
      * @ORM\JoinColumn(name="imageId", referencedColumnName="imageId")
      */
     protected $image;
 
-    /**
+   /**
+    * Like'o kūrėjas
+    *
     * @ORM\ManyToOne(targetEntity="User", inversedBy="likes")
     * @ORM\JoinColumn(name="userId", referencedColumnName="id")
     */

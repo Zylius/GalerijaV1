@@ -5,12 +5,16 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\Common\Collections\ArrayCollection;
 /**
+ * Tag'ų klasė
+ *
  * @ORM\Entity
  * @ORM\Table(name="tags")
  */
 class Tag
 {
     /**
+     * Unikalus tag'o ID
+     *
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -18,20 +22,27 @@ class Tag
     protected $tagId;
 
     /**
+     * Tag'o kurėjas
+     *
      * @ORM\ManyToOne(targetEntity="User", inversedBy="tags")
      * @ORM\JoinColumn(name="userId", referencedColumnName="id")
      */
     protected $user;
 
     /**
+     * Paveiksliukai kuriems priskirtas šitas tag'as
+     *
      * @ORM\ManyToMany(targetEntity="Image", mappedBy="tags")
      */
     protected $images;
 
     /**
+     * Tag'o pavadinimas
+     *
      * @ORM\Column(type="string")
      */
     protected $name;
+
     /**
      * Constructor
      */

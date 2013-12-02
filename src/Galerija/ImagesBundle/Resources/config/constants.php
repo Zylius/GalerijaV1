@@ -1,6 +1,13 @@
 <?php
 namespace Galerija\ImagesBundle\Resources\config;
+
+/**
+ * Class Puslapio konstantos
+ *
+ * @package Galerija\ImagesBundle\Resources\config
+ */
 class Constants
 {
-    const IMAGES_PER_PAGE = 5;
+    //nuotraukų kiekis per puslapį
+    const IMAGES_PER_PAGE = 30;
 }

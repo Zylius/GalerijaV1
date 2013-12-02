@@ -7,13 +7,25 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Galerija\ImagesBundle\Entity\Comment;
 
+/**
+ * Class Komentarų kontroleris
+ * @package Galerija\ImagesBundle\Controller
+ */
 class CommentController extends Controller
 {
+
+    /**
+     * Sukuriamas naujas komentaras, patikrinama ar vartotojas prisijungęs, ar forma validi.
+     * Jei ne surenkamos klaidos ir grąžinama informacija.
+     *
+     * @param Request $request užklausa
+     * @return JsonResponse atsakas, apdorojamas PostCommentWidget.js faile
+     */
     public function submitAction(Request $request)
     {
-        //patikrinam ar vartotojas prisijungęs
         $securityContext = $this->container->get('security.context');
         $response = new JsonResponse();
+
         if(!$securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED'))
         {
             $response->setData(array(
@@ -23,16 +35,12 @@ class CommentController extends Controller
             return $response;
         }
 
-        //susikuriam formą pagal kurią tikrinsim ar ji teisinga
         $comment = new Comment();
-
+        /* @var \Galerija\ImagesBundle\Services\CommentManager $cm  */
         $cm = $this->get("comment_manager");
-
         $form = $cm->getForm($comment);
-
         $form->handleRequest($request);
 
-        //jei teisinga
         if($form->isValid())
         {
 
@@ -52,25 +60,30 @@ class CommentController extends Controller
                 "username" => $comment->getUser()->getUserName(),
                 "token" => $this->get('form.csrf_provider')->generateCsrfToken("comment".$comment->getCommentId())
             ));
-            //nustatom pranešimą ir parodom klientui
             return $response;
         }
 
-        //nustatom pranešimą ir parodom klientui
         $response->setData(array(
             "success" => false,
             "message" => $this->get("errors")->getErrors($comment)
         ));
         return $response;
     }
+
+    /**
+     * Trinamas komentaras, patikrinama ar vartotojas prisijungęs, ar forma validi.
+     * Kadangi šiuo atveju nesinaudojama Symfony formomis, patikrinamas gautas csf token'as.
+     * Jei ne surenkamos klaidos ir grąžinama informacija
+     *
+     * @param Request $request užklausa
+     * @return JsonResponse atsakas, apdorojamas DeleteWidget.js faile
+     */
     public function deleteAction(Request $request)
     {
         $response = new JsonResponse();
-
+        /* @var \Galerija\ImagesBundle\Services\CommentManager $cm  */
         $cm = $this->get("comment_manager");
-
         $id = (int)$request->request->get('ID');
-
         $comment = $cm->findById($id);
 
         if($comment == null)
