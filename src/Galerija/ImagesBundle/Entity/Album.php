@@ -7,7 +7,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 /**
  * @ORM\Entity(repositoryClass="Galerija\ImagesBundle\Entity\AlbumRepository")
  * @ORM\Table(name="albums")
- *
  */
 class Album
 {

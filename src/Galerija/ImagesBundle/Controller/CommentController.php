@@ -106,7 +106,7 @@ class CommentController extends Controller
 
         $response->setData(array(
             "success" => true,
-            "message" => 'Titulinė nuotrauka atnaujinta.'
+            "message" => 'Komentaras ištrintas sėkmingai.'
         ));
         return $response;
 

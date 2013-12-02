@@ -20,6 +20,7 @@ if (isset($_SERVER['HTTP_CLIENT_IP'])
 
 $loader = require_once __DIR__.'/../app/bootstrap.php.cache';
 Debug::enable();
+ini_set('display_errors', 1);
 
 require_once __DIR__.'/../app/AppKernel.php';
 

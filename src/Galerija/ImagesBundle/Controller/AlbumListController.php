@@ -21,9 +21,9 @@ class AlbumListController extends Controller
 
             if(!$securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED'))
             {
-                $this->get('session')->getFlashBag()->add('success', 'Kurti albumus gali tik prisijungę vartotojai.');
+                $this->get('session')->getFlashBag()->add('error', 'Kurti albumus gali tik prisijungę vartotojai.');
                 return $this->redirect($this->generateUrl('galerija_images_homepage'));
-        }
+            }
 
             $form->handleRequest($request);
             if ($form->isValid()) {
@@ -139,5 +139,48 @@ class AlbumListController extends Controller
             "message" => 'Titulinė nuotrauka pakeista.'
         ));
         return $response;
+    }
+    public function editAction(Request $request, $albumId)
+    {
+
+        $am = $this->get("album_manager");
+        $album = $am->findById($albumId);
+        $form = $am->getEditForm($album);
+
+        if($album == null || $album->getAlbumId() == 0)
+        {
+            $this->get('session')->getFlashBag()->add('error', 'Tokio albumo nerasta.');
+            return $this->redirect($this->generateUrl('galerija_images_homepage'));
+        }
+        if(!$this->get("user_extension")->belongsFilter($album))
+        {
+            $this->get('session')->getFlashBag()->add('error', 'Šis albumas nepriklauso jums');
+            return $this->redirect($request->headers->get('referer'));
+        }
+        if ($request->isMethod('POST'))
+        {
+            if(!$this->container->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED'))
+            {
+                $this->get('session')->getFlashBag()->add('success', 'Redaguoti albumus gali tik prisijungę vartotojai.');
+                return $this->redirect($request->headers->get('referer'));
+            }
+            $form->handleRequest($request);
+            if ($form->isValid()) {
+                $this->getDoctrine()->getManager()->flush();
+                $this->get('session')->getFlashBag()->add('success', 'Albumas sėkmingai atnaujintas.');
+                return $this->redirect($request->headers->get('referer'));
+            }
+            else
+            {
+                $result = $this->get("errors")->getErrors($album);
+                $this->get('session')->getFlashBag()->add('error',$result);
+                return $this->redirect($request->headers->get('referer'));
+            }
+        }
+
+        return $this->render('GalerijaImagesBundle:Forms:album.html.twig', array(
+            'form' => $form->createView(),
+            'edit' => true
+        ));
     }
 }

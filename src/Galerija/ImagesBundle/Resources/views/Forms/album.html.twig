@@ -1,6 +1,6 @@
 {{ form_start(form) }}
 <fieldset class="form" id="albumas">
-    <legend>Sukurti albumą</legend>
+    <legend>{% if edit is not defined %}Sukurti{% else %}Redaguoti{% endif %} albumą</legend>
     {{ form_row(form.short_comment) }}
     {{ form_row(form.long_comment) }}
     {{ form_row(form.auto_add) }}

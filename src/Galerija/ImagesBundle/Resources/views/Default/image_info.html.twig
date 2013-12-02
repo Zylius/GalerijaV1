@@ -18,10 +18,12 @@
             {% for single in comments %}
             <li>
                 {% if single|belongs or image|belongs %}
-                    <img class="delete disappear delete-comment"
-                         id="{{ single.commentId }}" alt="Delete"
+                    <div class="control">
+                    <img class="disappear delete-comment"
+                         data-id="{{ single.commentId }}" alt="Delete"
                          src="{{ asset('bundles/GalerijaImages/images/delete.png') }}"
                          data-csrf_token="{{ csrf_token("comment" ~ single.commentId) }}"   />
+                    </div>
                 {% endif %}
                 <fieldset>
                     <legend>{{ single.user.username }}</legend>
@@ -43,7 +45,7 @@
             </ul>
         </div>
     </div>
-    <div class="like" id="like_area" like_status="{{ (liked ? 'true' : 'false') }}">
+    <div class="like" id="like_area" data-like_status="{{ (liked ? 'true' : 'false') }}">
         Patinka
         <a href ="{{ path('galerija_images_like', { 'imageId' : image.imageId })  }}">
             <img alt="Like" src="{{ (liked ? asset('bundles/GalerijaImages/images/like-ok.png')  :  asset('bundles/GalerijaImages/images/like.png')) }}  "/>

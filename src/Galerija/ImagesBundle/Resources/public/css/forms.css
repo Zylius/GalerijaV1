@@ -14,14 +14,14 @@
     clear:both;
     background: #ffffff;
     border: 1px solid #000000;
-    width:inherit;
+    min-width:25em;
+    font-size:0.9em;
 }
 .form legend
 {
     background: inherit;
     padding: 0.2em 0.5em;
     border:1px solid;
-    font-size:90%;
     text-align:right;
 }
 .form div
@@ -55,7 +55,10 @@
 {
     width: 15em;
 }
-
+#albumas
+{
+    width:30em;
+}
 #albumas label
 {
     font-size:0.8em;
@@ -63,8 +66,9 @@
 }
 #prisijungimas.form
 {
-    border: 0px;
-    width: auto;
+    font-size:0.9em;
+    border: 0;
+    width: 25em;
     background: inherit;
 }
 #right

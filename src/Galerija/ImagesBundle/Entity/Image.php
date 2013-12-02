@@ -13,12 +13,18 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\Common\Collections\ArrayCollection;
 /**
+ * Nuotraukos klasė
+ *
  * @ORM\Entity(repositoryClass="Galerija\ImagesBundle\Entity\ImageRepository")
  * @ORM\Table(name="images")
+ * @ORM\HasLifecycleCallbacks
  */
 class Image
 {
+
     /**
+     * Unikalus Id
+     *
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -26,43 +32,59 @@ class Image
     protected $imageId;
 
     /**
+     * Įrašo sukūrimo data
+     *
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(type="datetime")
      */
     private $created;
 
     /**
+     * Paskutinio atnaujinimo
+     *
      * @Gedmo\Timestampable(on="update")
      * @ORM\Column(type="datetime")
      */
     private $updated;
 
     /**
+     * Nuotraukos pavadinimas
+     *
      *  @ORM\Column(type="string")
      */
     protected $pavadinimas;
 
     /**
+     * Nuotraukos aprašymas
+     *
      * @ORM\Column(type="string", nullable=true)
      */
     protected $aprasymas;
 
     /**
+     * "patikimų" kiekis
+     *
      * @ORM\Column(type="bigint")
      */
     protected $like_count;
 
     /**
+     * Failo tipas
+     *
      * @ORM\Column(length=10)
      */
     protected $ext;
 
     /**
+     * Fotografavimo data
+     *
      * @ORM\Column(type="date", nullable=true)
      */
     protected $shot_date;
 
     /**
+     * Albumai
+     *
      * @ORM\ManyToMany(targetEntity="Album", inversedBy="images")
      * @ORM\JoinTable(name="albums_images",
      *      joinColumns={@ORM\JoinColumn(name="imageId", referencedColumnName="imageId")},
@@ -72,16 +94,22 @@ class Image
     protected $albums;
 
     /**
+     * Komentarai
+     *
      * @ORM\OneToMany(targetEntity="Comment", mappedBy="image")
      */
     protected $comments;
 
     /**
+     * "Like'ai"
+     *
      * @ORM\OneToMany(targetEntity="Like", mappedBy="image")
      */
     protected $likes;
 
     /**
+     * "tag'ai"
+     *
      * @ORM\ManyToMany(targetEntity="Tag", inversedBy="images")
      * @ORM\JoinTable(name="tags_images",
      *      joinColumns={@ORM\JoinColumn(name="imageId", referencedColumnName="imageId")},
@@ -91,6 +119,8 @@ class Image
     protected $tags;
 
     /**
+     * Vartotojas
+     *
      * @ORM\ManyToOne(targetEntity="User", inversedBy="images")
      * @ORM\JoinColumn(name="userId", referencedColumnName="id")
      */
@@ -294,13 +324,19 @@ class Image
         return $this->updated;
     }
 
-
+    /**
+     * @return \Symfony\Component\HttpFoundation\File\UploadedFile
+     */
     public function getFailas()
     {
         return $this->failas;
     }
 
-    public function setFailas($failas)
+    /**
+     * @param \Symfony\Component\HttpFoundation\File\UploadedFile $failas
+     * @return Image
+     */
+    public function setFailas(\Symfony\Component\HttpFoundation\File\UploadedFile $failas)
     {
         $this->failas = $failas;
 
@@ -443,8 +479,10 @@ class Image
         return $this->like_count;
     }
 
-    /*
+    /**
     * gražina failo pavadinimą
+    *
+    * @return string
     */
     public function getFileName()
     {
@@ -461,15 +499,18 @@ class Image
 
     /*
     * gražinam paveikslėlio direktoriją atvaizdavimui puslapy
+    *
+    * @return string
     */
     public function getWebPath()
     {
         return null === $this->getFileName() ? null : $this->getUploadDir().'/'.$this->getFileName();
     }
 
-    /*
+    /**
     * absoliuti direktorija kur nuotrauka turėtų būt išsaugota
     *
+    * @return string
     */
     public function getUploadRootDir()
     {
@@ -477,8 +518,10 @@ class Image
         return __DIR__.'/../../../../web/'.$this->getUploadDir();
     }
 
-    /*
+    /**
     * atsikratom __DIR__, kad negadintu vaizdo
+    *
+    * @return string
     */
     public function getUploadDir()
     {

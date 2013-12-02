@@ -2,9 +2,17 @@
 namespace Galerija\ImagesBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
-
+/**
+ * Albumų custom užklausų repozitorija
+ */
 class AlbumRepository extends EntityRepository
 {
+    /**
+     * Suranda visus albumus kurie turėtų būti automatiškai pažymėti
+     *
+     * @param int $id albumo iš kurio atėjom id
+     * @return Array rasti albumai
+     */
     public function findAutoSelect($id)
     {
         $query =  $this->getEntityManager()->createQuery(
@@ -13,5 +21,4 @@ class AlbumRepository extends EntityRepository
         $results = $query->getResult();
         return $results;
     }
-
 }

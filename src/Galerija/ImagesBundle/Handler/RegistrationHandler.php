@@ -9,12 +9,24 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\DependencyInjection\ContainerAware;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use FOS\UserBundle\Model\UserInterface;
-
+/**
+ * Klasė skirta nukreipti užsiregistravusį vartotoją į prieš tai busvusį puslapį
+ */
 class RegistrationHandler extends ContainerAware implements EventSubscriberInterface
 {
+
+    /**
+     * Konstruktorius, nustato container'į
+     */
     public function __construct($container = null){
         $this->container = $container;
     }
+
+    /**
+     * Užregistruoja event'us
+     *
+     * @return Array registruoti įvykiai
+     */
     public static function getSubscribedEvents()
     {
         return array(
@@ -23,11 +35,21 @@ class RegistrationHandler extends ContainerAware implements EventSubscriberInter
         );
     }
 
+    /**
+     * Sėkėmės atveju grąžiname atsaką į prieš tai buvusį puslapį
+     *
+     * @param FormEvent $event informacija apie pateiktą formą
+     */
     public function onRegistrationSuccess(FormEvent $event)
     {
         $event->setResponse(new RedirectResponse($event->getRequest()->headers->get('referer')));
     }
 
+    /**
+     * Tik prasidėjus reigstracijai patikrina formą, jei ji neteisinga grąžina vartotoją atgal.
+     *
+     * @param UserEvent $event informacija apie vartotoją
+     */
     public function onRegistrationInitialize(UserEvent $event)
     {
         /** @var $formFactory \FOS\UserBundle\Form\Factory\FactoryInterface */
@@ -44,6 +66,13 @@ class RegistrationHandler extends ContainerAware implements EventSubscriberInter
             }
         }
     }
+
+    /**
+     * Suranda <b>neišverstas</b> formos klaidas.
+     *
+     * @param \Symfony\Component\Form\Form $form
+     * @return String pirmoji rasta klaida
+     */
     private function getErrorMessages(\Symfony\Component\Form\Form $form) {
         $message = "Klaida";
         if ($form->count() > 0) {
