@@ -32,7 +32,7 @@ class ImageListController extends Controller
         if(!$user)
         {
             $this->get('session')->getFlashBag()->add('error', 'Toks vartotojas neegizstuoja.');
-            return new RedirectResponse($this->get('router')->generate('galerija_images_homepage'));
+            return new RedirectResponse($this->get('router')->generate('galerija_album_homepage'));
         }
 
         $album = new Album();
@@ -40,7 +40,7 @@ class ImageListController extends Controller
         $album->setShortComment($user->getUsername() . "o nuotraukos.");
         $album->setAlbumId(0);
 
-        return $this->albumShow($album, $this->get('router')->generate('galerija_images_user_album',
+        return $this->albumShow($album, $this->get('router')->generate('galerija_images_user',
             array('userId' => $userId, 'page' => $page + 1)));
     }
 
@@ -58,7 +58,7 @@ class ImageListController extends Controller
         if(!$album)
         {
             $this->get('session')->getFlashBag()->add('error', 'Toks albumas neegizstuoja.');
-            return new RedirectResponse($this->get('router')->generate('galerija_images_homepage'));
+            return new RedirectResponse($this->get('router')->generate('galerija_album_homepage'));
         }
         $album->setImages($this->get("image_manager")->findForPage($albumId, $page));
         return $this->albumShow($album, $this->get('router')->generate('galerija_images_album',
@@ -82,7 +82,7 @@ class ImageListController extends Controller
         $image->setAlbums($this->get("album_manager")->findAutoSelect($album));
         $user = $this->container->get('security.context')->getToken()->getUser();
         $tags = $this->get("tag_manager")->formatAllTags();
-        return $this->render('GalerijaImagesBundle:Default:images.html.twig', array(
+        return $this->render('GalerijaImagesBundle:Images:images.html.twig', array(
             'album' => $album,
             'form' => $this->get("image_manager")->getForm($image, $album)->createView(),
             'user' => $user,

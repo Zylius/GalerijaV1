@@ -15,16 +15,36 @@ class LikeController extends Controller
     /**
      * "apkeitimo" metodas, jei vartotojui paveiksliukas jau patinka, įvykdžius šį metodą jis nebepatiks,
      * ir atvirkščiai. Patikrinama ar vartotojas prisijungęs.
-     *
-     * @param $imageId kuriam paveiksliukui priskiriamas naujas like'as
+     * $ID kuriam paveiksliukui priskiriamas naujas like'as
+     * @param Request $request užklausa
      * @return JsonResponse json tipo atsakymas, kuris apdorojamas LikeWidget.js javascripte
      */
-    public function  submitAction($imageId)
+    public function  submitAction(Request $request)
     {
         $securityContext = $this->container->get('security.context');
         $response = new JsonResponse();
+        $ID = (int)$request->request->get('ID');
+        /* @var \Galerija\ImagesBundle\Entity\Image $image */
+        $image = $this->get("image_manager")->findById($ID);
 
-        $image = $this->get("image_manager")->findById($imageId);
+        if (!$this->get('form.csrf_provider')->isCsrfTokenValid("like".$ID, $request->request->get('csrf_token')))
+        {
+            $response->setData(array(
+                "success" => false,
+                "message" => 'Neteisingas CSRF.'
+            ));
+            return $response;
+        }
+
+        if($image == null)
+        {
+            $response->setData(array(
+                "success" => false,
+                "message" => 'Tokio paveiksliuko nerasta.'
+            ));
+            return $response;
+        }
+
         if(!$securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED'))
         {
             $response->setData(array(

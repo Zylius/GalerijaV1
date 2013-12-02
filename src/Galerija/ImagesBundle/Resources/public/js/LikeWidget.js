@@ -16,6 +16,7 @@
         this.countField = this.element.find('span');
         this.lButton = this.element.find('img');
         this.Status = !!(this.element.attr('data-like_status') == "true");
+        this.CSRF = this.element.attr('data-csrf_token');
         this.srcPath = this.lButton.attr("src").replace(/[^\/]*$/,"");
     };
 
@@ -24,10 +25,14 @@
             return false;
 
         $.ajax({
-            url: this.press.attr('href'),
-            type: "GET",
+            url: Routing.generate("galerija_like_submit"),
+            type: "POST",
             context: this,
             beforeSend: this._initiate,
+            data: {
+                "ID": this.element.attr('data-id'),
+                "csrf_token": this.CSRF
+            },
             error: function (xhr, ajaxOptions, thrownError) {
                 $.globals.showStatus(0, 'Klaida!');
                 this._failure();

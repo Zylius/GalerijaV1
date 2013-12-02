@@ -1,24 +1,6 @@
-galerija_images_homepage:
+galerija_album_homepage:
     pattern:  /
     defaults: { _controller: GalerijaImagesBundle:AlbumList:index }
-
-galerija_images_upload:
-    path:  /upload{albumId}
-    defaults: { _controller: GalerijaImagesBundle:Image:upload, albumId: 0 }
-    methods:  [POST]
-    requirements:
-        albumId: \d+
-
-galerija_images_delete:
-    path:  /delete
-    defaults: { _controller: GalerijaImagesBundle:Image:delete }
-    methods:  [POST]
-    options:
-        expose: true
-
-galerija_image_edit:
-    path:  /editImage{imageId}
-    defaults: { _controller: GalerijaImagesBundle:Image:edit }
 
 galerija_album_edit:
     path:  /editAlbum{albumId}
@@ -38,6 +20,30 @@ galerija_album_default:
     options:
         expose: true
 
+galerija_image_upload:
+    path:  /upload{albumId}
+    defaults: { _controller: GalerijaImagesBundle:Image:upload, albumId: 0 }
+    methods:  [POST]
+    requirements:
+        albumId: \d+
+
+galerija_image_delete:
+    path:  /delete
+    defaults: { _controller: GalerijaImagesBundle:Image:delete }
+    methods:  [POST]
+    options:
+        expose: true
+
+galerija_image_edit:
+    path:  /editImage{imageId}
+    defaults: { _controller: GalerijaImagesBundle:Image:edit }
+
+galerija_image_info:
+    pattern:  /image/{imageId}
+    defaults: { _controller: GalerijaImagesBundle:Image:showInfo }
+    requirements:
+        imageId: \d+
+
 galerija_images_album:
     pattern:  /{albumId}/{page}
     defaults: { _controller: GalerijaImagesBundle:ImageList:albumById, page: 1 }
@@ -45,20 +51,14 @@ galerija_images_album:
         albumId: \d+
         page: \d+
 
-galerija_images_user_album:
+galerija_images_user:
     pattern:  /photosby/{userId}/{page}
     defaults: { _controller: GalerijaImagesBundle:ImageList:albumByUser, , page: 1  }
     requirements:
         userId: \d+
         page: \d+
 
-galerija_images_image_info:
-    pattern:  /image/{imageId}
-    defaults: { _controller: GalerijaImagesBundle:Image:showInfo }
-    requirements:
-        imageId: \d+
-
-galerija_images_comment:
+galerija_comment_submit:
     pattern:  /postComment
     methods:  [POST]
     defaults: { _controller: GalerijaImagesBundle:Comment:submit }
@@ -70,15 +70,17 @@ galerija_comment_delete:
     options:
          expose: true
 
-galerija_images_like:
-    pattern:  /commitLike{imageId}
+galerija_like_submit:
+    pattern:  /commitLike
     methods:  [POST]
     defaults: { _controller: GalerijaImagesBundle:Like:submit }
-    requirements:
-        imageId: \d+
+    options:
+        expose: true
 
 galerija_tag_create:
     pattern:  /tagCreate
     methods:  [POST]
     defaults: { _controller: GalerijaImagesBundle:Tag:submit }
+
+
 

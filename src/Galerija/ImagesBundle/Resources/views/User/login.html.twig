@@ -1,9 +1,9 @@
 <div class="panel_wrapper_registration" id="user_panel">
     <div id="left" class="panel">
-        <div id="panel_title">
+        <div class="panel_title">
             Prisijungimas
         </div>
-        <fieldset class="form" id="prisijungimas">
+        <fieldset class="form prisijungimas">
             <form action="{{ path("fos_user_security_check") }}" method="post">
                 <input type="hidden" name="_csrf_token" value="{{ token }}"/>
 
@@ -26,13 +26,12 @@
         </fieldset>
     </div>
     <div id="right" class="panel">
-        {#  {{ path("fos_user_registration_register") #}
             <div id="panel">
-                <div id="panel_title">
+                <div class="panel_title">
                     Registruotis
                 </div>
 
-                    <fieldset class="form" id="prisijungimas">
+                    <fieldset class="form prisijungimas">
                         <form action="{{ path('fos_user_registration_register') }}" {{ form_enctype(regform) }} method="POST" id="register_form">
                             <div>
                                 <label>Vardas</label>

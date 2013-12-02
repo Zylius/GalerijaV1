@@ -43,7 +43,7 @@ class ImageManager
     public function getForm(Image $image, Album $album = null)
     {
         return $this->formFactory->create(new ImageType(), $image, array(
-                'action' => $this->router->generate(('galerija_images_upload'),
+                'action' => $this->router->generate(('galerija_image_upload'),
                 ( array('albumId' => ($album == null ? 0 : $album->getAlbumId())) )
                 ))
         );

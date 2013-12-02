@@ -36,6 +36,7 @@ class CommentController extends Controller
         }
 
         $comment = new Comment();
+
         /* @var \Galerija\ImagesBundle\Services\CommentManager $cm  */
         $cm = $this->get("comment_manager");
         $form = $cm->getForm($comment);

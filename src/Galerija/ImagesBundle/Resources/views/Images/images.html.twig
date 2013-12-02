@@ -1,4 +1,4 @@
-{% extends 'GalerijaImagesBundle:Default:index.html.twig' %}
+{% extends 'GalerijaImagesBundle:Main:index.html.twig' %}
 {% block topmenu %}
     <img src="{{ asset('bundles/GalerijaImages/images/right_arrow.png') }}" alt="Dešinė"/>
 <div>
@@ -20,7 +20,7 @@
     {% block imglist %}
     <div data-aID="{{ album.albumId }}" class="list">
         {% for image in album.images %}
-            {% include 'GalerijaImagesBundle:Default:single_image.html.twig' %}
+            {% include 'GalerijaImagesBundle:Images:single_image_thumb.html.twig' %}
         {% endfor %}
     </div>
     {% endblock imglist %}

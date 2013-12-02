@@ -38,7 +38,7 @@ class ImageController extends Controller
         $comment->setImage($image);
         $comment_array = $this->get("comment_manager")->findByImage($image);
 
-        return $this->render('GalerijaImagesBundle:Default:image_info.html.twig', array(
+        return $this->render('GalerijaImagesBundle:Images:image_info.html.twig', array(
             'image' => $image,
             'form' => $this->get("comment_manager")->GetForm($comment,$image)->createView(),
             'comments' => $comment_array,
@@ -86,7 +86,7 @@ class ImageController extends Controller
                 return $response->setData(array(
                     "success" => true,
                     "message" => 'Failas įkeltas sėkmingai!',
-                    "value" => $this->render('GalerijaImagesBundle:Default:single_image.html.twig', array(
+                    "value" => $this->render('GalerijaImagesBundle:Images:single_image_thumb.html.twig', array(
                         'image' => $image,
                         'album' => $this->get('album_manager')->findById($albumId),
                     ))->getContent()
@@ -191,7 +191,7 @@ class ImageController extends Controller
         if($image == null || $image->getImageId() == 0)
         {
             $this->get('session')->getFlashBag()->add('error', 'Tokio paveiksliuko nerasta.');
-            return $this->redirect($this->generateUrl('galerija_images_homepage'));
+            return $this->redirect($this->generateUrl('galerija_album_homepage'));
         }
 
         if(!$this->get("user_extension")->belongsFilter($image))

@@ -39,7 +39,7 @@ class CommentManager
     public function getForm(Comment $comment, Image $image = null)
     {
         $form = $this->formFactory->create(new CommentType(), $comment, array(
-            'action' => $this->router->generate('galerija_images_comment')
+            'action' => $this->router->generate('galerija_comment_submit')
         ));
         if($image)
             $form->get('image')->setData($image->getImageId());

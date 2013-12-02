@@ -45,10 +45,15 @@
             </ul>
         </div>
     </div>
-    <div class="like" id="like_area" data-like_status="{{ (liked ? 'true' : 'false') }}">
+    <div class="like" id="like_area"
+         data-id="{{ image.imageId }}"
+         data-csrf_token="{{ csrf_token("like" ~ image.imageId) }}"
+         data-like_status="{{ (liked ? 'true' : 'false') }}">
         Patinka
-        <a href ="{{ path('galerija_images_like', { 'imageId' : image.imageId })  }}">
-            <img alt="Like" src="{{ (liked ? asset('bundles/GalerijaImages/images/like-ok.png')  :  asset('bundles/GalerijaImages/images/like.png')) }}  "/>
+        <a href ="#">
+            <img alt="Like"
+                 src="{{ (liked ? asset('bundles/GalerijaImages/images/like-ok.png')
+                 :  asset('bundles/GalerijaImages/images/like.png')) }}"/>
         </a>
         <span>{{ image.getLikeCount() }}</span>
     </div>

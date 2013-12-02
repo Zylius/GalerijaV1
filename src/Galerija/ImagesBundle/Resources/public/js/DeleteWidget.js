@@ -13,7 +13,7 @@
     Delete.prototype.options = {
         aID: 0,
         type: 'image',
-        route: 'galerija_images_delete'
+        route: 'galerija_image_delete'
     };
 
     Delete.prototype._create = function () {

@@ -34,25 +34,25 @@ class AlbumListController extends Controller
             if(!$securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED'))
             {
                 $this->get('session')->getFlashBag()->add('error', 'Kurti albumus gali tik prisijungę vartotojai.');
-                return $this->redirect($this->generateUrl('galerija_images_homepage'));
+                return $this->redirect($this->generateUrl('galerija_album_homepage'));
             }
             $form->handleRequest($request);
             if ($form->isValid()) {
                 $album->setUser($user);
                 $am->save($album);
                 $this->get('session')->getFlashBag()->add('success', 'Albumas sukurtas sėkmingai!');
-                return $this->redirect($this->generateUrl('galerija_images_homepage'));
+                return $this->redirect($this->generateUrl('galerija_album_homepage'));
             }
             else
             {
                 $result = $this->get("errors")->getErrors($album);
                 $this->get('session')->getFlashBag()->add('error',$result);
-                return $this->redirect($this->generateUrl('galerija_images_homepage'));
+                return $this->redirect($this->generateUrl('galerija_album_homepage'));
             }
         }
 
         $album_array = $am->findAll();
-        return $this->render('GalerijaImagesBundle:Default:albums.html.twig', array(
+        return $this->render('GalerijaImagesBundle:Albums:albums.html.twig', array(
             'album_array' => $album_array,
             'form' => $form->createView(),
             'user' => $user
@@ -123,7 +123,7 @@ class AlbumListController extends Controller
         $response = new JsonResponse();
         $aid = (int)$request->request->get('aID');
         $id = (int)$request->request->get('ID');
-
+        /* @var Album $album */
         $album = $this->get("album_manager")->findById($aid);
         $image = $this->get("image_manager")->findById($id);
 
@@ -191,7 +191,7 @@ class AlbumListController extends Controller
         if($album == null || $album->getAlbumId() == 0)
         {
             $this->get('session')->getFlashBag()->add('error', 'Tokio albumo nerasta.');
-            return $this->redirect($this->generateUrl('galerija_images_homepage'));
+            return $this->redirect($this->generateUrl('galerija_album_homepage'));
         }
 
         if(!$this->container->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED'))

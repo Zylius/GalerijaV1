@@ -1,5 +1,5 @@
 <div class="image isotope {% for tag in image.tags %} tag-{{ tag.name }}{% endfor %}">
-    <a class="fancybox" rel="gallery1" data-fancybox-type="ajax" href="{{ path('galerija_images_image_info', { 'imageId' : image.imageId })  }}">
+    <a class="fancybox" rel="gallery1" data-fancybox-type="ajax" href="{{ path('galerija_image_info', { 'imageId' : image.imageId })  }}">
         <img alt="{{ image.getPavadinimas() }}" src="{{  asset(image.getWebPath() | imagine_filter('my_thumb')) }}"/>
     </a>
     <div class="control">
