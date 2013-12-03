@@ -3,7 +3,7 @@ namespace Galerija\ImagesBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use \Galerija\ImagesBundle\Resources\config\Constants;
+use \Galerija\ImagesBundle\Resources\config\constants;
 /**
  * Albumų custom užklausų repozitorija
  */
