@@ -99,12 +99,10 @@
             navSelector  : "#page_nav",
             nextSelector : "#page_nav a",
             itemSelector : ".image",
+            extraScrollPx: 150,
             prefill: true,
             loading: {
                 msgText: 'Paveikslėliai kraunami.',
-                finished: function() {
-                    DoneLoading = true;
-                },
                 finishedMsg: 'Visi paveiksliukai užkrauti.'
             },
            errorCallback: function(){

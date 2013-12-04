@@ -45,15 +45,15 @@ galerija_image_info:
         imageId: \d+
 
 galerija_images_album:
-    pattern:  /{albumId}/{page}
+    pattern:  /album{albumId}/{page}
     defaults: { _controller: GalerijaImagesBundle:ImageList:albumById, page: 1 }
     requirements:
         albumId: \d+
         page: \d+
 
 galerija_images_user:
-    pattern:  /photosby/{userId}/{page}
-    defaults: { _controller: GalerijaImagesBundle:ImageList:albumByUser, , page: 1  }
+    pattern:  /photosby{userId}/{page}
+    defaults: { _controller: GalerijaImagesBundle:ImageList:albumByUser, page: 1  }
     requirements:
         userId: \d+
         page: \d+
