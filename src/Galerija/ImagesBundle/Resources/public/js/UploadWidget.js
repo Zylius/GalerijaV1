@@ -47,11 +47,15 @@
     Upload.prototype._result = function (data) {
         this.pBar.width('100%');
         if (data.success && data.value !== undefined) {
-            var fullimg = $('<div>',{html:data.value});
+            var fullimg = $(data.value);
             fullimg.find('.delete-image').Delete({ aID: $.globals.container.attr('data-aID') });
             fullimg.find(".make_default").DefaultImage({ aID: $.globals.container.attr('data-aID') });
             $.globals.RefreshFancybox();
             $.globals.container.prepend(fullimg);
+            fullimg.find("img").each(function () {
+                var originalSrc = $(this).attr('src');
+                $(this).attr('src', originalSrc + "?" + new Date().getTime());
+            });
             fullimg.imagesLoaded(function(){
                 $.globals.container.isotope( 'reloadItems' ).isotope({ sortBy: 'original-order' });
             });

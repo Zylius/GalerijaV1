@@ -112,6 +112,10 @@
            }
         },function(arrayOfNewElems){
             $(arrayOfNewElems).hide();
+            $(arrayOfNewElems).find("img").each(function () {
+                var originalSrc = $(this).attr('src');
+                $(this).attr('src', originalSrc + "?" + new Date().getTime());
+            });
             $(arrayOfNewElems).imagesLoaded(function(){
                 $.globals.container.isotope( 'insert', $(arrayOfNewElems) );
                 $(arrayOfNewElems).find('.delete-image').Delete({ aID: $.globals.container.attr('data-aID') });

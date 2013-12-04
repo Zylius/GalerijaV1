@@ -1,5 +1,5 @@
 input {
-    font-family: sans-serif;
+    font-family: "Courier New", Courier, monospace;
 }
 a{
     font-weight: bold;
@@ -9,7 +9,7 @@ body{
     padding:0;
     margin:0;
     background: ghostwhite;
-    font-family: Courier;
+    font-family: "Courier New", Courier, monospace;
     font-size: 1em;
 }
 @media (max-width: 1000px), (max-height: 700px) {
@@ -81,7 +81,7 @@ body{
     padding-left:0.6em;
     padding-right:0.6em;
     border-color: ghostwhite;
-    font-family: Courier;
+    font-family: "Courier New", Courier, monospace;
     font-weight: bold;
     color:ghostwhite;
     display: inline-block;
@@ -142,4 +142,8 @@ body{
     width:20px;
     height:20px;
     float:right;
+}
+.content
+{
+    width:99.5%;
 }

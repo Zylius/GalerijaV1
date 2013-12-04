@@ -9,5 +9,5 @@ namespace Galerija\ImagesBundle\Resources\config;
 class Constants
 {
     //nuotraukų kiekis per puslapį
-    const IMAGES_PER_PAGE = 30;
+    const IMAGES_PER_PAGE = 25;
 }
