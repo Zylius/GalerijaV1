@@ -32,7 +32,7 @@ class Errors
        /* @var $error \Symfony\Component\Validator\ConstraintViolationInterface */
        foreach( $errors as $error )
        {
-           $result .= $error->getMessage();
+           $result .= $error->getMessage() . " ";
        }
        return $result;
    }
