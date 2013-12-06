@@ -51,6 +51,10 @@ class Image
      * Nuotraukos pavadinimas
      *
      *  @ORM\Column(type="string")
+     *  @Assert\Length(
+     *      max = "50",
+     *      maxMessage = "Pavadinimas turi būti trumpesnis nei {{ limit }} simbolių"
+     * )
      */
     protected $pavadinimas;
 
@@ -58,6 +62,10 @@ class Image
      * Nuotraukos aprašymas
      *
      * @ORM\Column(type="string", nullable=true)
+     * @Assert\Length(
+     *      max = "300",
+     *      maxMessage = "Aprašymas turi būti trumpesnis nei {{ limit }} simbolių"
+     * )
      */
     protected $aprasymas;
 

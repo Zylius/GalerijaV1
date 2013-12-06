@@ -44,7 +44,12 @@ class Comment
      * @Assert\NotBlank(
      *  message = "Komentaras negali būti tuščias"
      * )
-     * @Assert\Length(min = "5")
+     * @Assert\Length(
+     *      min = "5",
+     *      max = "100",
+     *      minMessage = "Komentaras turi būt ilgesnis nei {{ limit }} simboliai",
+     *      maxMessage = "Komentaras turi būti trumpesnis nei {{ limit }} simbolių"
+     * )
      */
     protected $comment;
 

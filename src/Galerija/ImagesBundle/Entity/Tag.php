@@ -4,6 +4,7 @@ namespace Galerija\ImagesBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Tag'ų klasė
  *
@@ -40,6 +41,13 @@ class Tag
      * Tag'o pavadinimas
      *
      * @ORM\Column(type="string")
+     * @Assert\NotBlank(
+     *  message = "Tag'as negali būti tuščias"
+     * )
+     * @Assert\Length(
+     *      max = "20",
+     *      maxMessage = "Pavadinimas turi būti trumpesnis nei {{ limit }} simbolių"
+     * )
      */
     protected $name;
 
