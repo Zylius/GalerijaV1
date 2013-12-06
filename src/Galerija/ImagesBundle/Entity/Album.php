@@ -4,6 +4,7 @@ namespace Galerija\ImagesBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Albumų klasė
  *
@@ -41,6 +42,10 @@ class Album
      * Trumpas komentaras (pavadinimas)
      *
      * @ORM\Column(type="string")
+     * @Assert\Length(
+     *      max = "50",
+     *      maxMessage = "Pavadinimas turi būti trumpesnis nei {{ limit }} simbolių"
+     * )
      */
     protected $short_comment;
 
@@ -48,6 +53,10 @@ class Album
      * Ilgas komentaras
      *
      * @ORM\Column(type="text", nullable=true)
+     * @Assert\Length(
+     *      max = "200",
+     *      maxMessage = "Aprašymas turi būti trumpesnis nei {{ limit }} simbolių"
+     * )
      */
     protected $long_comment;
 
