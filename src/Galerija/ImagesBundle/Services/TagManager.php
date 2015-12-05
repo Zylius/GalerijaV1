@@ -67,7 +67,7 @@ class TagManager
 
         $tags = "";
         /* @var $arr Tag */
-        foreach ($image->getTags()->toArray() as $arr) {
+        foreach ($image->getTags() as $arr) {
             $tags .= ' tag-'.$arr->getName();
         }
         return $tags;
