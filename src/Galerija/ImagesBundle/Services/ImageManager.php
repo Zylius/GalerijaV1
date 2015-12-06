@@ -196,7 +196,7 @@ class ImageManager
      *
      * @deprecated
      * @param ArrayCollection $images paveikslėlių masyvas
-     * @return Array
+     * @return array
      */
     public function preloadImages(ArrayCollection $images)
     {
